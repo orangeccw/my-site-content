@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.7; padding: 25px 15px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        /* Header Section */
+        .header { background: var(--header-gradient); color: white; border-radius: 20px; padding: 25px 20px; margin-bottom: 25px; text-align: center; box-shadow: 0 15px 30px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header::after { content: ""; position: absolute; top: -60px; right: -60px; width: 120px; height: 120px; background: rgba(255,255,255,0.05); border-radius: 50%; }
+        .header h1 { font-size: 1.6rem; letter-spacing: 1px; margin-bottom: 8px; font-weight: 800; }
+        .header .date-row { font-size: 0.85rem; opacity: 0.8; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 3px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.25rem; color: var(--text-main); margin: 35px 0 15px; display: flex; align-items: center; gap: 10px; font-weight: 800; padding-left: 4px; }
+
+        /* Trend Section */
+        .trend-card { background: #ffffff; border-radius: 18px; padding: 22px 28px; margin-bottom: 12px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1.1rem; display: flex; align-items: center; margin-bottom: 8px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 4px; height: 16px; background: var(--primary); border-radius: 10px; margin-right: 10px; }
+        .trend-card p { font-size: 0.98rem; color: #475569; }
+
+        /* News Card */
+        .card { background: white; border-radius: 24px; margin-bottom: 25px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-6px); box-shadow: 0 15px 35px rgba(30, 64, 175, 0.1); }
+        .card-header { padding: 30px 35px 10px; }
+        .news-title { font-size: 1.4rem; margin-bottom: 12px; line-height: 1.45; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+        .news-summary { background: #f1f5f9; padding: 16px 20px; border-radius: 14px; font-size: 0.95rem; color: #475569; margin-bottom: 15px; line-height: 1.6; border: 1px dashed #cbd5e1; }
+        .meta { font-size: 0.85rem; color: var(--text-sub); display: flex; gap: 20px; padding-bottom: 12px; border-bottom: 1px solid #f1f5f9; margin-bottom: 0; }
+        .key-points { padding: 18px 35px 30px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 12px; padding-left: 28px; position: relative; font-size: 1rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.9rem; top: 2px; }
+
+        /* Highlighting Logic */
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 2px 6px; border-radius: 6px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 2px; }
+
+        /* 页脚区域 */
+        .footer-area { margin-top: 40px; padding: 25px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        /* 署名颜色修改为深蓝色 */
+        .signature { font-size: 1rem; color: var(--primary); font-weight: 800; margin-bottom: 10px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.85rem; color: var(--text-sub); line-height: 1.5; }
+
+        @media (max-width: 600px) {
+            body { padding: 15px 10px; }
+            .header { padding: 35px 20px; border-radius: 20px; }
+            .header h1 { font-size: 1.6rem; }
+            .card-header, .key-points { padding: 20px; }
+            .news-title { font-size: 1.25rem; }
+            .trend-card { padding: 18px 22px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-02-04</div>
+        <div class="top-tags">
+            <span class="tag-item">#Prism</span>
+            <span class="tag-item">#Manus</span>
+            <span class="tag-item">#K2.5</span>
+            <span class="tag-item">#DeepSeek-OCR2</span>
+            <span class="tag-item">#星际航行学院</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>AI 原生科研基础设施加速落地</strong>
+            <p>Prism 整合 LaTeX、图表、文献与协作于一体，标志 AI 工具正从通用助手转向垂直领域「工作空间」范式，科研流程重构进入工程化阶段。</p>
+        </div>
+        <div class="trend-card">
+            <strong>AI 订阅制从工具层迈向平台层</strong>
+            <p>Meta 将 Manus 深度整合至 Instagram/Facebook/WhatsApp，并搭配 Vibes 视频生成等专属功能，验证「AI 能力即服务」正从单点功能升级为跨平台订阅生态。</p>
+        </div>
+        <div class="trend-card">
+            <strong>开源模型能力边界持续突破</strong>
+            <p>DeepSeek-OCR 2 实现视觉语义重排，Kimi K2.5 开源即支持 Agent 集群与 Office 级办公自动化，开源社区正快速收编此前仅属闭源巨头的复合智能能力。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title"><a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&mid=2653097886&idx=1&sn=2d3ed4e521a4a246a0be7d4de2a5ff3f" target="_blank">OpenAI 发布科研协作空间 Prism；比亚迪全年出货量首超特斯拉；收购 Manus，Meta 将在三大平台测试高级 AI 订阅服务｜极客早知道</a></h2>
+            <div class="news-summary">OpenAI 推出基于 GPT-5.2 的科研协作空间 Prism；Meta 计划在 Instagram、Facebook 和 WhatsApp 测试整合 Manus 的 AI 订阅服务；DeepSeek 开源 OCR 2；Kimi 发布开源 K2.5 模型；中国科学院大学成立星际航行学院。</div>
+            <div class="meta">
+                <span>📰 来源：极客公园</span>
+                <span>🕒 时间：2026-01-28 09:07</span>
+            </div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>Prism 正式上线</strong>：面向科学家的 <mark>AI 原生工作空间</mark> 基于 <b>GPT-5.2</b>，整合 LaTeX 编辑、公式重构、文献管理与实时协作。</li>
+                <li><strong>Meta 订阅双轨推进</strong>：以 <mark>20 亿美元收购 Manus</mark>，并将在 <b>Instagram/Facebook/WhatsApp</b> 三大平台测试含 Vibes 视频生成的高级 AI 订阅。</li>
+                <li><strong>开源模型能力跃迁</strong>：Kimi <mark>开源 K2.5</mark> 支持视觉理解、代码与 Agent 集群；DeepSeek <mark>发布 OCR 2</mark> 实现语义驱动视觉编码，<b>OmniDocBench 得分 91.09%</b>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
