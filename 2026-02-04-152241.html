@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.7; padding: 25px 15px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        /* Header Section */
+        .header { background: var(--header-gradient); color: white; border-radius: 20px; padding: 25px 20px; margin-bottom: 25px; text-align: center; box-shadow: 0 15px 30px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header::after { content: ""; position: absolute; top: -60px; right: -60px; width: 120px; height: 120px; background: rgba(255,255,255,0.05); border-radius: 50%; }
+        .header h1 { font-size: 1.6rem; letter-spacing: 1px; margin-bottom: 8px; font-weight: 800; }
+        .header .date-row { font-size: 0.85rem; opacity: 0.8; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 3px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.25rem; color: var(--text-main); margin: 35px 0 15px; display: flex; align-items: center; gap: 10px; font-weight: 800; padding-left: 4px; }
+
+        /* Trend Section */
+        .trend-card { background: #ffffff; border-radius: 18px; padding: 22px 28px; margin-bottom: 12px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1.1rem; display: flex; align-items: center; margin-bottom: 8px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 4px; height: 16px; background: var(--primary); border-radius: 10px; margin-right: 10px; }
+        .trend-card p { font-size: 0.98rem; color: #475569; }
+
+        /* News Card */
+        .card { background: white; border-radius: 24px; margin-bottom: 25px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-6px); box-shadow: 0 15px 35px rgba(30, 64, 175, 0.1); }
+        .card-header { padding: 30px 35px 10px; }
+        .news-title { font-size: 1.4rem; margin-bottom: 12px; line-height: 1.45; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+        .news-summary { background: #f1f5f9; padding: 16px 20px; border-radius: 14px; font-size: 0.95rem; color: #475569; margin-bottom: 15px; line-height: 1.6; border: 1px dashed #cbd5e1; }
+        .meta { font-size: 0.85rem; color: var(--text-sub); display: flex; gap: 20px; padding-bottom: 12px; border-bottom: 1px solid #f1f5f9; margin-bottom: 0; }
+        .key-points { padding: 18px 35px 30px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 12px; padding-left: 28px; position: relative; font-size: 1rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.9rem; top: 2px; }
+
+        /* Highlighting Logic */
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 2px 6px; border-radius: 6px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 2px; }
+
+        /* 页脚区域 */
+        .footer-area { margin-top: 40px; padding: 25px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        /* 署名颜色修改为深蓝色 */
+        .signature { font-size: 1rem; color: var(--primary); font-weight: 800; margin-bottom: 10px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.85rem; color: var(--text-sub); line-height: 1.5; }
+
+        @media (max-width: 600px) {
+            body { padding: 15px 10px; }
+            .header { padding: 35px 20px; border-radius: 20px; }
+            .header h1 { font-size: 1.6rem; }
+            .card-header, .key-points { padding: 20px; }
+            .news-title { font-size: 1.25rem; }
+            .trend-card { padding: 18px 22px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每周速递</h1>
+        <div class="date-row">📅 2026-02-04</div>
+        <div class="top-tags">
+            <span class="tag-item">#ProjectGenie</span>
+            <span class="tag-item">#Prism</span>
+            <span class="tag-item">#在轨部署</span>
+            <span class="tag-item">#长任务Agent</span>
+            <span class="tag-item">#世界模型</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>世界模型迈入交互可用阶段</strong>
+            <p>谷歌Project Genie与蚂蚁LingBot-World同步突破长时一致性与实时交互瓶颈，标志世界模型从“可动视频”正式升级为“可进入、可操控、可演化”的数字环境。</p>
+        </div>
+        <div class="trend-card">
+            <strong>AI原生科研基础设施加速落地</strong>
+            <p>OpenAI Prism整合LaTeX、图表、文献与协作，DeepSeek OCR 2重构视觉编码逻辑，科研工作流正被AI深度重定义，从工具叠加迈向范式重构。</p>
+        </div>
+        <div class="trend-card">
+            <strong>Agent工程范式发生根本性迁移</strong>
+            <p>LangChain创始人指出，Agent系统逻辑不再仅存于代码，而分布于模型+trace+memory中，上下文工程、trace驱动开发与人类反馈闭环成为新核心能力。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title"><a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&mid=2653097886&idx=1&sn=2d3ed4e521a4a246a0be7d4de2a5ff3f" target="_blank">OpenAI 发布科研协作空间 Prism；比亚迪全年出货量首超特斯拉；收购 Manus，Meta 将在三大平台测试高级 AI 订阅服务｜极客早知道</a></h2>
+            <div class="news-summary">摘要：OpenAI推出基于GPT-5.2的科研协作空间Prism，整合LaTeX编辑、公式重构与文献管理；Meta拟在Instagram等三平台测试AI订阅服务；DeepSeek开源OCR 2，视觉编码更接近人类逻辑。</div>
+            <div class="meta">
+                <span>📰 来源：极客公园</span>
+                <span>🕒 时间：2026-01-28 09:07</span>
+            </div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>科研AI原生化</strong>：OpenAI <mark>Prism正式发布</mark>，依托 <b>GPT-5.2</b> 模型实现LaTeX编辑、图表处理与多人实时协作一体化。</li>
+                <li><strong>AI订阅商业化加速</strong>：Meta以 <mark>20亿美元收购Manus</mark>，将在 <b>Instagram</b>、Facebook和WhatsApp三大平台测试高级AI订阅服务。</li>
+                <li><strong>视觉理解范式升级</strong>：DeepSeek <mark>OCR 2开源发布</mark>，采用DeepEncoder V2架构，仅需<b>256–1120个视觉Token</b>即可覆盖复杂文档页。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title"><a href="https://mp.weixin.qq.com/s?__biz=MzkyNjU2ODM2NQ==&mid=2247624993&idx=2&sn=9e96e76b7fbf0bb67d8898b63580d9ca" target="_blank">全球首个大模型在轨部署：中国太空算力解锁“软硬一体”</a></h2>
+            <div class="news-summary">摘要：国星宇航完成千问大模型Qwen3在轨实时部署，通过43轨上注实现星上重组，全球首次验证通用大模型太空迭代能力；“星算计划”规划2800颗计算卫星构建十万P级算力网。</div>
+            <div class="meta">
+                <span>📰 来源：硅星人Pro</span>
+                <span>🕒 时间：2026-01-30 12:59</span>
+            </div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>太空AI里程碑</strong>：中国实现全球首个通用大模型 <mark>在轨实时部署</mark>，Qwen3通过 <b>43轨上注</b> 完成星上解压与动态迭代。</li>
+                <li><strong>星算网络规模化</strong>：国星宇航“星算计划”规划 <mark>2800颗计算卫星</mark>，其中<b>2400颗用于推理</b>，目标构建十万P级太空算力网。</li>
+                <li><strong>算力范式外延</strong>：太空算力瞄准 <mark>物理AI刚需场景</mark>，为远洋货轮、极地科考车等地面网络盲区提供 <b>低延迟实时计算</b> 支撑。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title"><a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&mid=2247655251&idx=1&sn=11d17d36226a1453adf264b347ed384e" target="_blank">劈柴哥和哈萨比斯亲自站台！谷歌世界模型Project Genie刷屏，幕后团队揭秘60秒不是极限，内存是巨大约束</a></h2>
+            <div class="news-summary">摘要：谷歌发布Project Genie，基于Genie 3模型实现可交互、长一致、高保真虚拟世界生成；支持WASD操控与实时响应，单世界最长60秒探索；强调其非游戏引擎定位，聚焦创意增强与具身智能训练。</div>
+            <div class="meta">
+                <span>📰 来源：AI前线</span>
+                <span>🕒 时间：2026-01-30 17:56</span>
+            </div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>世界模型可用化突破</strong>：Project Genie首次实现 <mark>分钟级稳定交互</mark>，Genie 3以<b>20–24帧/秒</b>运行并保持物理与视觉一致性。</li>
+                <li><strong>技术瓶颈精准披露</strong>：团队坦言 <mark>内存是巨大约束</mark>，上下文长度与算力成本强耦合，当前研发重心转向 <b>降低算力成本</b> 而非单纯提速。</li>
+                <li><strong>具身智能关键赋能</strong>：Genie 3已与Simmer智能体深度集成，支持 <mark>文本生成照片级写实世界</mark>，为 <b>3D目标导向智能体</b> 提供无限训练沙盒。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title"><a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&mid=2651274019&idx=1&sn=6e27cc55275b7394951a5437854ee91f" target="_blank">劈柴哥和哈萨比斯亲自站台！谷歌世界模型Project Genie刷屏，幕后团队揭秘60秒不是极限，内存是巨大约束</a></h2>
+            <div class="news-summary">摘要：该资讯为Project Genie的二次传播，强化其在教育、娱乐与机器人训练中的应用潜力；强调用户可自定义世界、设置挑战并分享，凸显“交互式媒体叙事”的范式变革意义。</div>
+            <div class="meta">
+                <span>📰 来源：InfoQ</span>
+                <span>🕒 时间：2026-02-01 10:15</span>
+            </div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>教育场景深度适配</strong>：Project Genie支持构建 <mark>个性化暴露疗法环境</mark>，如为恐蛛儿童生成可控虚拟蜘蛛空间，体现 <b>教育领域</b> 高价值落地路径。</li>
+                <li><strong>用户共创范式开启</strong>：用户可在他人世界基础上继续创作，形成可追溯的 <mark>世界分支网络</mark>，推动从“内容消费”到“世界共建”的跃迁，依托 <b>Genie 3</b> 架构实现。</li>
+                <li><strong>硬件协同演进加速</strong>：谷歌强调垂直技术栈优势，目标在 <mark>Genie 5时代手机运行</mark> 通用模拟系统，依赖 <b>TPU/GPU</b> 硬件与模型联合优化。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title"><a href="https://mp.weixin.qq.com/s?__biz=MzA4MTQ4NjQzMw==&mid=2652796295&idx=2&sn=9940535b89f087924a664915d4aeef08" target="_blank">蚂蚁开源世界模型叫板谷歌Genie3，一张图生成10分钟稳定长视频</a></h2>
+            <div class="news-summary">摘要：蚂蚁灵波科技开源LingBot-World，支持近10分钟无损生成与镜头移开60秒后仍保持结构一致；具备Zero-shot泛化能力，可基于单张街景图生成可交互视频流，定位为机器人“元宇宙训练场”。</div>
+            <div class="meta">
+                <span>📰 来源：智东西</span>
+                <span>🕒 时间：2026-01-29 18:37</span>
+            </div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>长时一致性新标杆</strong>：LingBot-World实现 <mark>近10分钟稳定生成</mark>，镜头移开<b>60秒后返回</b>仍保持目标物体结构与几何关系一致。</li>
+                <li><strong>零样本泛化突破</strong>：仅需输入一张真实街景照片，即可生成对应可交互视频流，具备 <mark>Zero-shot泛化能力</mark>，显著降低 <b>具身智能</b> 场景部署门槛。</li>
+                <li><strong>机器人训练范式升级</strong>：模型为智能体提供 <mark>低成本高保真试错空间</mark>，支持长程任务训练与光照/位置等场景多样化生成，赋能 <b>灵波系列</b> 全栈具身技术路径。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title"><a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&mid=2247655295&idx=1&sn=6e7c57fd2040fe090d2ac00f16741a94" target="_blank">LangChain 创始人警告：2026 成为“Agent 工程”分水岭，传统软件公司的生存考验开始了</a></h2>
+            <div class="news-summary">摘要：LangChain创始人Harrison Chase指出，Agent系统逻辑分布于模型与trace中，传统代码不可见性导致开发范式迁移；trace、memory与人类反馈闭环成为新核心；传统软件公司需将数据资产转化为Agent时代生产力。</div>
+            <div class="meta">
+                <span>📰 来源：AI前线</span>
+                <span>🕒 时间：2026-01-31 13:31</span>
+            </div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>Agent开发范式迁移</strong>：系统逻辑不再仅存于代码，而分布于模型+trace中，<mark>trace成为真相载体</mark>，<b>LangSmith</b> 成为Agent开发核心基础设施。</li>
+                <li><strong>记忆即护城河</strong>：Harrison强调 <mark>memory可能成为真正护城河</mark>，实测显示缺失记忆的email agent体验“明显差很多”，凸显 <b>长期交互状态</b> 的不可替代性。</li>
+                <li><strong>传统软件新生存路径</strong>：数据与API仍是王牌，但需转化为Agent生产力；<mark>垂直领域知识</mark> 成为关键资产，如Rogo将金融流程知识注入 <b>智能体系统</b> 实现差异化。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
