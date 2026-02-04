@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        /* 1. 字体整体缩小 */
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        /* Header Section */
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        /* Trend Section - 保留点击/悬停动效 */
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        /* News Card - 保留所有悬停/点击动效 */
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        /* 2. 来源和时间 移到标题正下方 */
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        /* 3. 摘要 紧跟在来源时间下方 */
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-02-04</div>
+        <div class="top-tags">
+            <span class="tag-item">#OpenClaw</span>
+            <span class="tag-item">#AI智绘</span>
+            <span class="tag-item">#AI Memory</span>
+            <span class="tag-item">#玄武CLI</span>
+            <span class="tag-item">#主动智能</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>AI生产力重构：从「工具调用」到「员工级代理」</strong>
+            <p>OpenClaw类AI代理正将用户从多App切换、多界面操作中解放，以自然语言驱动全系统权限执行任务，标志AI从交互工具升维为7×24小时数字员工。</p>
+        </div>
+        <div class="trend-card">
+            <strong>「智绘」成电商新基建：AI视觉生成走向标准化集成</strong>
+            <p>邻商科技联合万相营造，通过阿里云AI市场实现「选买用」闭环，将专业AIGC能力拆解为商家后台可即插即用的模块，推动内容生产成本从固定转向弹性变量。</p>
+        </div>
+        <div class="trend-card">
+            <strong>Memory基础设施化：时序+全模态成为主动智能分水岭</strong>
+            <p>丘脑智能以时空知识图谱（STKG）重构AI记忆范式，突破RAG语义检索局限，实现跨模态、带状态演化的高精度召回，为AI从被动响应迈向主动预判奠定底层基础。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title"><a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&mid=2653098316&idx=2&sn=c3e340ab168b6af7070457b99bbcaa83" target="_blank">电商进入「智绘」时代：邻商科技用 AI 重塑百万商家的内容生产线</a></h2>
+            <div class="meta">
+                <span>📰 极客公园</span>
+                <span>🕒 2026-02-03 12:16</span>
+            </div>
+            <div class="news-summary">邻商科技通过「爱云画AI」集成阿里云市场万相营造等专业AIGC能力，将电商视觉内容生产从天级压缩至分钟级，助力中小商家低成本、高效率完成新品上新。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>核心路径</strong>：邻商科技不自研模型，而是作为<mark>AI集成方</mark>，依托< b>阿里云AI应用及服务市场</b>完成「选买用」闭环。</li>
+                <li><strong>商业价值</strong>：商家新品视觉准备时间从<mark>天级缩短至分钟级</mark>，内容成本由固定转为按需伸缩的< b>变量成本</b>，小商家亦可使用3D展示等高阶功能。</li>
+                <li><strong>角色升级</strong>：设计师从重复性<mark>作图工</mark>转型为< b>创意策划</b>，聚焦品牌调性与AI模型训练，运营人员可自主生成多渠道适配素材。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title"><a href="https://mp.weixin.qq.com/s?__biz=MzkyNjU2ODM2NQ==&mid=2247625162&idx=1&sn=72c423046ef56eb2fcbb33077d6e6e8f" target="_blank">对话丘脑智能：当AI memory理解了“时间”，下一个抖音就要出现了</a></h2>
+            <div class="meta">
+                <span>📰 硅星人Pro</span>
+                <span>🕒 2026-02-03 10:18</span>
+            </div>
+            <div class="news-summary">丘脑智能推出OmniMemory，基于自研时空知识图谱（STKG）实现时序性+全模态记忆，刷新LoCoMo长程记忆SOTA，在2秒内达成82.5%召回准确率，开启主动智能新范式。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>技术突破</strong>：以<mark>时空知识图谱</mark>为基座，将时间作物理锚点，支持视频/音频/文本等< b>全模态输入</b>，解决RAG方案中状态冲突与跨模态割裂问题。</li>
+                <li><strong>范式跃迁</strong>：从被动响应走向<mark>主动预判</mark>，通过建模用户状态演化（如“失眠→改善”），实现AI对需求的前瞻性理解，推动< b>交互范式变革</b>。</li>
+                <li><strong>商业化路径</strong>：首期聚焦<mark>陪伴类场景</mark>验证需求，同步拓展< b>具身机器人</b>与法律/金融等严肃垂类，采用B+/B/B-三级客户分层与私有化/联合建模混合部署模式。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title"><a href="https://mp.weixin.qq.com/s?__biz=MzkyNjU2ODM2NQ==&mid=2247625162&idx=2&sn=7a5d0f2560b51b067a8c003eff544b49" target="_blank">AI干掉80% App实录：他用OpenClaw 40分钟完成自动修bug、控制智能家居、通宵监控陌生人</a></h2>
+            <div class="meta">
+                <span>📰 硅星人Pro</span>
+                <span>🕒 2026-02-03 10:18</span>
+            </div>
+            <div class="news-summary">Peter Steinberger演示OpenClaw（现Moltbot）实现全系统权限下的自然语言任务执行：40分钟内完成修bug、值机、智能家居控制、通宵监控等，验证「零计划模式」人机协作新范式。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>能力本质</strong>：AI代理通过<mark>全系统访问权限</mark>实现对用户设备的深度控制，无需打开App，仅凭自然语言即可调用< b>Eight Sleep/Philips Hue/Sonos</b>等多平台API。</li>
+                <li><strong>交互哲学</strong>：摒弃传统<mark>零计划模式</mark>，拒绝预设任务流程，让AI在执行中实时对话、纠错、迭代，类比< b>与资深同事协作</b>而非下达指令手册。</li>
+                <li><strong>技能进化</strong>：首次执行英航值机耗时20分钟，成功后沉淀为可复用<mark>技能</mark>，后续调用压缩至< b>2分钟内</b>，支持多技能组合（如值机+日历+接机）。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title"><a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652670531&idx=1&sn=d5ff243a0fef2d80542bd90b21910fd4" target="_blank">别跟风买Mac Mini了！国产算力跑OpenClaw，只需5分钟</a></h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-02-03 11:45</span>
+            </div>
+            <div class="news-summary">清昴智能开源玄武CLI——国产版Ollama，5分钟完成国产芯片（昇腾/沐曦/燧原等）本地大模型部署，无缝兼容OpenAI API，为Clawdbot提供低成本、高隐私的本地推理引擎。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>国产破局</strong>：玄武CLI实现<mark>一键适配国产芯片</mark>，自动识别华为< b>昇腾</b>、沐曦< b>MACA</b>等十余款异构算力，终结“配环境3天，改代码500行”困局。</li>
+                <li><strong>架构创新</strong>：采用<mark>多引擎并行架构</mark>，集成自研< b>MLGuider</b>与MindIE/vLLM等社区引擎，按模型规模与显存动态调度，抹平硬件差异。</li>
+                <li><strong>生态定位</strong>：作为<mark>国产AI基础设施</mark>，玄武CLI完全兼容< b>LangChain/LlamaIndex</b>等框架，仅改一行API地址即可迁移现有AI应用，加速国产算力落地。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title"><a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247866223&idx=1&sn=cf82bd21d1f272dfab0364c3e2e88001" target="_blank">Clawdbot国产芯片适配完成！清华特奖出手，开源框架直接一键部署</a></h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-02-03 12:22</span>
+            </div>
+            <div class="news-summary">清昴智能发布玄武CLI开源框架，由清华特奖得主关超宇带队研发，支持Qwen3-32b等模型在国产芯片上30秒内启动，成为Clawdbot本地化运行的“国产发动机”。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>团队背书</strong>：由<mark>清华特奖最年轻获得者</mark>关超宇创立的< b>清昴智能</b>研发，获华为哈勃及亿元级一线基金支持，聚焦芯片—框架—模型全栈优化。</li>
+                <li><strong>性能实测</strong>：支持<mark>32B及以内模型30秒启动</mark>，通过量化精度动态分配显存，多卡多实例隔离运行，保障< b>玄武CLI</b>服务高稳定性。</li>
+                <li><strong>战略意义</strong>：玄武CLI不仅是工具，更是<mark>国产算力生态关键一环</mark>，与< b>玄武智算平台（集群版）</b>协同，构建千P级异构算力统一调度中枢。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
