@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        /* 1. 字体整体缩小 */
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        /* Header Section */
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        /* Trend Section - 保留点击/悬停动效 */
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        /* News Card - 保留所有悬停/点击动效 */
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        /* 2. 来源和时间 移到标题正下方 */
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        /* 3. 摘要 紧跟在来源时间下方 */
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-02-05</div>
+        <div class="top-tags">
+            <span class="tag-item">#ShapingAI</span>
+            <span class="tag-item">#AgentInfra</span>
+            <span class="tag-item">#GPNPU</span>
+            <span class="tag-item">#Skywork</span>
+            <span class="tag-item">#BigQuerySQL</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>AI价值重心转向系统级工程落地</strong>
+            <p>技术竞争已从单点模型能力突破，全面转向推理基础设施、Agent运行环境、多模态协同等系统级工程能力，稳定性、成本与可治理性成为核心胜负手。</p>
+        </div>
+        <div class="trend-card">
+            <strong>推理芯片进入规模化攻坚关键期</strong>
+            <p>全球巨头加速布局专用推理芯片，国内企业以GPNPU等融合架构突破“内存墙”与能效瓶颈，云端大模型推理正从GPU依赖转向定制化算力范式。</p>
+        </div>
+        <div class="trend-card">
+            <strong>桌面Agent成为下一代办公入口</strong>
+            <p>本地化、多模态、OS级深度集成的桌面Agent（如Skywork）正取代云端问答式AI，实现复杂文件理解、跨格式生成与端侧自主执行，重塑生产力工作流。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title"><a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652670827&idx=3&sn=5d1a41076b5c2550917c71f7bdcff0e1" target="_blank">谷歌Jeff Dean和多位图灵奖得主合著论文，全面剖析了AI</a></h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-02-04 08:45</span>
+            </div>
+            <div class="news-summary">摘要：Jeff Dean与John Hennessy等联合发布《塑造AI对数十亿人的影响》报告，主张务实路线：以AI扩大教育医疗需求、提升普通劳动者能力、加速科学发现，并建立“虚假信息侦探社”等新型治理机制。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>拒绝末日叙事</strong>：报告<mark>拒绝空谈焦虑</mark>，主张将AI引导至教育、医疗等<b>需求弹性巨大</b>的领域，以“做大蛋糕”创造新岗位。</li>
+                <li><strong>教育范式升级</strong>：AI正推动教育从“工业流水线”回归“私塾式因材施教”，<mark>哈佛实验证明</mark>AI导师使学习成效提升2倍，<b>全球导师</b>愿景有望弥合师资鸿沟。</li>
+                <li><strong>治理创新实践</strong>：提出设立中立“<mark>虚假信息侦探社</mark>”，以权威技术鉴定对抗深度伪造，<b>Laude研究所</b>同步启动CodeClash等实战评估项目，推动AI能力透明化。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title"><a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&mid=2651274349&idx=2&sn=67eb5b999a1f36f614cfc8c840415b99" target="_blank">Agent面向结果交付，技术正从单点突破加速转向工程与系统竞争 &#124;《中国软件技术发展洞察和趋势预测研究报告 2026》正式发布</a></h2>
+            <div class="meta">
+                <span>📰 InfoQ</span>
+                <span>🕒 2026-02-04 13:31</span>
+            </div>
+            <div class="news-summary">摘要：InfoQ《2026中国软件技术趋势报告》指出，AI竞争重心已从模型参数转向系统级能力，Agent Infra成为业务级支撑核心，RLVF训练范式、原生全模态与世界模型正迎来技术收敛。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>Infra战略升维</strong>：AI基础设施价值从“算力配套”转向“不确定性管理”，<mark>Agent Infra</mark>需具备权限隔离、状态追溯等能力，成为<b>可托付的业务级支撑</b>。</li>
+                <li><strong>架构范式演进</strong>：Transformer架构进入分化创新期，<mark>RLVF范式持续演进</mark>，原生多模态成默认能力，<b>世界模型</b>技术路线迎来首轮收敛，推动AI理解物理世界。</li>
+                <li><strong>生态协同加速</strong>：开源在中国正从代码共享转向<mark>标准共识与工程协作</mark>，围绕Agent、工具链与基础设施的开源项目，深度服务<b>真实复杂场景</b>适配需求。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title"><a href="https://mp.weixin.qq.com/s?__biz=MzA4MTQ4NjQzMw==&mid=2652796604&idx=2&sn=e097623f9e7295d3d695259679467c5c" target="_blank">国产“GPNPU”要发力了！All in AI大算力芯片，明年对标英伟达Blackwell</a></h2>
+            <div class="meta">
+                <span>📰 智东西</span>
+                <span>🕒 2026-02-04 11:20</span>
+            </div>
+            <div class="news-summary">摘要：云天励飞发布GPNPU大模型推理芯片战略，融合GPGPU通用性与NPU能效优势，采用3D memory与Chiplet“算力积木”，首代D芯片明年将对标<b>英伟达Blackwell</b>架构。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>架构融合创新</strong>：GPNPU以<mark>GPGPU级通用编程</mark>兼容CUDA生态，底层采用NPU专用计算单元，实现<b>单位硅面积计算密度</b>远超GPU，兼顾“好用”与“高效”。</li>
+                <li><strong>系统级瓶颈突破</strong>：针对大模型推理“内存墙”，引入国产工艺下<mark>3D memory架构</mark>，带宽超HBM十倍、时延仅10纳秒，<b>PD分离架构</b>分别优化prefill与decode阶段。</li>
+                <li><strong>国产产能保障</strong>：云天励飞已锁定充足<mark>国产产能</mark>，首代超节点P芯片对标Hopper，明年D芯片将<mark>对标Blackwell</mark>，2028年目标挑战<b>Rubin架构</b>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title"><a href="https://mp.weixin.qq.com/s?__biz=MzA4MTQ4NjQzMw==&mid=2652796604&idx=1&sn=611cb3f30c56964b6002dffca144945d" target="_blank">Windows用户泪目！终于有能打的桌面Agent了，瞄准“下一代办公入口”</a></h2>
+            <div class="meta">
+                <span>📰 智东西</span>
+                <span>🕒 2026-02-04 11:20</span>
+            </div>
+            <div class="news-summary">摘要：昆仑天工发布原生Windows版Skywork桌面Agent，支持多文件智能归类、跨格式报告生成、多模态图文视频输出，全部本地运行，成本仅19.99美元/月，实现真正OS级生产力赋能。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>Windows生态破局</strong>：Skywork是首个原生支持<mark>Windows生态</mark>的高性能桌面Agent，填补生态空白，支持<b>本地历史文件</b>深度理解与项目级任务执行，学习成本近乎为零。</li>
+                <li><strong>多模态端侧交付</strong>：可一键将杂乱图片/文档/表格生成专业PPT、交互网页、健康趋势图表及产品视频，<mark>多模态输出可用性高</mark>，<b>智能路由</b>自动调用最优模型与工具链。</li>
+                <li><strong>安全与成本优势</strong>：所有计算<mark>本地完成无需上云</mark>，基础版仅19.99美元/月，<b>Plus版49.99美元</b>，相比Claude Cowork等同类产品具备显著性价比与数据主权优势。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title"><a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&mid=2651274349&idx=4&sn=75a926c8d04f079d37da28034bea7b61" target="_blank">BigQuery 新功能：SQL 直调 17 万 + AI 模型，3800 万行数据处理成本仅 2 美元</a></h2>
+            <div class="meta">
+                <span>📰 InfoQ</span>
+                <span>🕒 2026-02-04 13:31</span>
+            </div>
+            <div class="news-summary">摘要：Google BigQuery上线Hugging Face模型原生SQL推理功能，数据团队仅用2条SQL即可部署运行17万+模型，3800万行数据处理成本低至2美元，彻底消除ML基础设施运维负担。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>SQL即AI开发界面</strong>：通过<mark>CREATE MODEL</mark>与<mark>AI.GENERATE_TEXT</mark>等SQL语句，数据团队可直接调用<b>Hugging Face</b>超17万模型，无需K8s或端点配置，部署仅需3–10分钟。</li>
+                <li><strong>成本与资源自治</strong>：平台自动管理GPU资源生命周期，<mark>闲置端点自动关闭</mark>，3800万行数据嵌入处理成本仅<b>2美元</b>，支持Compute Engine预留锁定性能。</li>
+                <li><strong>生态级竞争升级</strong>：该功能直面<mark>Snowflake Cortex</mark>与<b>Databricks Model Serving</b>，凭借与Hugging Face模型库在数据仓库内的深度集成，强化Google Cloud用户粘性。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI咨询与客户成功部 @行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
