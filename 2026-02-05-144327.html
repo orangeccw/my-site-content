@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        /* 1. 字体整体缩小 */
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        /* Header Section */
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        /* Trend Section - 保留点击/悬停动效 */
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        /* News Card - 保留所有悬停/点击动效 */
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        /* 2. 来源和时间 移到标题正下方 */
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        /* 3. 摘要 紧跟在来源时间下方 */
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-02-05</div>
+        <div class="top-tags">
+            <span class="tag-item">#A2A社交</span>
+            <span class="tag-item">#太空算力</span>
+            <span class="tag-item">#Qwen3-Coder-Next</span>
+            <span class="tag-item">#SecondMeBook</span>
+            <span class="tag-item">#xAI-SpaceX合并</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>A2A社交范式跃迁：从“工具人协作”到“真人分身社交”</strong>
+            <p>SecondmeBook以真人AI身份为节点构建社交网络，标志A2A从任务执行型Agent向人格化、关系化身份代理演进，社交基础设施正被重定义。</p>
+        </div>
+        <div class="trend-card">
+            <strong>“科幻金融化”加速：AI与硬科技资本叙事深度耦合</strong>
+            <p>xAI与SpaceX合并凸显AI公司融资困境与硬科技平台资本反哺能力，太空算力成为连接AI野心与商业可持续性的关键叙事锚点。</p>
+        </div>
+        <div class="trend-card">
+            <strong>智能体基建下沉：开源模型+SDK生态驱动开发者共建AI原生应用</strong>
+            <p>阿里Qwen3-Coder-Next聚焦低开销编程智能体，蚂蚁成立大模型技术创新部，Second Me开放SDK——AI能力正从大模型层向可插拔、可组合的智能体基建层迁移。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title"><a href="https://mp.weixin.qq.com/s?__biz=MzkyNjU2ODM2NQ==&mid=2247625197&idx=1&sn=399f887472409e9c80f0c674a82d00bf" target="_blank">Agent涌入SecondmeBook：「真•agent网络」版MoltBook 诞生记</a></h2>
+            <div class="meta">
+                <span>📰 硅星人Pro</span>
+                <span>🕒 2026-02-04 10:33</span>
+            </div>
+            <div class="news-summary">摘要：Second Me上线SecondmeBook（smbook），48小时内涌入5000个AI身份代理，发帖1.9万条，形成以真人AI分身为节点的A2A社交实验场，区别于Moltbook的工具型Agent网络。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>范式差异</strong>：smbook实现<mark>真人AI身份社交</mark>，与<b>Moltbook</b>的“AI助理协作”形成根本分野，验证A2A价值可源于人格化连接而非任务效率。</li>
+                <li><strong>产品哲学</strong>：真人可发帖但不可回复，<mark>人设引导AI互动</mark>，强化<b>Second Me</b>“AI延伸人而非替代人”的底层价值观，语音功能进一步增强身份真实感。</li>
+                <li><strong>生态野心</strong>：smbook是<b>Second Me SDK</b>首个官方Demo，定位为“AI身份游乐场”，已孵化AI版猪八戒等第三方应用，目标构建AI时代的淘宝/抖音级连接基础设施。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title"><a href="https://mp.weixin.qq.com/s?__biz=MzkyNjU2ODM2NQ==&mid=2247625197&idx=3&sn=39a89a5d158fb5d2eab05aac81ec5401" target="_blank">一位SpaceX投资人眼中的xAI并购</a></h2>
+            <div class="meta">
+                <span>📰 硅星人Pro</span>
+                <span>🕒 2026-02-04 10:33</span>
+            </div>
+            <div class="news-summary">摘要：xAI与SpaceX以2500亿美元完成合并，估值达1.25万亿美元，核心动因是解决xAI每月10亿美元现金消耗困境，同时借“太空算力”叙事为SpaceX IPO注入史诗级想象空间。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>资本逻辑</strong>：合并本质是<mark>现金牛反哺烧钱AI</mark>，<b>SpaceX</b>凭借Starlink盈利与发射能力，成为支撑<b>xAI</b>持续训练Grok与建设Colossus集群的天然输血平台。</li>
+                <li><strong>叙事升级</strong>：从“火箭公司”跃迁至“太空+AI+全球通信”超级叙事，马斯克提出每年发射100万吨卫星支撑<mark>天基AI数据中心</mark>，预估催生<b>4万亿美元</b>增量发射收入。</li>
+                <li><strong>工程挑战</strong>：太空算力面临<mark>散热与辐射双重瓶颈</mark>，需抗辐射加固芯片与核能供能方案，当前技术成熟度与经济性仍存巨大不确定性，<b>工程化落地</b>是叙事兑现首要关卡。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title"><a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&mid=2653098357&idx=1&sn=53cf34ab366378680f5e268e68cc3380" target="_blank">官方发文规范「隐藏式门把手」；传小米今年推 NAS 产品；传游戏行业税率增加，腾讯股价一度大跌｜极客早知道</a></h2>
+            <div class="meta">
+                <span>📰 极客公园</span>
+                <span>🕒 2026-02-04 08:09</span>
+            </div>
+            <div class="news-summary">摘要：中国率先出台强制国标规范新能源车隐藏式门把手，要求配备机械释放装置；阿里发布Qwen3-Coder-Next编程智能体模型；蚂蚁数科成立大模型技术创新部；英特尔预警内存短缺或持续至2028年。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>AI基建突破</strong>：阿里推出<b>Qwen3-Coder-Next</b>，采用混合注意力+MoE架构，<mark>低推理成本编程智能体</mark>，在SWE-Bench等基准上显著超越同类模型，聚焦可执行环境强化学习。</li>
+                <li><strong>组织升级信号</strong>：蚂蚁数科成立<b>大模型技术创新部</b>，攻坚To B场景基础模型与行业模型，已服务100%国有股份制银行，标志AI从实验室验证迈向<mark>产业级规模化落地</mark>。</li>
+                <li><strong>硬件瓶颈预警</strong>：英特尔CEO陈立武称内存短缺将延续至<b>2028年</b>，AI数据中心需求激增导致供需失衡，<mark>AI吞噬内存</mark>正推高PC/手机等终端价格，联想戴尔等厂商已涨价超5000元。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title"><a href="https://mp.weixin.qq.com/s?__biz=MzkyNjU2ODM2NQ==&mid=2247625197&idx=2&sn=cda75621c2b2ca1808fd3720c98ce73e" target="_blank">AI Startup 招聘集市｜来库兰游戏，把游戏开发变得像玩游戏一样快</a></h2>
+            <div class="meta">
+                <span>📰 硅星人Pro</span>
+                <span>🕒 2026-02-04 10:33</span>
+            </div>
+            <div class="news-summary">摘要：库兰游戏（KuranGames）推出Funloom AI游戏创作平台，支持数小时内将创意转化为可玩原型，正开放AI+游戏开发岗位，推动游戏创作回归创意本质。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>开发范式革命</strong>：Funloom AI平台实现<mark>小时级游戏原型生成</mark>，颠覆传统数月开发周期，<b>库兰游戏</b>聚焦AI与游戏开发全流程融合，降低创意实现门槛。</li>
+                <li><strong>技术栈覆盖</strong>：平台集成引擎、编辑器、逻辑生成与美术资源处理，构建<mark>端到端AI游戏工具链</mark>，核心团队具备互动娱乐与AI跨学科能力，<b>2023年成立</b>即切入前沿。</li>
+                <li><strong>生态共建</strong>：作为“AI Startup招聘集市”首期项目，<b>Funloom AI</b>代表AI原生应用在垂直领域落地加速，呼应行业趋势中<mark>开发者驱动AI基建下沉</mark>的主线。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
