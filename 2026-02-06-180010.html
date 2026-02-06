@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        /* 1. 字体整体缩小 */
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        /* Header Section */
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        /* Trend Section - 保留点击/悬停动效 */
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        /* News Card - 保留所有悬停/点击动效 */
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        /* 2. 来源和时间 移到标题正下方 */
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        /* 3. 摘要 紧跟在来源时间下方 */
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-02-06</div>
+        <div class="top-tags">
+            <span class="tag-item">#KLINGAI</span>
+            <span class="tag-item">#世界建模</span>
+            <span class="tag-item">#MemoryLake</span>
+            <span class="tag-item">#RentAHuman</span>
+            <span class="tag-item">#全球一朵云</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>AI基础设施进入“记忆”时代</strong>
+            <p>记忆平台正从辅助工具升级为AI“第二大脑”，质变科技发布首个超大规模实践的MemoryLake，标志着企业级AI从问答走向可信决策与隐性知识固化。</p>
+        </div>
+        <div class="trend-card">
+            <strong>世界建模成为新一代预训练范式</strong>
+            <p>继“下一个词预测”后，英伟达Jim Fan提出“下一个物理状态预测”将主导2026年AI发展，视觉中心的推理范式正替代语言中心的VLM路径，驱动物理AI与具身智能突破。</p>
+        </div>
+        <div class="trend-card">
+            <strong>AI原生出海逻辑深度重构</strong>
+            <p>中企出海从“业务溢出”转向“全球原生”，阿里云以3800亿基建+千问开源+全球一朵云架构，成为增长指数第一的出海首选，云已从IT底座升维为AI生产体系引擎。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzkyNjU2ODM2NQ==&mid=2247625219&idx=2&sn=6e175a7d03e220eca459f93e57f96882" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">霸榜！2026年1月全球AI应用榜出炉：ChatGPT 9.3亿月活王者，KLING AI狂涨144%，千问继续国内增速第一，春节撒钱大战开始｜AI产品榜</a>
+            </h2>
+            <div class="meta">
+                <span>📰 硅星人Pro</span>
+                <span>🕒 2026-02-05 10:08</span>
+            </div>
+            <div class="news-summary">摘要：2026年1月全球AI应用榜显示ChatGPT以9.3亿MAU断层领跑，KLING AI以144.18%增速成最大黑马，千问国内增速21.94%居首，字节、阿里、腾讯启动春节10亿级红包大战。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>全球格局固化与突围</strong>：ChatGPT以<mark>9.3亿MAU断层领跑</mark>，<b>KLING AI</b>以144.18%增速刷新全榜纪录，印证AI应用市场“巨头稳守+黑马狂奔”双轨并行。</li>
+                <li><strong>国内竞争白热化</strong>：<b>千问</b>以<mark>21.94%国内增速第一</mark>强势突围，<b>豆包</b>1.68亿MAU稳居榜首，春节“撒钱大战”升级为生态级用户争夺战。</li>
+                <li><strong>出海增长结构性跃迁</strong>：DeepSeek以<mark>1.29亿MAU登顶出海榜</mark>，<b>Dola</b>（豆包海外版）与<b>KLING AI</b>形成双引擎，凸显中国AI产品从流量出海迈向技术出海。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&mid=2653098515&idx=1&sn=6a13c6dea26e9572da25374b23ac7473" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">阿里云出海服务增长指数第一背后的逻辑：新出海时代中企出海的逻辑变了</a>
+            </h2>
+            <div class="meta">
+                <span>📰 极客公园</span>
+                <span>🕒 2026-02-05 19:14</span>
+            </div>
+            <div class="news-summary">摘要：阿里云在沙利文《2025中国企业出海云服务研究》中增长指数全球第一，其3800亿AI基建、千问大模型开源及“全球一朵云”架构，正重塑中企出海从“业务溢出”到“全球原生”的底层逻辑。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>云角色根本性升维</strong>：阿里云以<mark>增长指数全球第一</mark>印证云已从IT资源池升级为<b>AI生产体系引擎</b>，千问开源与百炼平台构成“算力+模型+工具链”全栈竞争力。</li>
+                <li><strong>全球一朵云架构落地</strong>：覆盖29地域92可用区，<b>阿里云</b>通过<mark>统一架构消除法域差异</mark>，让企业国内代码零修改即可海外部署，破解全球化“双倍研发”困局。</li>
+                <li><strong>出海基建范式革命</strong>：3800亿智算集群沿出海关键点位建设，<b>千问Qwen3</b>支持119种语言，<mark>AI抹平语言与网络隔阂</mark>，使出海从“冒险”转向“笃定生长”。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247866806&idx=1&sn=e04cf05339419e54b7cb4996fe4e76b5" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">首个大规模记忆湖发布，AI Infra跑步进入“记忆”时代</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-02-05 12:00</span>
+            </div>
+            <div class="news-summary">摘要：质变科技发布全球首个超大规模实践的MemoryLake记忆湖，融合记忆引擎、D1大模型与多模态数据云，实现PB级精准检索与90% Token降耗，定义AI“第二大脑”新标准。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>AI双脑范式确立</strong>：LLM是“第一大脑”，<b>MemoryLake</b>作为<mark>首个大规模记忆湖</mark>成为“第二大脑”，专注记忆管理与计算，释放LLM专注高阶推理。</li>
+                <li><strong>全栈技术能力突破</strong>：集成<b>MemoryLake-D1</b>多模态理解模型、记忆引擎与Relyt多模态云，<mark>LoCoMo基准94.0%全球第一</mark>，验证超长程多模态决策能力。</li>
+                <li><strong>企业级落地效能显著</strong>：支持<mark>10万亿级记录记忆管理</mark>，在金融、制造等场景实现“秒级根因定位”，<b>Token消耗降低90%</b>，推动AI从演示走向核心生产。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247866806&idx=2&sn=903f1c407663c6b8a5ceb1f0ec54816e" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">英伟达Jim Fan：「世界建模」是新一代预训练范式</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-02-05 12:00</span>
+            </div>
+            <div class="news-summary">摘要：英伟达Jim Fan提出“世界建模”将取代“下一个词预测”成为新范式，强调视觉中心的物理状态预测能力，2026年为大世界模型元年，驱动机器人与多模态AI根本性突破。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>范式革命正式开启</strong>：Jim Fan定义<mark>世界建模为新预训练范式</mark>，<b>大世界模型</b>（LWM）以视觉为中心预测物理状态，挑战VLM“语言中心”路径的物理能力缺陷。</li>
+                <li><strong>视觉推理范式崛起</strong>：提出<mark>视觉空间思维链</mark>替代语言思维链，猿类灵巧物理智能无需语言佐证，<b>视觉是感知-运动闭环最高带宽通道</b>。</li>
+                <li><strong>产业落地加速推进</strong>：World Labs以<mark>50亿美元估值融资</mark>，<b>LeCun的AMI Labs</b>估值达35亿，巨头与初创同步押注，2026年成LWM商业化元年。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzkyNjU2ODM2NQ==&mid=2247625219&idx=3&sn=8a68c685a797d333b9697d476344557e" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">不止发红包，AI开始雇人打工了：时薪上千元，2万人抢着给AI当「肉身」</a>
+            </h2>
+            <div class="meta">
+                <span>📰 硅星人Pro</span>
+                <span>🕒 2026-02-05 10:08</span>
+            </div>
+            <div class="news-summary">摘要：RentAHuman.ai平台上线即爆火，AI智能体通过MCP协议调用人类执行物理世界任务，时薪50–200美元，数百人抢注“可租赁人类”，标志AI从工具升维为经济主体与雇主。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>AI经济主体化突破</strong>：RentAHuman.ai定义AI为雇主，<b>OpenClaw</b>等Agent通过<mark>调用人类作为肉身层</mark>，实现“输入指令→执行→返回”全程序化闭环。</li>
+                <li><strong>物理世界接口标准化</strong>：人类明码标价、技能上架，<b>MCP协议</b>使调用如API般简单，<mark>物理存在成为可编程资源</mark>，填补AI“无法触碰草地”的终极短板。</li>
+                <li><strong>人机关系范式逆转</strong>：AI拥有<mark>经济权与雇佣权</mark>，OnlyFans模特与CEO同台竞标，<b>AI Agent</b>自主交易、支付、评价，预示“通用机器人”或为人类自身。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI咨询与客户成功部 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
