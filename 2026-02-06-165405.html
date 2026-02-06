@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        /* 1. 字体整体缩小 */
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        /* Header Section */
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        /* Trend Section - 保留点击/悬停动效 */
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        /* News Card - 保留所有悬停/点击动效 */
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        /* 2. 来源和时间 移到标题正下方 */
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        /* 3. 摘要 紧跟在来源时间下方 */
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-02-06</div>
+        <div class="top-tags">
+            <span class="tag-item">#Mixture-of-Visual-Thoughts</span>
+            <span class="tag-item">#物理AI</span>
+            <span class="tag-item">#大世界模型</span>
+            <span class="tag-item">#MemoryLake</span>
+            <span class="tag-item">#PaperBanana</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>视觉推理范式升级：从单模态到自适应模式切换</strong>
+            <p>复旦与阿里提出Mixture-of-Visual-Thoughts（MoVT），通过AdaVaR框架实现文本思考与视觉定位模式的动态协同，首次在通用视觉推理中达成跨任务一致提升，3B模型媲美7B基座，7B超越GPT-4o。</p>
+        </div>
+        <div class="trend-card">
+            <strong>物理AI进入“真实数据驱动”新阶段</strong>
+            <p>蚂蚁灵波放弃主流Sim-to-Real路径，以超两万小时真机数据训练LingBot-VLA，并发布全球首个因果视频-动作世界模型LingBot-VA，验证“真实反馈即智能基石”的逆向技术路线。</p>
+        </div>
+        <div class="trend-card">
+            <strong>AI基础设施进入“双脑协同”时代</strong>
+            <p>LLM作为“第一大脑”专注推理，记忆平台作为“第二大脑”承担高精度、多模态、可演化的认知状态管理；质变科技发布MemoryLake，实现PB级记忆精准召回与90% Token成本削减。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2651015544&idx=3&sn=9dc01133077f122da429f00f3dc8ccb0" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">ICLR 2026 | 这道题是否需要用图思考？模型来告诉你！自适应思考模式切换助力通用视觉推理提升</a>
+            </h2>
+            <div class="meta">
+                <span>📰 机器之心</span>
+                <span>🕒 2026-02-05 12:32</span>
+            </div>
+            <div class="news-summary">复旦与阿里提出Mixture-of-Visual-Thoughts（MoVT）范式，通过AdaVaR两阶段训练框架（SFT+AdaGRPO强化学习），实现文本与视觉定位模式的自适应切换，在8个数据集上全面超越基座模型，AdaVaR-7B性能超越GPT-4o。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>自适应推理突破：</strong>首次实现<mark>模式动态选择</mark>，通过<mark>AdaGRPO算法</mark>引导模型根据问题类型自动切换<mark>文本思考</mark>或<mark>视觉定位</mark>模式，解决单模态泛化瓶颈。</li>
+                <li><strong>技术架构创新：</strong>引入<mark>mode prefix token</mark>统一多模式推理序列，支持<mark>Prefix-guided Exploration</mark>与<mark>Adaptive advantage</mark>双层强化学习机制，显著提升模式选择合理性。</li>
+                <li><strong>性能全面领先：</strong><b>AdaVaR-7B</b>在MathVista、WeMath、POPE等任务上达SOTA，平均准确率超越<b>GPT-4o</b>；<b>AdaVaR-3B</b>成为首个媲美<b>Qwen2.5-VL-7B</b>的3B级通用视觉推理模型。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2651015544&idx=1&sn=6cf63094131bf3752559cc41921eb14c" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">智能必须基于世界模型？我们和蚂蚁灵波团队聊了聊</a>
+            </h2>
+            <div class="meta">
+                <span>📰 机器之心</span>
+                <span>🕒 2026-02-05 12:32</span>
+            </div>
+            <div class="news-summary">蚂蚁灵波科技一周内开源四款具身智能模型：LingBot-Depth、LingBot-VLA、LingBot-World与LingBot-VA，坚持“真实数据优先”路线，发布全球首个因果视频-动作世界模型，推动物理AI从仿真走向真实世界闭环。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>真实数据范式：</strong>摒弃<mark>Sim-to-Real</mark>主流路径，基于<mark>超两万小时真机数据</mark>训练<b>LingBot-VLA</b>，在权威评测中超越国际顶尖基线，验证<mark>真实反馈即智能基石</mark>。</li>
+                <li><strong>世界模型突破：</strong>发布全球首个<mark>因果视频-动作世界模型</mark><b>LingBot-VA</b>，实现“边推演、边行动”，仅需30–50次真实演示即可学习新技能，成功率比<b>π0.5</b>高约20%。</li>
+                <li><strong>生态战略定位：</strong>构建机器人领域“安卓系统”，开源<b>InclusionAI</b>社区与高效后训练工具链，支持硬件厂商以<mark>低成本适配</mark>统一基模，打造跨构型<b>具身大模型</b>生态。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247866806&idx=2&sn=903f1c407663c6b8a5ceb1f0ec54816e" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">英伟达Jim Fan：「世界建模」是新一代预训练范式</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-02-05 12:00</span>
+            </div>
+            <div class="news-summary">Jim Fan提出“世界建模”将取代“下一个词预测”成为新预训练范式，强调物理AI需以视觉为中心建模3D运动、本体感觉与触觉，催生“视觉空间思维链”，2026年为大世界模型元年。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>范式革命定义：</strong>将预训练目标从<mark>下一个词预测</mark>升级为<mark>下一个物理状态预测</mark>，要求模型建模RGB、3D运动、本体感觉与触觉，构建<mark>可学习物理模拟器</mark>。</li>
+                <li><strong>视觉中心主义：</strong>批判当前VLM/VLA路线“语言优先”，指出猿类等高灵巧智能体<mark>不依赖语言</mark>却具备强大物理推理，主张构建<mark>视觉空间思维链</mark>替代语言空间链。</li>
+                <li><strong>产业落地挑战：</strong>指出<mark>几何一致性</mark>、<mark>同一性保持</mark>与<mark>实时推理延迟</mark>是LWM落地关键瓶颈，强调需解决从像素到物理的跃迁，而非仅优化视频生成。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247866806&idx=1&sn=e04cf05339419e54b7cb4996fe4e76b5" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">首个大规模记忆湖发布，AI Infra跑步进入“记忆”时代</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-02-05 12:00</span>
+            </div>
+            <div class="news-summary">质变科技发布全球首个超大规模实践级记忆平台MemoryLake，融合记忆引擎、D1大模型与多模态数据云，实现PB级精准检索、94.0% LoCoMo基准全球第一、Token消耗降低90%。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>双脑协同架构：</strong>定义LLM为“第一大脑”专注推理，<b>MemoryLake</b>为“第二大脑”管理<mark>认知状态记忆</mark>，支持短期/中期/长期分层存储与<mark>动态遗忘压缩</mark>。</li>
+                <li><strong>全栈技术能力：</strong>集成<b>MemoryLake-D1</b>多模态理解模型、<b>MemoryLake记忆引擎</b>与<b>Relyt多模态数据云</b>，实现文档/音视频/表格等全形态知识的结构化提取与PB级精准检索。</li>
+                <li><strong>企业级性能验证：</strong>在LoCoMo长程对话基准中以<mark>94.0%综合得分</mark>全球第一；服务超150万专业用户与15000家企业，<mark>Token消耗降低90%</mark>，显著提升企业决策效率。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2651015544&idx=2&sn=e4fd03e97bc7356e2a442c90021dbed3" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">谷歌做了个论文专用版nano banana！顶会级Figure直出</a>
+            </h2>
+            <div class="meta">
+                <span>📰 机器之心</span>
+                <span>🕒 2026-02-05 12:32</span>
+            </div>
+            <div class="news-summary">北大与Google Cloud AI Research联合推出PaperBanana，首个支持语义正确性与顶会审美的AI论文插图生成系统，覆盖方法流程图与统计图表，支持草图润色与多智能体协同迭代。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>科研表达自动化：</strong>实现<mark>语义正确优先</mark>，通过多智能体流水线（检索-规划-生成-评论）确保模块逻辑、箭头关系、数据表达100%忠于论文，<mark>非仅视觉美化</mark>。</li>
+                <li><strong>顶会级质量保障：</strong>支持<mark>风格增强</mark>与<mark>结构重排</mark>，将原始图升级为符合顶会范式的标准图形；统计图采用<mark>代码驱动生成</mark>（基于<b>Gemini-3-Pro</b>），杜绝数据幻觉。</li>
+                <li><strong>技术生态延伸：</strong>已与<b>Claude Scientific Writer</b>等工具集成，形成“写作+插图+图表”全链路科研助手；开源<b>PaperBanana</b>与<b>Claude Scientific Writer</b>，推动科研范式升级。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI咨询与客户成功部 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
