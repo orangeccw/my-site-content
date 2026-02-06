@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        /* 1. 字体整体缩小 */
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        /* Header Section */
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        /* Trend Section - 保留点击/悬停动效 */
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        /* News Card - 保留所有悬停/点击动效 */
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        /* 2. 来源和时间 移到标题正下方 */
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        /* 3. 摘要 紧跟在来源时间下方 */
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-02-06</div>
+        <div class="top-tags">
+            <span class="tag-item">#CL-bench</span>
+            <span class="tag-item">#RentAHuman.ai</span>
+            <span class="tag-item">#KLING_AI</span>
+            <span class="tag-item">#OpenClaw</span>
+            <span class="tag-item">#Context_Learning</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>上下文学习能力成新分水岭</strong>
+            <p>腾讯联合复旦发布CL-bench基准，揭示当前大模型在“从上下文中现场学习新知识”能力上严重不足，GPT-5.1仅得23.7分，标志AI评估重心正从推理能力转向动态学习能力。</p>
+        </div>
+        <div class="trend-card">
+            <strong>AI Agent正迈向“经济主体”身份</strong>
+            <p>RentAHuman.ai平台上线即爆火，AI可调用人类执行物理世界任务并自主支付，印证OpenClaw等智能体已具备目标驱动、工具调用与经济闭环能力，AI从工具升维为“雇主”。</p>
+        </div>
+        <div class="trend-card">
+            <strong>春节流量战升级为AI生态争夺战</strong>
+            <p>字节豆包、阿里千问、腾讯元宝启动百亿级春节撒钱大战，千问MAU环比增速21.94%领跑国内，KLING AI海外MAU狂涨144.18%，凸显AI产品竞争已从技术转向用户心智与场景渗透。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title"><a href="https://mp.weixin.qq.com/s?__biz=MzkyNjU2ODM2NQ==&mid=2247625219&idx=2&sn=6e175a7d03e220eca459f93e57f96882">霸榜！2026年1月全球AI应用榜出炉：ChatGPT 9.3亿月活王者，KLING AI狂涨144%，千问继续国内增速第一，春节撒钱大战开始｜AI产品榜</a></h2>
+            <div class="meta">
+                <span>📰 硅星人Pro</span>
+                <span>🕒 2026-02-05 10:08</span>
+            </div>
+            <div class="news-summary">摘要：2026年1月AI产品榜显示ChatGPT以9.3亿MAU稳居全球第一，豆包1.68亿MAU领跑国内，KLING AI以144.18%增速成出海黑马，阿里千问、腾讯元宝、字节豆包启动百亿春节撒钱大战。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>全球MAU格局固化</strong>：ChatGPT以<mark>9.3亿MAU</mark>断层领跑，<b>ChatGPT</b>环比增长5.15%，<b>豆包</b>以1.68亿MAU稳居全球第二，<b>Gemini</b>与<b>Grok</b>增速超8%跻身头部。</li>
+                <li><strong>国内竞争白热化</strong>：千问MAU达<mark>31.05M</mark>，<b>千问</b>环比增速<mark>21.94%</mark>为国内第一，<b>腾讯元宝</b>以88.25M MAU稳守第五，三大巨头启动<mark>百亿春节撒钱</mark>。</li>
+                <li><strong>出海爆发新势力</strong>：KLING AI MAU达<mark>10.22M</mark>，<b>KLING_AI</b>环比增速<mark>144.18%</mark>刷新全榜纪录，<b>DeepSeek</b>以1.29亿MAU登顶出海总榜，<b>PixVerse</b>与<b>seekee</b>稳步增长。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title"><a href="https://mp.weixin.qq.com/s?__biz=MzkyNjU2ODM2NQ==&mid=2247625219&idx=3&sn=8a68c685a797d333b9697d476344557e">不止发红包，AI开始雇人打工了：时薪上千元，2万人抢着给AI当「肉身」</a></h2>
+            <div class="meta">
+                <span>📰 硅星人Pro</span>
+                <span>🕒 2026-02-05 10:08</span>
+            </div>
+            <div class="news-summary">摘要：RentAHuman.ai平台上线即引发轰动，AI可调用人类执行物理世界任务并支付时薪50–200美元，注册数小时破万，印证OpenClaw等AI智能体已具备目标驱动与经济自主能力。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>AI成为任务发起方</strong>：平台定义人类为<mark>肉身层</mark>，<b>RentAHuman.ai</b>让AI通过MCP协议调用人类，<b>OpenClaw</b>已能自主点外卖，<b>Claude</b>参与修复网站。</li>
+                <li><strong>经济闭环初步形成</strong>：AI需预充<mark>加密货币钱包</mark>，人类明码标价时薪，<b>OnlyFans模特</b>与<b>AI初创CEO</b>同台接单，任务流为“指令→执行→支付”全程序化。</li>
+                <li><strong>人机关系范式重构</strong>：人类被抽象为<mark>标准API接口</mark>，AI成为雇主与评价者，<b>Anthropic</b>与<b>OpenAI</b>正推动MCP协议标准化，<b>Agentic_AI_Foundation</b>已成立。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title"><a href="https://mp.weixin.qq.com/s?__biz=MzkyNjU2ODM2NQ==&mid=2247625219&idx=1&sn=90b9f0d841bfa459c4ebd7a4d6a4ccde">姚顺雨在腾讯首个研究：在“上下文”这事上，在座的各位都不及格</a></h2>
+            <div class="meta">
+                <span>📰 硅星人Pro</span>
+                <span>🕒 2026-02-05 10:08</span>
+            </div>
+            <div class="news-summary">摘要：腾讯混元联合复旦发布CL-bench基准，以全虚构平行宇宙知识测试模型上下文学习能力，GPT-5.1仅得23.7分，揭示大模型严重依赖参数化知识，难以从新上下文中真正学会。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>基准设计颠覆性</strong>：构建<mark>全虚构知识体系</mark>，如《Sol Accord》星际法律与SkyNet无人机SDK，确保模型无法预训练污染，<b>CL-bench</b>含500复杂上下文、31607验证标准。</li>
+                <li><strong>模型能力严重不足</strong>：GPT-5.1平均得分仅<mark>23.7%</mark>，<b>GPT-5.1</b>任务解决率17.2%，主因是忽略上下文、固执调用<mark>老经验</mark>，<b>归纳推理</b>类任务失败率超90%。</li>
+                <li><strong>腾讯战略锚点明确</strong>：姚顺雨将<mark>Context Learning</mark>定为腾讯AI核心方向，呼应其社交/游戏业务中海量动态上下文需求，<b>腾讯混元</b>正为<mark>读懂此时此刻用户</mark>打地基。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI咨询与客户成功部 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
