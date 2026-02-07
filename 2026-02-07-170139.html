@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        /* 1. 字体整体缩小 */
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        /* Header Section */
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        /* Trend Section - 保留点击/悬停动效 */
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        /* News Card - 保留所有悬停/点击动效 */
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        /* 2. 来源和时间 移到标题正下方 */
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        /* 3. 摘要 紧跟在来源时间下方 */
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-02-07</div>
+        <div class="top-tags">
+            <span class="tag-item">#Frontier</span>
+            <span class="tag-item">#OpenClaw</span>
+            <span class="tag-item">#scaleX万卡集群</span>
+            <span class="tag-item">#团子</span>
+            <span class="tag-item">#群体智能</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>企业级AI进入“智能体操作系统”时代</strong>
+            <p>OpenAI Frontier平台标志着AI部署范式从单点工具迈向统一管理的OS级基础设施，企业可像管理员工一样配置、监控、评估和保障AI智能体全生命周期运行。</p>
+        </div>
+        <div class="trend-card">
+            <strong>国产算力基建迈入规模化运营新阶段</strong>
+            <p>中科曙光3套scaleX万卡超集群同步上线国家超算互联网核心节点，验证了万卡集群从“能建”到“稳用、好调、可复制”的工程成熟度，算力竞争重心转向系统协同与真实业务承载力。</p>
+        </div>
+        <div class="trend-card">
+            <strong>AGI演进路径转向“议会式群体智能”</strong>
+            <p>Nextie“团子”平台以多智能体动态博弈、红蓝对抗与共识机制重构AI推理范式，证明异构智能体协作可突破单一模型幻觉瓶颈，在降低Token消耗的同时提升决策鲁棒性与可信度。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&mid=2247655686&idx=1&sn=e219fd620840c94c6c2f90842049c7e2" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">奥特曼重磅发声：全AI公司是未来！OpenAI官宣Frontier，让管理Agent像管人一样简单</a>
+            </h2>
+            <div class="meta">
+                <span>📰 AI前线</span>
+                <span>🕒 2026-02-06 16:01</span>
+            </div>
+            <div class="news-summary">摘要：OpenAI正式发布企业级智能体中枢平台Frontier，支持统一业务上下文构建、跨系统执行、AI绩效评估与细粒度权限管控，目标是让企业像管理人类员工一样高效、安全、规模化地部署AI智能体。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>平台定位</strong>：<mark>AI员工管理体系</mark>，覆盖智能体构建、部署与管理全流程，<b>Frontier</b>将企业AI从零散工具升级为可协同的生产单元。</li>
+                <li><strong>核心能力</strong>：提供四大模块——<mark>共享业务上下文</mark>打通CRM/数据仓库等系统，<b>scaleFabric</b>高速互联网络支撑万卡级协同，内置评估学习与细粒度安全管理。</li>
+                <li><strong>战略意图</strong>：<mark>全AI公司</mark>愿景落地，OpenAI借Frontier抢占企业级入口，推动竞品智能体与自研服务统一接入，构建以<b>OpenAI</b>为中枢的AI生态护城河。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA4MTQ4NjQzMw==&mid=2652796729&idx=1&sn=c2a4e0cb127104247d0fbc8dee9656d0" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">当马斯克OpenAI算力军备赛打响，中国最大国产AI算力池来了！</a>
+            </h2>
+            <div class="meta">
+                <span>📰 智东西</span>
+                <span>🕒 2026-02-06 17:09</span>
+            </div>
+            <div class="news-summary">摘要：中科曙光3套scaleX万卡超集群在国家超算互联网核心节点同步上线试运行，形成全国首个超3万卡、已投入实际运营的国产AI算力池，支撑万亿参数训练、高通量推理与AI for Science等前沿场景。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>工程突破</strong>：<mark>三套同步落地</mark>，从昆山展会真机亮相到国家级节点试运行仅用不到两个月，验证了国产万卡集群的可复制、可规模交付能力，<b>scaleX</b>成为国家超算互联网“动力心脏”。</li>
+                <li><strong>技术底座</strong>：采用自研<b>scaleFabric</b>高速互联网络（400Gb/s、<1μs延迟）、高密度刀片+浸没相变液冷（PUE<1.04），并实现万级节点智能调度与99.99%可用性，<mark>系统级协同</mark>成核心胜负手。</li>
+                <li><strong>生态定位</strong>：<mark>AI计算开放架构</mark>支持多品牌加速卡混合部署与CUDA生态兼容，已完成400+大模型适配，推动国产算力从“单点突围”走向<b>产业链协同</b>共建。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247867371&idx=2&sn=22fec8bcbdb7d26aaeb43021be1bf7f0" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">全国最大国产AI算力池来了：部署超3万卡，上千款应用接入</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-02-06 18:01</span>
+            </div>
+            <div class="news-summary">摘要：scaleX万卡超集群依托国家超算互联网平台，已实现上千款AI应用接入，覆盖科研与产业全场景，标志着国产算力正式从“技术展示”迈入“千行百业真实业务负载”的规模化应用阶段。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>落地验证</strong>：<mark>真实业务跑起来</mark>，支撑万亿参数模型整机训练、头部互联网高通量推理服务及AI for Science科研加速，<b>蛋白质研究效率提升百万倍</b>。</li>
+                <li><strong>公共属性</strong>：<mark>算力水煤电化</mark>，集群接入国家超算互联网，服务超100万用户、30+算力中心，成为制造、能源、医疗等行业的普惠型基础设施，<b>国家超算互联网</b>平台单日峰值处理103万作业。</li>
+                <li><strong>竞争升维</strong>：<mark>拼运营时代</mark>开启，算力价值不再仅由卡数定义，而取决于稳定性、TCO与生态协同能力，<b>中科曙光</b>联合20余家产业链企业共建开放架构生态。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652672116&idx=1&sn=f46a2b0a7c1ab777a05e62bda94769c0" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">OpenClaw全球首聚，千人挤爆旧金山！龙虾头机器人现场乱逛太炸裂</a>
+            </h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-02-06 13:11</span>
+            </div>
+            <div class="news-summary">摘要：全球首届OpenClaw线下聚会引爆旧金山，开发者现场演示CuaBot多智能体桌面系统与具身机器人实时控制，标志AI智能体从云端执行正式迈向物理世界交互与多人协同新范式。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>技术突破</strong>：<mark>Multi-Player桌面</mark>，CuaBot为每个AI智能体分配独立Linux桌面与窗口，通过<b>Xpra</b>+<b>Playwright</b>实现“发夹弯通信”，确保Agent永不直接触碰宿主系统，<mark>安全感拉满</mark>。</li>
+                <li><strong>具身进化</strong>：<mark>AI获得身体</mark>，龙虾头人形机器人由OpenClaw实时控制，在人群中自主移动、检测啤酒余量并下单续杯，<b>ClawCon 2026</b>成为AI连接数字自主性与物理行动的关键里程碑。</li>
+                <li><strong>社区爆发</strong>：<mark>蟹教永生</mark>，千人现场狂热参与，开发者称其为“2011年科技盛会重现”，<b>Peter Steinberger</b>被奉为“当代Linux之父”，OpenClaw正从开源项目升维为全球开发者信仰共同体。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652672116&idx=2&sn=2fcdad14c4a19d3cd18019048fc5050f" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">上千个AI吵出真相？小冰之父：议会式智能体才是AGI</a>
+            </h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-02-06 13:11</span>
+            </div>
+            <div class="news-summary">摘要：Nextie发布群体智能平台“团子”，通过多智能体红蓝对抗、动态投票与共识机制解决复杂问题，实测Token消耗比单一旗舰模型降低50%以上，验证“议会式智能”是通往AGI的更鲁棒路径。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>范式革命</strong>：<mark>赛博议会辩论</mark>，用户提问触发AI“项目组”组建，智能体以异构视角互辩、投票、收敛，<b>团子</b>平台将AI从“工具应答”升维为“智囊团协同”，突破单一模型幻觉瓶颈。</li>
+                <li><strong>效能悖论</strong>：<mark>协调税优化</mark>，通过高强度“认知剪枝”在辩论中即时杀死离谱分支，使复杂问题解决的Token消耗反比<b>Gemini 3 Pro</b>降低50%以上，证明收敛式多智能体架构更高效。</li>
+                <li><strong>认知平权</strong>：<mark>智囊团平民化</mark>，平台支持“姐妹团”“研究团”“奇迹团”等多角色应用，创业者可获模拟投委会质询，<b>Nextie</b>定位为“Agent OS”，推动高质量决策能力向大众平权开放。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI咨询与客户成功部 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
