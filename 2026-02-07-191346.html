@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        /* 1. 字体整体缩小 */
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        /* Header Section */
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        /* Trend Section - 保留点击/悬停动效 */
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        /* News Card - 保留所有悬停/点击动效 */
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        /* 2. 来源和时间 移到标题正下方 */
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        /* 3. 摘要 紧跟在来源时间下方 */
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-02-07</div>
+        <div class="top-tags">
+            <span class="tag-item">#Frontier</span>
+            <span class="tag-item">#OpenClaw</span>
+            <span class="tag-item">#团子</span>
+            <span class="tag-item">#scaleX万卡集群</span>
+            <span class="tag-item">#数字同事</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>智能体从“对话工具”跃迁为“数字同事”</strong>
+            <p>AI正从被动应答转向主动执行任务，ClawdBot、蓝耘星河、Lovable等工具已实现邮件处理、代码提交、全栈应用生成等真实工作流闭环，企业部署重心转向Agent治理与协同。</p>
+        </div>
+        <div class="trend-card">
+            <strong>企业级AI基础设施进入“平台化治理”阶段</strong>
+            <p>OpenAI Frontier首次提出统一业务上下文、执行环境、评估学习与安全管理四维框架，标志着AI治理从零散Agent开发迈向标准化、可审计、可扩展的平台时代。</p>
+        </div>
+        <div class="trend-card">
+            <strong>群体智能与具身智能成为AGI新路径共识</strong>
+            <p>Nextie“团子”以议会式多智能体博弈突破单一模型幻觉瓶颈；OpenClaw则通过CuaBot+人形机器人实现“AI操作电脑+物理世界交互”，双线并进重构AGI演进范式。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&mid=2247655686&idx=1&sn=e219fd620840c94c6c2f90842049c7e2" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">奥特曼重磅发声：全AI公司是未来！OpenAI官宣Frontier，让管理Agent像管人一样简单</a>
+            </h2>
+            <div class="meta">
+                <span>📰 AI前线</span>
+                <span>🕒 2026-02-06 16:01</span>
+            </div>
+            <div class="news-summary">OpenAI发布企业级智能体中枢平台Frontier，构建统一业务上下文、执行环境、评估学习与安全管理体系，推动AI员工规模化落地，支撑“全AI公司”愿景。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>平台定位</strong>：<mark>AI员工管理体系</mark>，覆盖智能体构建、部署与全生命周期管理，<b>Frontier</b>首次实现企业级Agent标准化配置。</li>
+                <li><strong>核心能力</strong>：<mark>打通CRM/数据仓库/工单系统</mark>构建统一语义层，使AI真正理解企业运作逻辑，<b>OpenAI</b>借此卡位企业AI生态入口。</li>
+                <li><strong>商业进展</strong>：<mark>惠普/Intuit/甲骨文等巨头已试用</mark>，平台仍限邀测，<b>奥特曼</b>预言“今年底多数数字化工作将由人类指挥、AI代理执行”。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA4MTQ4NjQzMw==&mid=2652796729&idx=1&sn=c2a4e0cb127104247d0fbc8dee9656d0" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">当马斯克OpenAI算力军备赛打响，中国最大国产AI算力池来了！</a>
+            </h2>
+            <div class="meta">
+                <span>📰 智东西</span>
+                <span>🕒 2026-02-06 17:09</span>
+            </div>
+            <div class="news-summary">中科曙光scaleX万卡超集群三套同步落地国家超算互联网核心节点，建成全国首个超3万卡国产AI算力池，支撑万亿参数训练与AI for Science等前沿场景。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>工程突破</strong>：<mark>三套万卡集群同步上线</mark>，从昆山展会真机亮相到国家级节点试运行仅用两个月，<b>scaleX</b>验证国产万卡集群可复制交付能力。</li>
+                <li><strong>技术底座</strong>：<mark>400Gb/s scaleFabric高速互联</mark>通信延迟<1微秒，<b>中科曙光</b>自研RDMA网卡较IB方案性能提升2倍、成本降30%。</li>
+                <li><strong>生态战略</strong>：<mark>支持多品牌AI加速卡混合部署</mark>，兼容CUDA生态，已完成400+主流大模型适配，<b>AI计算开放架构</b>推动国产算力一体化协同。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&mid=2247655686&idx=2&sn=52cf18eeaa3f9af8c5527bafc26096f9" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">模力工场 031 AI 应用榜：“数字同事”崛起，AI 从对话走向实干</a>
+            </h2>
+            <div class="meta">
+                <span>📰 AI前线</span>
+                <span>🕒 2026-02-06 16:01</span>
+            </div>
+            <div class="news-summary">模力工场发布031周AI应用榜，蓝耘星河、ClawdBot、Lovable等十款工具入选，印证AI正从内容生成迈向流程自动化与结构化执行，“数字同事”成新共识。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>榜单信号</strong>：<mark>AI从对话走向实干</mark>，ClawdBot可24小时处理邮件/写代码/提交PR，<b>蓝耘星河</b>实现营销内容“创作+分发+GEO网络构建”闭环。</li>
+                <li><strong>能力边界</strong>：<mark>本地化部署成安全刚需</mark>，ClawdBot强调权限隔离，<b>AI快研侠</b>支持资料上传与溯源，凸显用户对数据主权与执行可信度的双重诉求。</li>
+                <li><strong>技术民主化</strong>：<mark>降低专业门槛</mark>，Lovable用自然语言生成全栈应用，<b>醒图</b>让专业图像设计触手可及，AI正成为普惠性生产力基础设施。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652672116&idx=1&sn=f46a2b0a7c1ab777a05e62bda94769c0" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">OpenClaw全球首聚，千人挤爆旧金山！龙虾头机器人现场乱逛太炸裂</a>
+            </h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-02-06 13:11</span>
+            </div>
+            <div class="news-summary">OpenClaw首届线下聚会引爆旧金山，千人参与；现场演示CuaBot多智能体桌面沙箱与龙虾头人形机器人实时控制，标志AI智能体正式跨入“具身操作”新阶段。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>具身突破</strong>：<mark>AI控制人形机器人实时互动</mark>，龙虾头机器人自主检测啤酒余量并下单，<b>OpenClaw</b>打通“数字指令→物理执行”全链路。</li>
+                <li><strong>架构创新</strong>：<mark>Multi-Player桌面沙箱</mark>为每个Agent分配独立Linux桌面，<b>CuaBot</b>通过hairpin通信机制实现“容器→宿主机→容器”安全隔离。</li>
+                <li><strong>社区爆发</strong>：<mark>千人线下狂热参与</mark>，开发者自建Mac Mini集群，<b>Peter Steinberger</b>被称“当代Linux之父”，OpenClaw正构建全球首个AI智能体物理-数字双栖生态。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652672116&idx=2&sn=2fcdad14c4a19d3cd18019048fc5050f" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">上千个AI吵出真相？小冰之父：议会式智能体才是AGI</a>
+            </h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-02-06 13:11</span>
+            </div>
+            <div class="news-summary">李笛创立Nextie发布群体智能平台“团子”，通过多智能体红蓝对抗、动态博弈与共识投票机制，以“议会式辩论”突破单一模型幻觉，Token消耗反降50%。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>范式革命</strong>：<mark>AI议会式辩论</mark>取代单点输出，风险管理官“墨菲”与哲学硕士“楚晚棠”等角色互辩，<b>团子</b>用非理性威慑解构AI勒索风险。</li>
+                <li><strong>效能突破</strong>：<mark>Token消耗降低50%</mark>，通过高强度“认知剪枝”实时杀死幻觉分支，<b>Nextie</b>验证群体智能在复杂问题上“1+1>2”的收敛式架构优势。</li>
+                <li><strong>平台定位</strong>：<mark>Agent OS级基础设施</mark>，支持“姐妹团/研究团/奇迹团”等多场景应用，<b>李笛</b>定义Nextie为智能体思考与协同的“平台层”，非App亦非底座模型。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI咨询与客户成功部 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
