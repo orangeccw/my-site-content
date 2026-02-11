@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        /* 1. 字体整体缩小 */
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        /* Header Section */
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        /* Trend Section - 保留点击/悬停动效 */
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        /* News Card - 保留所有悬停/点击动效 */
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        /* 2. 来源和时间 移到标题正下方 */
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        /* 3. 摘要 紧跟在来源时间下方 */
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-02-11</div>
+        <div class="top-tags">
+            <span class="tag-item">#AgentFirst</span>
+            <span class="tag-item">#SelfDistillation</span>
+            <span class="tag-item">#DynamicVLA</span>
+            <span class="tag-item">#DLLMAgent</span>
+            <span class="tag-item">#ERNIE5.0</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>Agent取代人类成为软件新用户</strong>
+            <p>行业范式正从“人用软件”转向“Agent调用API”，SaaS、DAU、注意力经济等旧指标全面失效，2A（Agent-to-Application）成为新商业基础设施核心。</p>
+        </div>
+        <div class="trend-card">
+            <strong>Self-Distillation成为大模型持续学习新范式</strong>
+            <p>无需外部教师，模型通过内生反馈（如错误重注入、特权信息诱导）实现自我蒸馏，SDFT、SDPO、OPSD三大框架在技能累积、信用分配与推理跃迁上取得突破性进展。</p>
+        </div>
+        <div class="trend-card">
+            <strong>实时性成为机器人智能的分水岭</strong>
+            <p>DynamicVLA等新架构通过Continuous Inference与Latent-aware Action Streaming，让机器人真正“活在时间里”，动态操控能力从实验室迈向真实世界。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzkyNjU2ODM2NQ==&mid=2247625372&idx=2&sn=9035d5aadfb205c095b3fdbfdabaa922" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">互联网已死，Agent 永生</a>
+            </h2>
+            <div class="meta">
+                <span>📰 硅星人Pro</span>
+                <span>🕒 2026-02-10 10:15</span>
+            </div>
+            <div class="news-summary">摘要：文章提出AI时代范式革命——人类不再是软件用户，Agent才是新主人；DAU、SaaS、注意力经济等旧逻辑全面失效，算力、Token燃烧效率与Agent可接入性成为新核心指标。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>范式迁移</strong>：旧世界以<b>人类</b>为用户，新世界以<mark>Agent为用户</mark>，催生<b>2A</b>（Agent-to-Application）新商业模式。</li>
+                <li><strong>指标失效</strong>：DAU从资产变为负债，<mark>网络效应消失</mark>，<b>ChatGPT</b>与<b>Claude</b>在广告策略上的分歧印证旧增长逻辑崩塌。</li>
+                <li><strong>新权力结构</strong>：算力即特权，<mark>Token燃烧速度</mark>决定进化速度，<b>Opus 4.6</b>与<b>Claude Fast</b>的定价策略凸显马太效应加速。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2651016237&idx=2&sn=a40e285b0b27d5abd99ff5f4ed1ae12d" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">2026开年关键词：Self-Distillation，大模型真正走向「持续学习」</a>
+            </h2>
+            <div class="meta">
+                <span>📰 机器之心</span>
+                <span>🕒 2026-02-10 11:44</span>
+            </div>
+            <div class="news-summary">摘要：MIT、ETH Zurich、Meta与斯坦福联合发布三项Self-Distillation研究，SDFT、SDPO、OPSD三大框架分别解决灾难性遗忘、信用分配与推理深度问题，使模型具备内生持续进化能力。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>持续学习破局</strong>：SDFT将微调转化为<mark>策略内对齐</mark>，避免参数漂移，<b>SFT</b>在技能累积任务中性能退化达42%，而<b>SDFT</b>保持零遗忘。</li>
+                <li><strong>强化学习升级</strong>：SDPO引入<mark>富反馈环境</mark>，将标量奖励转为Token级监督，<b>LiveCodeBench</b>测试中仅需<b>1/4样本量</b>即达GRPO同等精度。</li>
+                <li><strong>推理能力跃迁</strong>：OPSD通过<mark>特权信息诱导</mark>实现自我博弈，<b>MATH</b>基准上Token利用率比<b>GRPO</b>高4–8倍，验证内生推理潜力可被系统性激发。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2651016237&idx=3&sn=2c5d0791ce6675dce506fade8e56dc54" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">破解机器人「慢半拍」难题：南洋理工解决VLA致命短板，动态世界断层领先</a>
+            </h2>
+            <div class="meta">
+                <span>📰 机器之心</span>
+                <span>🕒 2026-02-10 11:44</span>
+            </div>
+            <div class="news-summary">摘要：NTU S-Lab提出DynamicVLA，首创Continuous Inference与Latent-aware Action Streaming机制，首次系统性解决VLA在动态世界中的感知-执行错位与动作分块等待问题。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>实时架构革新</strong>：Continuous Inference实现<mark>推理与执行流水线</mark>，<b>DynamicVLA</b>在仿真中响应延迟降低<b>63%</b>，打破传统VLA串行瓶颈。</li>
+                <li><strong>动态感知闭环</strong>：LAAS机制<mark>显式丢弃过时动作</mark>，结合<b>Real-world Simulator</b>将真实环境抽象为仿真接口，首次实现动态操控数据闭环。</li>
+                <li><strong>评测范式突破</strong>：DOM Benchmark从<b>交互能力</b>、<b>感知理解</b>、<b>泛化鲁棒性</b>三维度定义9子项，<mark>首个动态操控评测标准</mark>推动行业从静态走向真实世界。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247867895&idx=2&sn=d001f0276a2b658171ecc06d47328e85" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">华为发布业界首个扩散语言模型Agent，部分场景提速8倍！</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-02-10 13:06</span>
+            </div>
+            <div class="news-summary">摘要：华为联合UCL等机构推出DLLM Agent，首次验证扩散式生成范式对Agent规划能力的系统性提升，在多轮Web浏览任务中端到端提速30%，复杂任务达8.18倍，展现“上帝视角”式全局规划优势。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>生成范式革命</strong>：DLLM Agent在<mark>相同框架下端到端提速</mark>，<b>DeepDiver</b>平台实测平均延迟下降<b>30%</b>，极端案例达<b>8.18×</b>，证明范式本身重塑Agent行为。</li>
+                <li><strong>规划能力跃迁</strong>：DLLM Planner呈现<mark>先全局后细节</mark>两阶段特征，<b>openpangu diffusion 7b</b>在任务拆解中关键约束识别速度比<b>AR模型</b>快2.3倍。</li>
+                <li><strong>结构化适配</strong>：针对DLLM的<mark>结构化输出敏感性</mark>，提出<b>context-clean corruption</b>与<b>span-aware attention mask</b>策略，显著提升tool-call准确率。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247867895&idx=3&sn=765f912cd303a19a1c56c4fd7c97493e" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">一个大脑搞定所有模态，百度ERNIE 5.0技术报告公布</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-02-10 13:06</span>
+            </div>
+            <div class="news-summary">摘要：ERNIE 5.0采用万亿参数Ultra-Sparse MoE架构，首创模态无关专家路由与弹性训练范式，实现文本、图像、视频、语音四模态原生统一自回归，VBench达83.40，MATH达73.89。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>统一架构突破</strong>：ERNIE 5.0以<mark>原生自回归统一四模态</mark>，<b>Ultra-Sparse MoE</b>激活参数率仅<b>3%</b>，是首个公开万亿级统一模型。</li>
+                <li><strong>专家涌现机制</strong>：模态无关路由催生<mark>涌现式专业化</mark>，专家池中自动分化出<b>视觉专家</b>、<b>文本逻辑专家</b>与<b>跨模态通才</b>，无需人工设定分工。</li>
+                <li><strong>弹性训练范式</strong>：通过<mark>弹性深度与宽度</mark>，单次预训练可零样本抽取全规格子模型矩阵，<b>UM-RL</b>协同优化逻辑推理与多模态生成，训练吞吐提升<b>2.1倍</b>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI咨询与客户成功部 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
