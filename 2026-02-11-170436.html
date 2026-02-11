@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        /* 1. 字体整体缩小 */
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        /* Header Section */
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        /* Trend Section - 保留点击/悬停动效 */
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        /* News Card - 保留所有悬停/点击动效 */
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        /* 2. 来源和时间 移到标题正下方 */
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        /* 3. 摘要 紧跟在来源时间下方 */
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-02-11</div>
+        <div class="top-tags">
+            <span class="tag-item">#DLLM</span>
+            <span class="tag-item">#AgenticAI</span>
+            <span class="tag-item">#AI电商</span>
+            <span class="tag-item">#GPT-5.3-Codex</span>
+            <span class="tag-item">#OpenCode</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>生成范式跃迁驱动Agent重构</strong>
+            <p>华为DLLM Agent实证扩散模型在规划效率上系统性超越自回归模型，标志生成范式本身已成为Agent设计的核心维度，而非仅是底座替换。</p>
+        </div>
+        <div class="trend-card">
+            <strong>AI原生电商进入实战落地阶段</strong>
+            <p>千问联合淘宝发起350万元挑战赛，以真实商家痛点为牵引，推动AI从客服/设计等单点工具，升级为贯穿“人、货、场”的智能经营中枢。</p>
+        </div>
+        <div class="trend-card">
+            <strong>广告模式开启对话式AI商业化分水岭</strong>
+            <p>OpenAI在ChatGPT免费版中上线“赞助链接”广告，确立“回答与广告完全隔离”等四条信任原则，标志着AGI普惠与商业可持续首次系统性对齐。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247867895&idx=2&sn=d001f0276a2b658171ecc06d47328e85" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">华为发布业界首个扩散语言模型Agent，部分场景提速8倍！</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-02-10 13:06</span>
+            </div>
+            <div class="news-summary">华为联合多机构推出DLLM Agent，在相同框架与数据下，端到端执行速度平均提升30%以上，复杂任务最高提速8.18倍，验证扩散范式对Agent规划能力的底层增强。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>范式对比实验</strong>：采用<mark>极端公平对照</mark>设计，唯一变量为<b>DLLM</b>与<b>AR</b>生成范式，排除框架/数据干扰，确证效率跃迁源于生成机制本身。</li>
+                <li><strong>规划能力跃升</strong>：DLLM Planner展现<mark>先全局后细节</mark>两阶段特征，工具调用<b>结构化倾向</b>更强，显著减少冗余规划与回溯次数。</li>
+                <li><strong>工程适配必要</strong>：原生DLLM易出<mark>结构化tool-call错误</mark>，需通过<b>context-clean corruption</b>与<b>span-aware attention mask</b>等训推一致策略优化。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&mid=2653098902&idx=2&sn=6a86012bec86bf8063674eb1b4fb1ad0" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">千问大模型联合淘宝「悬赏」：用更好的模型，解决电商的经营难题</a>
+            </h2>
+            <div class="meta">
+                <span>📰 极客公园</span>
+                <span>🕒 2026-02-10 21:45</span>
+            </div>
+            <div class="news-summary">淘宝、千问大模型与阿里云发起总奖池350万元的「生意管家杯」挑战赛，聚焦商家真实痛点，推动AI从单点工具升级为贯穿「人、货、场」的智能经营系统。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>双赛道实战导向</strong>：设立<mark>经营提效</mark>与<mark>经营增长</mark>两大赛道，覆盖客服、内容生成、营销投放等场景，以<b>真实商家需求</b>为起点，拒绝纯炫技。</li>
+                <li><strong>人货场全链路覆盖</strong>：千问驱动AI客服降本75%、AI创意工作室提升上新速度5倍、AI Marketing飞轮实现精准获客，构建<b>可规模化试错</b>的内容生产体系。</li>
+                <li><strong>原生电商加速演进</strong>：挑战赛标志AI正从<mark>工具辅助</mark>迈向<mark>AI原生电商</mark>，超级Agent成为连接电商、支付、内容与服务的<b>智能中枢</b>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&mid=2247655994&idx=1&sn=d915932ede922506b00eade0abb9775a" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">ChatGPT的第一块广告位，被谁买走了？OpenAI：别骂，我们这次所有底线都招了</a>
+            </h2>
+            <div class="meta">
+                <span>📰 AI前线</span>
+                <span>🕒 2026-02-10 13:31</span>
+            </div>
+            <div class="news-summary">OpenAI在ChatGPT免费版与Go套餐中上线“赞助链接”广告，确立四条信任原则，Adobe与Target成为首批广告主，标志对话式AI商业化进入可信分水岭。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>广告隔离原则</strong>：坚持<mark>回答与广告完全独立</mark>，模型训练/系统逻辑/视觉呈现三重隔离，广告主<b>无法获取用户对话</b>，仅获汇总点击数据。</li>
+                <li><strong>普惠商业模式</strong>：广告仅面向免费及8美元Go用户，Plus及以上订阅用户<mark>免广告</mark>，最低免广告门槛为<b>20美元/月</b>，支撑AI普惠愿景。</li>
+                <li><strong>首批广告主落地</strong>：Adobe投放<b>Acrobat Studio</b>与<b>Firefly</b>广告，Target在厨电类查询中展示广告，验证<mark>场景化匹配</mark>能力。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&mid=2651275013&idx=4&sn=da9414e5374523946fe00c0dc0ae84e0" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">挑战 Claude Code，9.5 万星！又一款开源 AI 编程神器火了</a>
+            </h2>
+            <div class="meta">
+                <span>📰 InfoQ</span>
+                <span>🕒 2026-02-10 14:05</span>
+            </div>
+            <div class="news-summary">开源AI编程工具OpenCode兼容75+模型，支持终端UI与多IDE插件，采用隐私优先架构，GitHub星标超9.5万，主打高级开发者可控、可审计的编程体验。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>多模型灵活调度</strong>：支持<mark>廉价模型跑龙套</mark>与<mark>昂贵模型一键开大</mark>的混合工作流，兼容<b>Claude</b>、<b>OpenAI</b>、<b>Gemini</b>及本地模型。</li>
+                <li><strong>隐私与控制优先</strong>：采用<mark>隐私优先架构</mark>，代码与上下文<b>零存储</b>，会话共享完全可控，敏感项目可<b>统一禁用共享</b>。</li>
+                <li><strong>深度工程集成</strong>：原生支持<b>Rust</b>、<b>Swift</b>等LSP服务器，适配<b>Agent Client Protocol</b>，已兼容JetBrains、Zed、Neovim等主流编辑器。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&mid=2651275013&idx=3&sn=ebc0a19fa9826b0d149e5d20acc8eefa" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">贴脸对打Opus 4.5！最新Codex自己写自己，网友实测“放手”8小时不崩</a>
+            </h2>
+            <div class="meta">
+                <span>📰 InfoQ</span>
+                <span>🕒 2026-02-10 14:05</span>
+            </div>
+            <div class="news-summary">OpenAI发布GPT-5.3-Codex，终端执行能力达77.3%，超越Claude Opus 4.6；实测可连续8小时自主完成编码、调试、部署闭环，被赞“完全自主时代已到来”。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>长链路稳定性突破</strong>：在Terminal-Bench 2.0中达<mark>77.3%</mark>，超<b>Claude Opus 4.6</b>12个百分点；网友实测<mark>放手8小时不崩</mark>，支持自动闭环迭代至测试全绿。</li>
+                <li><strong>Agent化开发范式</strong>：OpenAI内部已将<mark>Agent设为第一入口</mark>，要求3月31日前实现技术任务默认与Agent交互，并推动代码库<b>Agent优先</b>重构。</li>
+                <li><strong>工程能力全面跃升</strong>：OSWorld得分<mark>64.7%</mark>（+26.5p），网络安全CTF达<b>77.6%</b>，支持多Agent并行工作流，解决Vibe Coding“心腹大患”。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI咨询与客户成功部 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
