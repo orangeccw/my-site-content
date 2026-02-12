@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        /* 1. 字体整体缩小 */
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        /* Header Section */
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        /* Trend Section - 保留点击/悬停动效 */
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        /* News Card - 保留所有悬停/点击动效 */
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        /* 2. 来源和时间 移到标题正下方 */
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        /* 3. 摘要 紧跟在来源时间下方 */
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-02-12</div>
+        <div class="top-tags">
+            <span class="tag-item">#智能体编码</span>
+            <span class="tag-item">#Checkpoints</span>
+            <span class="tag-item">#LongCat深度研究</span>
+            <span class="tag-item">#Qwen-Image-2.0</span>
+            <span class="tag-item">#MOSS-TTS-Family</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>编程范式彻底迁移：从写代码到编排智能体</strong>
+            <p>AI不再只是程序员的“加速器”，而是成为可被人类编排、监督、协同的“数字工程团队”，软件开发重心转向系统设计、意图对齐与关键决策。</p>
+        </div>
+        <div class="trend-card">
+            <strong>智能体“可追溯性”成为新基础设施刚需</strong>
+            <p>当代码由AI生成，Git只记录“改了什么”，却无法回答“为什么这么改”——记录推理过程、提示词、工具调用的Checkpoints正成为下一代开发者平台的语义底座。</p>
+        </div>
+        <div class="trend-card">
+            <strong>AI能力正从“技术层”下沉到“生活层”与“声音层”</strong>
+            <p>美团LongCat用真实本地数据解决春节行程规划等复杂生活决策；MOSS-TTS Family则以模块化语音模型家族，覆盖从纪录片配音到实时Voice Agent的全链路声音生产。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzkyNjU2ODM2NQ==&mid=2247625399&idx=3&sn=d4f9e2bc2f73a1d217ab9ce7849b10db" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Anthropic最新2026趋势报告：人类最大一次编程革命势不可挡</a>
+            </h2>
+            <div class="meta">
+                <span>📰 硅星人Pro</span>
+                <span>🕒 2026-02-11 10:28</span>
+            </div>
+            <div class="news-summary">摘要：Anthropic发布《2026年智能体编码趋势报告》，指出软件开发正经历图形界面以来最大范式转移——任何人皆可成为开发者，核心在于人类从“写代码”转向“编排AI智能体”并保持关键判断力。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>范式转移本质</strong>：人类角色从<mark>逐行编码</mark>升级为<mark>智能体编排者</mark>，工程师聚焦架构与战略决策，<b>60%工作用AI</b>但仅<mark>0-20%可完全委托</b>。</li>
+                <li><strong>多智能体协同落地</strong>：单Agent升级为<mark>层级化军团</mark>，如<b>Fountain Copilot</b>协调子智能体实现筛选提速50%、入职提速40%，<mark>候选人转化率翻倍</mark>。</li>
+                <li><strong>长时运行能力突破</strong>：智能体可连续工作<mark>数天级</mark>构建完整系统，<b>Claude Code</b>在<mark>7小时</mark>内于1250万行<b>vLLM</b>库中实现高精度功能，精度达99.9%。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&mid=2651275165&idx=1&sn=8dd9558be548a68c2e1b8e42e446916e" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Agent “案底”可追溯：前 GitHub CEO 再创业，把思考过程写进 Git</a>
+            </h2>
+            <div class="meta">
+                <span>📰 InfoQ</span>
+                <span>🕒 2026-02-11 16:06</span>
+            </div>
+            <div class="news-summary">摘要：前GitHub CEO Thomas Dohmke创立新公司<b>Entire</b>，发布开源工具<b>Checkpoints</b>，将AI智能体的提示词、推理日志、工具调用等上下文作为Git一等公民持久化存储，解决“代码可追溯但思考不可追溯”的行业瓶颈。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>新工程原语诞生</strong>：Checkpoints将智能体<mark>完整会话上下文</mark>与代码提交绑定，形成可追溯的<mark>语义轨迹</mark>，在<b>GitHub</b>仓库中新增只追加的审计分支，<b>Supabase</b>仅作展示同步。</li>
+                <li><strong>创业背书与资本认可</strong>：Dohmke携GitHub转型Copilot经验再出发，<b>Entire</b>获<mark>6000万美元</mark>种子轮融资，由<b>Felicis</b>领投、<b>M12</b>跟投，估值达<mark>3亿美元</mark>，被视作押注“智能体时代新Git”。</li>
+                <li><strong>技术架构创新</strong>：构建三层平台——<mark>Git兼容数据库</mark>（支持全球分布式节点）、<mark>语义推理层</mark>、用户界面，底层数据库专为<mark>高频Agent查询</mark>优化，保障数据主权。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&mid=2247656053&idx=2&sn=b905586cb98c8835ad5ad813ce94463d" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">千问发布最新图像模型 Qwen-Image-2.0，支持 1K token 超长文字输入和 2K 高分辨率</a>
+            </h2>
+            <div class="meta">
+                <span>📰 AI前线</span>
+                <span>🕒 2026-02-11 11:39</span>
+            </div>
+            <div class="news-summary">摘要：<b>Qwen-Image-2.0</b>首次统一图像生成与编辑能力，支持1K token超长提示与2K高分辨率输出，在AI Arena评测中生图得分1029（第三）、编辑得分1034（仅次于Nano Banana Pro），中文汉字渲染能力业界领先。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>生图编辑一体化</strong>：<b>Qwen-Image-2.0</b>融合<b>Qwen-Image</b>与<b>Qwen-Image-Edit</b>，以轻量架构实现双任务性能跃升，<mark>首次统一模型</mark>，支持<mark>复杂PPT一键生成</mark>与<mark>古文全文配图</mark>。</li>
+                <li><strong>中文渲染突破</strong>：在数百字《兰亭集序》等<mark>超长中文文本</mark>渲染中效果优于<b>Nano Banana Pro</b>，支持瘦金体、小楷等多字体，<mark>汉字准确率与密度</mark>达新高度。</li>
+                <li><strong>开放可用性</strong>：模型已在阿里云<b>百炼</b>平台开放API邀测，用户可通过<b>Qwen Chat</b>免费体验，<mark>面向开发者开箱即用</mark>，推动专业级图像生成普惠化。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2651016519&idx=1&sn=6eaa732f996384591bf81a3b73a72bd2" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">决定了：过年攻略全都不过脑子，让AI去想</a>
+            </h2>
+            <div class="meta">
+                <span>📰 机器之心</span>
+                <span>🕒 2026-02-11 16:32</span>
+            </div>
+            <div class="news-summary">摘要：美团大模型<b>LongCat</b>上线“深度研究”功能，依托真实本地生活数据（POI、点评、交易），实现高可信度春节行程规划、礼品定制等复杂生活决策，测试显示其攻略“保存分享率”达31.1%，超ChatGPT近一倍。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>真实数据驱动可信决策</strong>：LongCat调用<b>大众点评</b>真实交易与评分数据，如餐厅“155人推荐”“环境评分4.1”，<mark>每条建议均可跳转核查</mark>，<b>本地生活数据</b>成为其核心壁垒。</li>
+                <li><strong>多智能体工作流</strong>：采用<mark>Search/Report/Render</mark>三Agent协同架构，支持<mark>400轮交互</mark>与<mark>256K上下文</mark>，在<b>BrowseComp</b>评测中智能体搜索达73.1分，逼近顶级闭源模型。</li>
+                <li><strong>跨域知识融合</strong>：通过“通专结合”训练，将<b>数学与代码</b>逻辑注入生活报告生成，使AI能写<mark>避峰指南代码</mark>、规划<mark>冷链采购动线</mark>，实现“工程师思维+生活洞察”双能力。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2651016519&idx=3&sn=eba328792bf1d0ae5dc5f240bee98283" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">复刻、长语音、对话、指令、音效全覆盖！模思智能推出MOSS-TTS Family！</a>
+            </h2>
+            <div class="meta">
+                <span>📰 机器之心</span>
+                <span>🕒 2026-02-11 16:32</span>
+            </div>
+            <div class="news-summary">摘要：模思智能开源<b>MOSS-TTS Family</b>语音模型家族，包含5大专业模型，覆盖音色克隆、多说话人对话、角色指令生成、环境音效、实时流式合成，支持超长语音（43分钟单次生成）与多语言，已适配国产<b>壁砺™166M</b>GPU。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>模块化语音生产</strong>：家族含<b>MOSS-TTS</b>（基座）、<b>MOSS-TTSD</b>（对话）、<b>MOSS-VoiceGenerator</b>（角色）、<b>MOSS-SoundEffect</b>（音效）、<b>MOSS-TTS-Realtime</b>（流式），<mark>覆盖全链路声音创作</mark>。</li>
+                <li><strong>技术底座突破</strong>：自研<b>MOSS Audio Tokenizer</b>（1.6B参数），支持<mark>0.125-4kbps变比特率</mark>与<mark>300万小时预训练</mark>，在LibriSpeech上重建质量领先开源竞品，<b>零依赖Whisper/HuBERT</b>。</li>
+                <li><strong>双架构开源</strong>：同步发布<mark>Delay-Pattern</mark>（稳长文）与<mark>Global Latent+Local Transformer</mark>（低时延）两套架构，<b>MOSS-TTS</b>与<b>MOSS-TTSD</b>均支持<b>壁仞科技壁砺™166M</b> Day-0部署。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI咨询与客户成功部 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
