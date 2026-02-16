@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        /* 1. 字体整体缩小 */
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        /* Header Section */
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        /* Trend Section - 保留点击/悬停动效 */
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        /* News Card - 保留所有悬停/点击动效 */
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        /* 2. 来源和时间 移到标题正下方 */
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        /* 3. 摘要 紧跟在来源时间下方 */
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-02-16</div>
+        <div class="top-tags">
+            <span class="tag-item">#HarnessEngineering</span>
+            <span class="tag-item">#Ring-2.5-1T</span>
+            <span class="tag-item">#AgenticVision</span>
+            <span class="tag-item">#Teamily</span>
+            <span class="tag-item">#OpenClaw</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>工程师角色被彻底重定义</strong>
+            <p>人类程序员正从“写代码的人”转型为“驾驭AI的架构师”，核心能力转向系统边界设计、约束建模与意图精准表达，手工编码不再是必备技能。</p>
+        </div>
+        <div class="trend-card">
+            <strong>智能体从“思考”迈向“造物”</strong>
+            <p>AI已突破纯文本/图像生成，能直接输出可执行程序（如PixelEditor.app）、可3D打印STL文件、可部署科研工具链，真正打通“想法→代码→实物”全链路。</p>
+        </div>
+        <div class="trend-card">
+            <strong>人机共处进入“共生网络”新阶段</strong>
+            <p>AI不再只是工具或助手，而是以分层Agent（Personal/Group/Cross-group）形式嵌入IM通讯网络，具备全域记忆、主动介入与蜂群协作能力，构建有温度的协作生态。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652675814&idx=2&sn=8d40a12b5307ffef3678b6c789a5a188" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">程序员不许写代码！OpenAI硬核实验：3人指挥AI，5个月造出百万行</a>
+            </h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-02-15 12:08</span>
+            </div>
+            <div class="news-summary">OpenAI内部实验验证“驾驭工程”范式：3人团队全程不写代码，仅靠提示词与智能体协作，5个月内由AI自主生成百万行代码产品，重构软件工程定义。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>工作流革命</strong>：人类工程师角色转变为<mark>驾驭者</mark>，全程通过<b>Harness Engineering</b>工作流指挥Codex智能体完成PR全流程。</li>
+                <li><strong>知识架构升级</strong>：用<mark>寻宝地图</mark>替代千页说明书，AGENTS.md仅100行，指向结构化<b>docs/</b>知识库，由“文档园丁”智能体自动维护一致性。</li>
+                <li><strong>工程围栏机制</strong>：通过<mark>自动化围栏</mark>强制架构约束，如<b>Types→Config→Repo→Service→Runtime→UI</b>单向依赖，由AI生成的lint工具强制执行。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652675814&idx=1&sn=064a8d334ea5a734880cfa398c0feb0e" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">万亿思考模型夺下IMO金牌，无缝接入OpenClaw！一句话手搓丐版PS</a>
+            </h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-02-15 12:08</span>
+            </div>
+            <div class="news-summary">蚂蚁开源Ring-2.5-1T万亿参数模型，以IMO金牌级数学推理能力+长程执行能力，无缝接入<b>OpenClaw</b>生态，10分钟生成含9种工具的可运行<b>PixelEditor.app</b>桌面应用。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>推理架构突破</strong>：采用<mark>混合线性注意力</mark>（MLA+Lightning Linear 1:7配比），在超32K生成长度下吞吐量<b>Ling 2.5</b>提升3倍以上。</li>
+                <li><strong>Agent实战能力</strong>：在<b>Gaia2-search</b>智能体搜索任务中拿下开源SOTA，支持<mark>一句话生成可安装应用</mark>，输出<b>PixelEditor-1.0.0-arm64.dmg</b>等完整交付物。</li>
+                <li><strong>高阶语义理解</strong>：通过<mark>洗车图灵测试</mark>，准确识别问题本质是“服务车辆”，而非计算距离，展现远超<b>ChatGPT/Claude</b>的意图捕捉能力。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2651017249&idx=1&sn=a1233afd9e371099d4d0c49096dafe2a" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">还在玩AI 3D手办？Gemini 3 Deep Think已能直出STL，可打印实物</a>
+            </h2>
+            <div class="meta">
+                <span>📰 机器之心</span>
+                <span>🕒 2026-02-15 14:44</span>
+            </div>
+            <div class="news-summary">谷歌Gemini 3 Deep Think实现从图像/草图/照片到可3D打印STL文件的端到端生成，支持复杂生物建模（如加州褐鹈鹕繁殖羽）与工程级结构验证，推动AI成为科研“第二大脑”。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>空间造物能力</strong>：将用户输入直接转化为<mark>可3D打印STL</mark>，如生成符合排水要求的时尚花盆，并通过<b>Gemini 3 Deep Think</b>完成结构仿真与受力测试。</li>
+                <li><strong>跨域知识融合</strong>：在“骑自行车的鹈鹕”压力测试中，精准建模<b>加州褐鹈鹕繁殖羽</b>生物特征与机械交互，体现<mark>多学科知识融合</mark>能力。</li>
+                <li><strong>科研级推理</strong>：用于审阅数学论文、优化半导体晶体生长流程，并构建WiFi空间化模型，实现<mark>从信息助手到科研第二大脑</mark>的跃迁。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2651017249&idx=3&sn=385a348c4a52ded81a3d773e32c6a825" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">ICLR 2026 | 7B小模型干翻GPT-5？AdaResoner实现Agentic Vision的主动「视觉工具思考」</a>
+            </h2>
+            <div class="meta">
+                <span>📰 机器之心</span>
+                <span>🕒 2026-02-15 14:44</span>
+            </div>
+            <div class="news-summary">AdaReasoner提出“工具即推理能力”新范式，让7B小模型学会自主决策“用什么、何时用、怎么用”工具，实现Think-Act-Observe循环，在拼图推理等任务上超越GPT-5。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>主动视觉范式</strong>：实现<mark>Agentic Vision</mark>闭环，模型像调查员一样迭代执行<b>Think-Act-Observe</b>，通过Python代码操作图像并验证结果。</li>
+                <li><strong>小模型能力放大</strong>：AdaReasoner-7B在<b>Jigsaw</b>任务中达96.60%，超越<b>GPT-5</b>的80.10，证明<mark>工具规划能力</mark>可迁移瓶颈从模型规模转向工具效用。</li>
+                <li><strong>自适应工具行为</strong>：模型自主学会<mark>采纳/丢弃/调节</mark>工具调用，如在导航任务中高频使用A*，在验证任务中主动压制无关调用，展现类智能体决策。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzkyNjU2ODM2NQ==&mid=2247625495&idx=1&sn=4c419d868f7a3e216f62777bbcedaba7" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">对话Teamily AI：把AI当上帝或当奴隶，都不是与AI共处的好方法，我的才是</a>
+            </h2>
+            <div class="meta">
+                <span>📰 硅星人Pro</span>
+                <span>🕒 2026-02-15 10:56</span>
+            </div>
+            <div class="news-summary">Teamily提出“有温度的中间路线”，构建IM形态人机共生网络，通过Personal/Group分层Agent、全域记忆与主动式交互，让AI成为可协作、可记忆、可信赖的伙伴。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>人机关系新范式</strong>：拒绝“AI上帝”与“AI奴隶”两极，打造<mark>有温度的中间路线</mark>，以<b>Teamily</b>为载体实现人与AI在IM网络中的自然共生。</li>
+                <li><strong>全域记忆架构</strong>：Personal Agent沉淀所有群聊上下文，支持<mark>跨群记忆转发</mark>，使AI具备长期上下文理解能力，突破<b>LLM</b>“每次对话从零开始”的局限。</li>
+                <li><strong>主动式协作网络</strong>：支持<mark>多Agent蜂群协作</mark>，可并行调用多个Agent生成PPT或报告，将复杂任务转化为<b>计算图</b>，释放用户认知带宽。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI咨询与客户成功部 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
