@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        /* 1. 字体整体缩小 */
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        /* Header Section */
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        /* Trend Section - 保留点击/悬停动效 */
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        /* News Card - 保留所有悬停/点击动效 */
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        /* 2. 来源和时间 移到标题正下方 */
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        /* 3. 摘要 紧跟在来源时间下方 */
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-02-18</div>
+        <div class="top-tags">
+            <span class="tag-item">#Qwen3.5</span>
+            <span class="tag-item">#OpenClaw</span>
+            <span class="tag-item">#春晚机器人</span>
+            <span class="tag-item">#具身智能</span>
+            <span class="tag-item">#AI Agent</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>模型能力与成本实现“双降双升”</strong>
+            <p>以<b>Qwen3.5</b>为代表的新一代模型用不到5%激活参数撬动全量智能，API价格仅为Gemini 3 Pro的<mark>1/18</mark>，证明顶级AI能力正从高门槛走向普惠化。</p>
+        </div>
+        <div class="trend-card">
+            <strong>AI Agent从技术原型走向产品主干</strong>
+            <p><b>OpenClaw</b>被OpenAI“招安”标志着Agent不再只是实验工具，而是成为ChatGPT等主力产品的<mark>操作中枢</mark>，补齐“对话之后的执行”关键一环。</p>
+        </div>
+        <div class="trend-card">
+            <strong>具身智能完成国家级公测与产业定调</strong>
+            <p>2026春晚10亿观众见证机器人零翻车，<b>魔法原子</b>、<b>宇树</b>等企业集中秀出多机协同、醉拳、捞面等能力，<mark>春晚即产线</mark>，具身智能正式升格为国家战略。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzkyNjU2ODM2NQ==&mid=2247625551&idx=1&sn=0c8d3c75a13d11f8865db82a358f53fa" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">千问3.5是阿里AI的“大一统”时刻</a>
+            </h2>
+            <div class="meta">
+                <span>📰 硅星人Pro</span>
+                <span>🕒 2026-02-17 11:56</span>
+            </div>
+            <div class="news-summary">摘要：阿里发布Qwen3.5-Plus，以3970亿总参数、仅170亿激活参数实现性能超越GPT-5.2等闭源模型，API成本降至Gemini 3 Pro的1/18，标志阿里模型、芯片（真武）、云（阿里云）三位一体协同战略落地。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>技术突破：</strong>采用<mark>原生多模态</mark>联合预训练架构，视觉与语言在统一参数空间深度融合，支持像素级图像定位与2小时视频理解，<b>Qwen3.5-Plus</b>推理吞吐量提升至19倍。</li>
+                <li><strong>成本革命：</strong>API价格仅为同等性能<b>Gemini 3 Pro</b>的<mark>1/18</mark>，部署显存占用降低60%，<b>Apache 2.0</b>完全开源协议推动全球开发者零门槛使用。</li>
+                <li><strong>战略统一：</strong>完成从品牌、组织到技术架构的<mark>大一统</mark>，依托<b>平头哥真武芯片</b>与阿里云全链路优化，实现模型-芯片-云软硬协同，开源模型超400个、衍生模型破20万。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzkyNjU2ODM2NQ==&mid=2247625551&idx=2&sn=ca1187099dfc88571da44ed04be96813" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">"超级个体"归顺OpenAI</a>
+            </h2>
+            <div class="meta">
+                <span>📰 硅星人Pro</span>
+                <span>🕒 2026-02-17 11:56</span>
+            </div>
+            <div class="news-summary">摘要：OpenAI官宣招揽OpenClaw创始人Peter Steinberger，将这款支持多模型接入、可自主拆解任务并调用工具的AI Agent纳入体系，明确其为“未来产品核心”，预示AI Agent大战全面升级。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>人才即收购：</strong>OpenAI并非单纯招聘，而是以<mark>收购级规格</mark>引入<b>Peter Steinberger</b>，因其单人打造的<b>OpenClaw</b>已验证“消息即Agent”范式，填补ChatGPT缺乏操作能力的空白。</li>
+                <li><strong>架构兼容：</strong>OpenClaw作为开源“编排层”，可无缝接入<b>Claude Opus</b>、<b>GPT</b>等多模型，其<mark>最后一公里</mark>能力被OpenAI用于增强Codex等现有产品，实现“智能内核+任务编排”双轮驱动。</li>
+                <li><strong>竞争升级：</strong>Anthropic已推Cowork，Meta收购Manus团队，<b>OpenAI</b>招安<b>OpenClaw</b>形成三足鼎立，<mark>Agent大战</mark>从技术验证迈入产品落地阶段，开发周期有望压缩至数月。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652676391&idx=1&sn=f704ada772bf007db876e0a839769416" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">春晚机器人炸翻全球，10亿人围观零翻车！老外惊掉下巴，订单暴涨卖疯</a>
+            </h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-02-17 15:00</span>
+            </div>
+            <div class="news-summary">摘要：2026央视春晚实现全球10亿观众直播零延迟、零翻车，宇树、松延、魔法原子等企业机器人完成后空翻、醉拳、多机协同等高难度动作，中国占全球人形机器人出货量90%，春晚成为国家级具身智能公测平台。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>全民公测：</strong>春晚10亿观众见证机器人<mark>零翻车</mark>，宇树G1刷新全球首次弹射空翻、单脚连续空翻等纪录，<b>宇树H2</b>化身《黑神话：悟空》孙悟空，技术完成度达产业级。</li>
+                <li><strong>产业宣言：</strong>春晚机器人合作权益报价高达<b>5亿元</b>，京东搜索量环比增长<mark>300%</mark>，外媒称其为“中国对全球的产业宣言”，<b>马斯克</b>直言中国是Optimus最大对手。</li>
+                <li><strong>全球份额：</strong>2025年中国占全球人形机器人出货量<mark>90%</mark>，摩根士丹利预计2026年销量翻倍至2.8万台，春晚成为“工业政策直达黄金档”的国家级发布通道。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA4MTQ4NjQzMw==&mid=2652797225&idx=1&sn=ad59ad92da7925395393d97905aad2a8" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">在AI和机器人里找节目：马年春晚背后的科技大战揭秘</a>
+            </h2>
+            <div class="meta">
+                <span>📰 智东西</span>
+                <span>🕒 2026-02-17 06:07</span>
+            </div>
+            <div class="news-summary">摘要：春晚AI浓度爆表，字节火山引擎用Seedance 2.0生成《贺花神》AI花海，豆包模型支撑实时字幕，华为Mate80承担竖屏直播，春晚已从流量盛宴升级为AI全栈技术集成平台。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>AI制作链：</strong>火山引擎<b>Seedance 2.0</b>与央视听媒体大模型2.0构成“导演助理”，为《贺花神》生成十二月令花卉三维孪生，<mark>误差控制在0.3秒</mark>内实现舞者动作与AI花海实时联动。</li>
+                <li><strong>全栈技术：</strong>春晚首次应用<b>NVI全媒体超高清制播</b>技术，8K制作全国产化，竖屏直播由<b>Huawei Mate80</b>承担，声音系统实现三维菁彩声全链路呈现，<mark>技术底盘整体升级</mark>。</li>
+                <li><strong>科技生态：</strong>字节、华为、蚂蚁、追觅等企业高频亮相，<b>豆包</b>语音模型支撑抖音实时字幕，<b>阿福</b>AI健康应用现身小品，春晚成为AI与机器人“含硅量”超越“含酒量”的全民科普现场。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA4MTQ4NjQzMw==&mid=2652797225&idx=2&sn=ff98a208c272aa7837b1189892b3269a" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">深度解析魔法原子春晚首秀：一场关于具身智能落地能力的全民公测</a>
+            </h2>
+            <div class="meta">
+                <span>📰 智东西</span>
+                <span>🕒 2026-02-17 06:07</span>
+            </div>
+            <div class="news-summary">摘要：魔法原子携MagicBot Z1、Gen1及MagicDog亮相春晚，完成与易烊千玺共舞、现场捞面、百台四足机器人同步熊猫舞等任务，验证其全栈自研能力，其“千景共创计划”已落地近千个真实场景。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>全栈自研：</strong>硬件自研率超<b>90%</b>，自研关节模组峰值扭矩达行业第一，<b>MagicHand S01</b>灵巧手实现0.1N触觉分辨，支撑“赛博捞面师”<mark>连续精细操作</mark>。</li>
+                <li><strong>场景验证：</strong>春晚即“全民公测”，<b>魔法原子</b>在工业（追觅工厂）、商业（江苏卫视演播厅）、家庭（陪伴看护）三大场景落地，<mark>千景共创计划</mark>已覆盖近千真实场景，海外收入占比超<b>30%</b>。</li>
+                <li><strong>国家战略：</strong>具身智能首入2025年《政府工作报告》，<b>魔法原子</b>登上人民日报头版，获无锡市政府采购订单，<mark>上市进程加速</mark>，最快2026年登陆二级市场。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI咨询与客户成功部 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
