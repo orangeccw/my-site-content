@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        /* 1. 字体整体缩小 */
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        /* Header Section */
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        /* Trend Section - 保留点击/悬停动效 */
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        /* News Card - 保留所有悬停/点击动效 */
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        /* 2. 来源和时间 移到标题正下方 */
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        /* 3. 摘要 紧跟在来源时间下方 */
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-02-21</div>
+        <div class="top-tags">
+            <span class="tag-item">#Gemini3.1Pro</span>
+            <span class="tag-item">#MedOS</span>
+            <span class="tag-item">#推理纪元</span>
+            <span class="tag-item">#AutoBio</span>
+            <span class="tag-item">#AI算命</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>推理能力成新护城河</strong>
+            <p>Google以Gemini 3.1 Pro“能力翻倍、价格不变”宣示AI竞争进入“推理纪元”，模型不再比谁更会聊天，而比谁更能深度思考、精准决策、高效执行。</p>
+        </div>
+        <div class="trend-card">
+            <strong>AI从虚拟助手迈向物理世界</strong>
+            <p>MedOS与AutoBio共同标志AI正突破屏幕边界：前者是首个通用医疗具身世界模型，后者构建高保真生物实验室仿真基准，AI开始真正理解并干预物理现实。</p>
+        </div>
+        <div class="trend-card">
+            <strong>垂直场景催生新评测范式</strong>
+            <p>当通用大模型能力趋同，行业正转向专业化、高精度、强约束场景的深度评测——医疗、生物实验、情绪服务等垂直赛道，正倒逼AI从“能说”走向“能做、能准、能信”。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&mid=2653099652&idx=1&sn=a3459493d4441b53f6b32f7ae7473b85" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Gemini 3.1 Pro 曝光，能力翻倍价格不变，谷歌想重新定义 AI 竞争规则</a>
+            </h2>
+            <div class="meta">
+                <span>📰 极客公园</span>
+                <span>🕒 2026-02-20 09:49</span>
+            </div>
+            <div class="news-summary">摘要：Google发布Gemini 3.1 Pro，在ARC-AGI-2推理基准中得分77.1%，较前代翻倍，却保持原价；其“暴力升级+零溢价”策略直指企业级AI性价比痛点，宣告推理能力成为新竞争核心。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>推理能力翻倍</strong>：在ARC-AGI-2基准中<mark>得分77.1%</mark>，远超<b>Gemini 3 Pro</b>的31.1%，实现质的跃升。</li>
+                <li><strong>价格策略颠覆</strong>：坚持<mark>价格不变</mark>，让所有API用户免费升级，以<b>规模经济</b>对抗技术溢价，直击企业客户成本敏感点。</li>
+                <li><strong>商业场景验证</strong>：在医疗与法律任务中，<b>Box AI</b>实测准确率分别从47%→67%、57%→74%，证明其<mark>真实业务增益</mark>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652676884&idx=3&sn=c0c6b1f66af7ddfccaaa45a96227dd2f" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">医疗AI大洗牌！斯坦福、普林斯顿发布首个医学世界模型MedOS</a>
+            </h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-02-20 05:31</span>
+            </div>
+            <div class="news-summary">摘要：斯坦福与普林斯顿联合NVIDIA发布MedOS——全球首个通用医疗具身世界模型，融合感知、模拟、干预三能力，构建“State-Action-Transition”闭环，让AI真正读懂并介入生老病死的物理现实。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>具身世界模型落地</strong>：MedOS是首个<mark>通用医疗具身世界模型</mark>，集成XR感知、数字孪生模拟与Cobot干预，突破<b>LLM</b>纯文本局限。</li>
+                <li><strong>双系统认知架构</strong>：复刻人类医生思维，<mark>快系统</mark>实现毫秒级急诊响应，<mark>慢系统</mark>支持长链条临床推理，由<b>System 1/System 2</b>双引擎驱动。</li>
+                <li><strong>医疗平权效应</strong>：在人机协作实验中，青年医生诊断准确率被拉升至<mark>资深医师水平</mark>，依托<b>MedSuperVision</b>（85,398分钟高保真数据集）实现知识普惠。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2651017580&idx=2&sn=a6fb2aae98ad1b5d43f22728da3d20c0" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">从AlphaGo到DeepSeek R1，推理的未来将走向何方？</a>
+            </h2>
+            <div class="meta">
+                <span>📰 机器之心</span>
+                <span>🕒 2026-02-20 07:40</span>
+            </div>
+            <div class="news-summary">摘要：文章系统梳理推理模型演进路径，指出DeepSeek-R1-Zero通过“强基座+规则化RL+过程监督”范式，使推理能力从提示词技巧升维为可训练、可扩展的底层能力，预示“007式全天候思考”将成为新算力刚需。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>推理范式重大突破</strong>：DeepSeek-R1-Zero验证<mark>结果监督可自发涌现逻辑推理</mark>，颠覆“必须中间监督”的旧认知，依赖<b>强基座模型</b>与同策略RL闭环。</li>
+                <li><strong>算法极简主义</strong>：剥离花哨设计后，核心仅三要素：<mark>强基座</mark>、<mark>规则化RL</mark>、<mark>推理算力规模化</mark>，为行业提供可复用的<b>DeepSeek-R1</b>开源路径。</li>
+                <li><strong>算力需求爆发</strong>：自动化研究将引爆推理算力需求，作者预言<mark>007将成为新996</mark>，类比空调释放南方生产力，<b>推理算力</b>将成数字时代基础设施级消耗。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2651017580&idx=3&sn=fd4de1ad12a031acd6b8fd08a601e4d6" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">ICLR 2026｜新版「图灵测试」：当VLA走进生物实验室</a>
+            </h2>
+            <div class="meta">
+                <span>📰 机器之心</span>
+                <span>🕒 2026-02-20 07:40</span>
+            </div>
+            <div class="news-summary">摘要：港大MMLAB与上交大联合发布AutoBio——首个面向数字化生物实验室的VLA仿真与评测基准，覆盖16个高精度任务，直击液体识别、螺纹装配、屏幕读数等真实科研挑战，为AI具身智能设立新标尺。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>科研场景评测新标准</strong>：AutoBio构建<mark>高保真生物实验室仿真</mark>，支持螺纹旋拧、液体建模等专用物理机制，挑战<b>VLA</b>模型在真实科研场景的极限。</li>
+                <li><strong>任务难度分层验证</strong>：16个任务分三级，模型在简单任务成功率高，但<mark>高精度装配失败率陡增</mark>，暴露其在<b>细粒度视觉推理</b>与长期流程建模上的短板。</li>
+                <li><strong>开源生态协同推进</strong>：提供仿真系统、评测基准与训练接口三位一体开源支持，代码托管于<b>GitHub</b>与<b>HuggingFace</b>，推动具身AI从家庭走向前沿科学。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzkyNjU2ODM2NQ==&mid=2247625589&idx=2&sn=6b73eefbdac2ddc9f3f4efb6a5033f20" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">春节祈福，AI算命火了</a>
+            </h2>
+            <div class="meta">
+                <span>📰 硅星人Pro</span>
+                <span>🕒 2026-02-20 11:21</span>
+            </div>
+            <div class="news-summary">摘要：Z世代将AI算命作为“电子树洞”，在求职、感情等不确定性中寻求心理慰藉与决策参考；出海派靠文化溢价盈利，本土派困于低价红海，行业正从“替代真人”转向“创造陪伴新价值”。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>Z世代情绪刚需</strong>：18-30岁用户占比超70%，将AI视为<mark>永远在线的电子树洞</mark>，核心诉求是低成本心理慰藉，而非绝对准确性，依托<b>DeepSeek</b>等通用模型快速落地。</li>
+                <li><strong>出海盈利模式清晰</strong>：FateTell等产品弱化“算命”标签，主打“东方哲学+心理疗愈”，海外付费率4%、复购率38.7%，<mark>70%收入来自订阅</mark>，验证<b>文化溢价</b>可行性。</li>
+                <li><strong>本土商业化困境</strong>：面临通用大模型免费冲击与线下命理师专业壁垒，垂直产品陷入“<mark>叫好不叫座</mark>”困局，亟需以<b>AI+空间计算/多模态</b>构建不可替代的陪伴价值。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI咨询与客户成功部 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
