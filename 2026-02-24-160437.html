@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-02-24</div>
+        <div class="top-tags">
+            <span class="tag-item">#M2.5</span>
+            <span class="tag-item">#GLM-5</span>
+            <span class="tag-item">#CLI-Gym</span>
+            <span class="tag-item">#Agentic Engineering</span>
+            <span class="tag-item">#Forge</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>Agent模型进入「能用+敢用」临界点</strong>
+            <p>MiniMax M2.5与智谱GLM-5同步以「能力第一梯队+价格仅旗舰1/10+支持本地部署」三重优势，击穿开发者落地Agent的经济性瓶颈，开源社区复杂多Agent系统首次具备大规模商业可行性。</p>
+        </div>
+        <div class="trend-card">
+            <strong>Agent训练范式正经历底层重构</strong>
+            <p>MiniMax Forge与智谱异步RL基础设施均将Agent执行逻辑与模型训练推理解耦，通过TITO网关、Prefix Tree Merging、动态稀疏注意力（DSA）等原生设计，系统性解决长轨迹信用分配、上下文稀释与GPU低利用率等顽疾。</p>
+        </div>
+        <div class="trend-card">
+            <strong>评测体系加速向「真实工程」迁移</strong>
+            <p>从SWE-Bench到Terminal-Bench、CC-Bench-V2、CLI-Gym，评测正从静态代码生成转向可执行环境修复、多步链式开发、GUI交互验证等真实软件工程场景，模型能力验证回归「能否交付可用系统」本质。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2651017781&idx=1&sn=e9c066c4ba71effd810b3532fa216543" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">热度第一、Tokens周调用破3T，MiniMax这个春节杀疯了</a>
+            </h2>
+            <div class="meta">
+                <span>📰 机器之心</span>
+                <span>🕒 2026-02-23 12:03</span>
+            </div>
+            <div class="news-summary">MiniMax发布M2.5模型，12小时内登顶OpenRouter热度榜，周调用量达3.07T tokens，带动100K–1M长文本区间增量调用，获Kilo Code、OpenClaw等主流Agent框架优先接入。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>性能爆发</strong>：周调用量<mark>破3T tokens</mark>，超Kimi K2.5、GLM-5与DeepSeek V3.2三家总和，<b>M2.5</b>在SWE-Bench Verified中达80.2%通过率。</li>
+                <li><strong>工程突破</strong>：自研<mark>Forge系统</mark>实现Agent与训练引擎解耦，Prefix Tree Merging带来约<b>40倍训练加速</b>，支持数百种框架零代码接入。</li>
+                <li><strong>商业落地</strong>：提供100TPS快速版（输入<b>0.3美元/百万tokens</b>），价格仅为主流旗舰模型<b>十分之一</b>，直接激活开源Agent生态商业化。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247870196&idx=1&sn=ca30f79058177a122f5ebd558529f506" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">智谱GLM-5技术全公开！完全适配华为等国产芯片，美国网友酸了</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-02-23 12:33</span>
+            </div>
+            <div class="news-summary">智谱发布40页GLM-5技术论文，引入DeepSeek同款稀疏注意力（DSA），实现KV Cache开销降75%、推理提速3倍，全栈适配昇腾/摩尔线程等国产芯片，并在CC-Bench-V2等真实工程评测中达开源SOTA。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>架构革新</strong>：采用<mark>动态稀疏注意力</mark>（DSA），在200K长上下文下性能下降<0.5%，<b>GLM-5</b>推理速度提升<b>3倍</b>，KV Cache开销骤降75%。</li>
+                <li><strong>训练升级</strong>：构建<mark>异步强化学习基础设施</mark>，GPU利用率从20–30%跃升，支撑数学/代码/工具集成等多领域混合RL训练，<b>CC-Bench-V2</b>构建成功率（BSR）达98.0%。</li>
+                <li><strong>国产适配</strong>：完成与<b>华为昇腾</b>、摩尔线程、海光、寒武纪等全栈国产芯片适配，被海外社区称为“<b>最好的开源模型</b>”，拉小与Claude Opus 4.6差距。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2651017781&idx=2&sn=f81b5079679e384a7845ebbb55a2ae80" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Terminal-Bench解决率暴涨20%！华为CLI-Gym：环境交互类任务首个公开的数据Scaling方案</a>
+            </h2>
+            <div class="meta">
+                <span>📰 机器之心</span>
+                <span>🕒 2026-02-23 12:03</span>
+            </div>
+            <div class="news-summary">华为发布CLI-Gym——首个面向Terminal-Bench环境交互任务的公开数据规模化管线，通过“环境反演”自动生成1655个高可靠CLI任务镜像，微调LiberCoder模型使Terminal-Bench解决率提升21.1%。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>范式创新</strong>：首创<mark>环境反演</mark>机制，驱动Agent主动破坏健康Docker环境生成故障，构建1655个高复杂度CLI任务，<b>CLI-Gym</b>为首个公开可扩展环境交互数据方案。</li>
+                <li><strong>数据实效</strong>：291条高质量轨迹使<b>LiberCoder-235B</b>在Terminal-Bench上Pass@1达<b>46.1%</b>，超越多数开源模型，接近闭源模型水平。</li>
+                <li><strong>工程价值</strong>：任务平均含<b>20+失败测试</b>，覆盖软件工程/系统管理/安全调试等场景，验证模型真实环境诊断与多步修复能力，<b>终端环境Docker构建精度>90%</b>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&mid=2653099800&idx=1&sn=42c25bf71b903a6d0dd51e004863c2f8" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">20 年生命 vs 2 小时训练，Sam Altman 开始算「人肉成本」</a>
+            </h2>
+            <div class="meta">
+                <span>📰 极客公园</span>
+                <span>🕒 2026-02-23 12:23</span>
+            </div>
+            <div class="news-summary">Sam Altman在印度AI峰会上提出“人肉成本论”，称训练人类需20年生命消耗，对比AI训练更“环保”；同期OpenAI“星际之门”5000亿美元基建项目停滞，凸显AI算力扩张遭遇电网、许可与资金结构性瓶颈。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>叙事转向</strong>：Altman以<mark>人肉成本论</mark>重构能源讨论框架，将AI能耗与人类成长成本对比，为大规模算力投入寻求<b>道德正当性</b>，呼应OpenAI商业化加速。</li>
+                <li><strong>基建困局</strong>：5000亿美元“<b>星际之门</b>”项目一年未动工，团队未配齐、数据中心零进展，暴露AI基建在电网、土地、许可等<b>结构性瓶颈</b>前的现实约束。</li>
+                <li><strong>对比反差</strong>：马斯克xAI“<b>Colossus 2</b>”已建成全球首个GW级超算，4月将升至1.5GW，而OpenAI仍在谈判中，凸显执行效率与产业协同能力的代际差距。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247870196&idx=2&sn=e21590bd30b52cc51847f6b9644b7062" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">三个和尚没水喝！OpenAI星际之门搁浅，一年过去压根没动工</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-02-23 12:33</span>
+            </div>
+            <div class="news-summary">OpenAI联合软银、甲骨文的5000亿美元“星际之门”数据中心项目停滞：三方分工分歧致团队未配齐，自建计划因烧钱搁浅；同期马斯克xAI已建成Colossus 2，并探索特斯拉车主算力租赁与太空算力等激进路线。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>合作溃散</strong>：三方在领导架构与协作机制上<mark>分歧不断</mark>，项目沦为单方面合作，<b>星际之门</b>至今未形成all-in态势，被马斯克提前预言“<b>干不成</b>”。</li>
+                <li><strong>替代方案</strong>：xAI正探索<mark>租用特斯拉车主算力</mark>，覆盖北美约<b>400万辆</b>车辆，将消费级硬件转化为AI算力新来源，形成“地面+太空”双轨算力叙事。</li>
+                <li><strong>社会成本</strong>：数据中心激增已致美国PJM电网警告：2026年夏，13州6700万居民或因AI用电激增而<mark>轮流停电</mark>，凸显AI扩张与公共基础设施承载力的尖锐矛盾。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI咨询与客户成功部 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
