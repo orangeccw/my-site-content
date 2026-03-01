@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-03-01</div>
+        <div class="top-tags">
+            <span class="tag-item">#AGI金融化</span>
+            <span class="tag-item">#EgoAVU</span>
+            <span class="tag-item">#AI学习机KnowHow</span>
+            <span class="tag-item">#背景知识蒸馏</span>
+            <span class="tag-item">#OpenClaw</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>AGI正从科学概念蜕变为合同工具</strong>
+            <p>OpenAI三份核心合同将AGI分别定义为「利益分配开关」「付款触发器」和「使命叙事」，揭示AI最核心概念已被资本、法务与传播深度重构，技术定义权正让渡给商业协议。</p>
+        </div>
+        <div class="trend-card">
+            <strong>多模态AI竞争已转向「数据引擎」能力</strong>
+            <p>Meta发布EgoAVU引擎，首次实现音视频跨模态数据的自动化生成与标注，推动多模态大模型从“模型驱动”迈入“数据驱动”新范式，第一视角理解能力跃升113%。</p>
+        </div>
+        <div class="trend-card">
+            <strong>教育AI进入“系统级个性化”深水区</strong>
+            <p>科大讯飞T90 Pro以“诊断→教学→激励”全链路闭环，将22年教育Know-How沉淀为可迁移的AI能力，证明通用大模型无法替代垂直领域深度数据与教学逻辑融合的系统性工程。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&mid=2653100100&idx=1&sn=738e8f47357f990bcd8471289b4a8230" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">1100 亿美元背后，OpenAI「AGI 的三副面孔」</a>
+            </h2>
+            <div class="meta">
+                <span>📰 极客公园</span>
+                <span>🕒 2026-02-28 11:13</span>
+            </div>
+            <div class="news-summary">摘要：OpenAI完成1100亿美元融资，估值达7300亿美元；文章揭示AGI在微软、亚马逊、OpenAI三方合同中分别承担“终止开关”“付款触发器”“使命旗帜”三重角色，标志AGI概念已被深度金融化与工具化。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>AGI即终止开关</strong>：微软合同规定<mark>AGI触发即终止IP授权</mark>，但其秘密定义为<b>1000亿美元利润</b>，科学概念让位于财务指标。</li>
+                <li><strong>AGI即付款触发器</strong>：亚马逊<mark>350亿美元分期到账</mark>直接绑定AGI里程碑，与微软条款形成结构性冲突，使OpenAI陷入<b>双重合同博弈</b>。</li>
+                <li><strong>AGI即使命叙事</strong>：官网使命与融资条款并存，<mark>使命需保持模糊距离</mark>以规避合同风险，<b>非营利基金会</b>估值超1800亿美元却依赖金融化AGI定义。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&mid=2653100091&idx=1&sn=469822c38b68c46373a6005eeb6d8fb8" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">雷军：新 SU7 车门内置机械结构；OpenAI 官宣 1100 亿美元融资；阿里或将推 AI 眼镜、指环｜极客早知道</a>
+            </h2>
+            <div class="meta">
+                <span>📰 极客公园</span>
+                <span>🕒 2026-02-28 08:26</span>
+            </div>
+            <div class="news-summary">摘要：OpenAI获亚马逊500亿、英伟达300亿、软银300亿美元融资；阿里千问将推AI眼镜/指环；小米SU7升级9气囊+机械车门；宝马在德国工厂引入AEON人形机器人；ChatGPT成人模式代码现身。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>AI硬件生态爆发</strong>：阿里千问<mark>首发AI眼镜</mark>将于MWC发布，同步规划<b>AI指环</b>与AI耳机，开启多模态终端新入口。</li>
+                <li><strong>具身智能落地加速</strong>：宝马德国莱比锡工厂<mark>首次部署人形机器人</mark>，采用<b>AEON机器人</b>执行高压电池装配，夏季进入规模化试点。</li>
+                <li><strong>AI内容边界松动</strong>：ChatGPT客户端代码出现<mark>成人模式Naughty Chat</mark>，需<b>Persona第三方验证</b>，18岁以上用户可解锁尺度放宽功能。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652678763&idx=3&sn=786693fd4b0553fa6998c66096353666" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">第一次，多模态大模型学会边看边听，Meta新作性能暴涨113%</a>
+            </h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-02-28 13:31</span>
+            </div>
+            <div class="news-summary">摘要：Meta联合高校发布EgoAVU音视频数据引擎，首次实现第一视角音视频跨模态理解；构建百万级训练数据与专用评测基准，模型性能最高提升113%，突破多模态“只会看不会听”瓶颈。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>音视频理解范式转移</strong>：EgoAVU引擎<mark>自动生成跨模态数据</mark>，解决主流数据集<b>视觉中心化</b>与缺乏真实音频语义等三大缺陷。</li>
+                <li><strong>评测体系首次统一</strong>：EgoAVU-Bench含3000条人工验证题，是首个<mark>专用音视频理解基准</mark>，推动多模态能力可量化、可比较、可迭代。</li>
+                <li><strong>性能跃升验证新路径</strong>：在Crafter生存游戏中，<mark>长链任务效率显著提升</mark>，证明<b>声源关联</b>与<b>音视频幻觉检测</b>等新任务设计直击具身智能核心瓶颈。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247871217&idx=1&sn=80742cc03ebee0b575f84c7265ead24f" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">大模型越聪明，学习机越抢手：科大讯飞T90 Pro定义「真」个性化</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-02-28 16:30</span>
+            </div>
+            <div class="news-summary">摘要：科大讯飞T90 Pro以“精准学-超拟人答疑-动力系统”三环闭环，将22年教育Know-How转化为AI能力；AI作文批改对标中高考阅卷标准，实现系统级个性化学习。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>教育AI进入系统战</strong>：T90 Pro构建<mark>诊断→教学→激励全链路闭环</mark>，数据在<b>精准学</b>与<b>晓悦AI老师</b>间实时飞轮迭代。</li>
+                <li><strong>Know-How即护城河</strong>：覆盖全国32省<mark>区域化知识图谱</mark>，AI作文批改采用<b>中高考阅卷同源技术</b>，通用大模型无法复刻。</li>
+                <li><strong>学习动力工程化</strong>：小飞AI学伴作为<mark>情绪树洞</mark>，结合教育心理专家设计的反馈机制，让<b>学习热情</b>成为可设计、可维持的系统能力。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247871217&idx=2&sn=bf8338e8efe059b27b8acae8247f763b" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">破解RL样本效率难题！让AI一次性提炼环境常识，后续零调用成本</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-02-28 16:30</span>
+            </div>
+            <div class="news-summary">摘要：南大&腾讯团队提出BK系列方法，利用大模型一次性提炼环境背景知识（如“迷宫中绕开墙壁”），生成势函数用于奖励塑形，显著提升RL样本效率，且后续训练零LLM调用。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>背景知识可蒸馏</strong>：通过RND随机探索采集轨迹，交由GPT提炼<mark>环境通用常识</mark>，形成<b>BK-CODE</b>/<b>BK-PREF</b>/<b>BK-GOAL</b>三类知识载体。</li>
+                <li><strong>样本效率革命性提升</strong>：在Minigrid新任务中，<mark>零LLM调用即实现高效学习</mark>，基线方法几乎失效，而BK方法快速收敛，证明知识<b>任务无关性</b>强。</li>
+                <li><strong>泛化能力突破尺度</strong>：知识从20×20地图提炼后，直接迁移至30×30地图仍保持高效，<mark>环境扩展无需重训</mark>，验证<b>背景知识</b>具备强可扩展性。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI咨询与客户成功部 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
