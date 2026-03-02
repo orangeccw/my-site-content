@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-03-02</div>
+        <div class="top-tags">
+            <span class="tag-item">#Claude封杀事件</span>
+            <span class="tag-item">#具身智能洗牌</span>
+            <span class="tag-item">#扩散模型Agent</span>
+            <span class="tag-item">#AI工程师生存指南</span>
+            <span class="tag-item">#Anthropic红线</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>AI伦理正从口号变为商业分水岭</strong>
+            <p>Anthropic因拒绝为美军提供无限制自主武器与监控能力被特朗普政府封杀，反致Claude登顶App Store——公众用真金白银投票，证明“技术中立”已失效，价值观选择直接决定用户流向与品牌生死。</p>
+        </div>
+        <div class="trend-card">
+            <strong>具身智能进入残酷淘汰赛阶段</strong>
+            <p>王啸直言90%具身公司难存活，市场终将只剩三五家头部玩家；技术门槛下降但量产、成本、场景闭环能力成生死线，TO C家庭市场（5000万台潜在规模）被判定为终极胜负手。</p>
+        </div>
+        <div class="trend-card">
+            <strong>扩散模型首次在Agent推理中实现结构性突破</strong>
+            <p>人大DLLM-Searcher让模型“边等搜索结果边思考”，端到端提速15%且性能不降——证明dLLM并非自回归替代品，而是具备“先行动后思考”原生优势的新范式，Agent效率瓶颈被打开。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652678869&idx=1&sn=be51587d9f1b0ada1a19e7bab063f310" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Claude被特朗普封杀24小时登顶App Store，CEO含泪首发声！</a>
+            </h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-03-01 10:50</span>
+            </div>
+            <div class="news-summary">摘要：Anthropic因拒签五角大楼“无限制武器+监控”条款遭特朗普下令联邦禁用，Claude反被全民力挺登顶美加App Store榜首，CEO Dario Amodei CBS专访中强调“异议即爱国”，坚守两条红线不动摇。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>政治封杀引爆用户反向支持</strong>：<mark>全网怒删ChatGPT</mark> 与 <b>Claude登顶App Store</b> 形成戏剧性对冲，用户用订阅迁移表达价值观认同。</li>
+                <li><strong>AI红线成不可妥协底线</strong>：<mark>拒绝大规模监视</mark> 和 <b>不开发自主武器</b> 被Anthropic定为公司成立即存的两条红线，CEO称“越过即违背美国价值观”。</li>
+                <li><strong>OpenAI“三道红线”实为话术包装</strong>：<mark>保留所有合法使用</mark> 条款使 <b>OpenAI合同</b> 实质让渡监管权，而Anthropic拒绝该条款反被定性为“供应链威胁”，首开美企遭此管制先例。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247871223&idx=1&sn=9641bd3f73ae711d22e496788736bef7" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">对话九合王啸：90%具身智能公司没未来，市场名额只有三五家</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-03-01 12:00</span>
+            </div>
+            <div class="news-summary">摘要：资深投资人王啸指出具身智能正经历“非理性繁荣”，90%创业公司难存活；TO C市场终将爆发（5亿家庭×10%渗透=5000万台），但需跨越量产、成本、安全三重门槛，当前仅前10名公司有望冲进最终三五家。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>市场终局已清晰</strong>：<mark>只剩三五家</mark> 是王啸对具身赛道的终极判断，当前100+公司中仅 <b>松延动力</b>、<b>自变量机器人</b> 等前10名有晋级资格。</li>
+                <li><strong>TO C才是终极战场</strong>：<mark>5年到10年</mark> 后人形机器人将进入家庭，当价格降至 <b>2万元</b> 且胜任家务，5亿中国家庭10%渗透即达5000万台，远超TO B市场天花板。</li>
+                <li><strong>世界模型仍是最大技术黑洞</strong>：<mark>没有清晰路线</mark> 是当前行业共识，现有尝试多为Transformer硬套，真正突破需全新技术范式，而 <b>世界模型</b> 将决定谁能掌控具身智能“大脑”主权。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247871223&idx=2&sn=ef6fb450e665420d7cbe76ec772b19ef" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">让搜索Agent不「傻等」：人大团队依托扩散模型实现「一心二用」，边等搜索结果边思考，加速15%性能不减</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-03-01 12:00</span>
+            </div>
+            <div class="news-summary">摘要：人大团队提出DLLM-Searcher，首次将扩散语言模型（dLLM）用于搜索Agent，通过P-ReAct机制实现“工具调用优先解码+等待中持续思考”，端到端提速14.77%-22.08%，准确率反超自回归模型。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>扩散模型原生适配Agent范式</strong>：<mark>先动手后思考</mark> 是dLLM双向注意力带来的结构性优势，<b>自回归模型</b> 强行模仿会导致准确率显著下降。</li>
+                <li><strong>两阶段训练攻克dLLM短板</strong>：<mark>Agentic SFT+VRPO</mark> 仅用 <b>8000条数据</b> 即让SDAR模型从HotpotQA全错（0%）跃升至57.0 ACC_R，泛化能力惊艳。</li>
+                <li><strong>P-ReAct零训练加速方案</strong>：<mark>预填充边界标记</mark> 与 <b>置信度偏置</b> 组合，使工具调用区域100%优先解码，为所有dLLM Agent提供即插即用的推理加速路径。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652678869&idx=2&sn=7e0f48e64fe3e6838d3b05bc5deac81f" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">花9万刀雇应届生，不如用AI！软件工程未来2年，太残酷</a>
+            </h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-03-01 10:50</span>
+            </div>
+            <div class="news-summary">摘要：Google Cloud AI总监Addy Osmani指出AI正加速淘汰初级岗位（哈佛研究显示岗位需求6季度内降9%-10%），但催生“高杠杆工程师”新角色——人类价值转向系统架构、AI审查、跨域整合，CS学位正让位于作品集与实战认证。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>初级岗位正被结构性替代</strong>：<mark>岗位需求腰斩</mark> 是现实，哈佛研究证实AI部署后6季度内初级开发者需求降 <b>9%-10%</b>，大厂校招量已减超50%。</li>
+                <li><strong>工程师进化为“系统指挥家”</strong>：<mark>从代码清洁工到总指挥</mark> 是角色跃迁核心，<b>高杠杆工程师</b> 价值在于放大团队产出，而非单点编码效率。</li>
+                <li><strong>T型能力成生存刚需</strong>：<mark>竖线深挖+横线打通</mark> 是新人才模型，<b>AI工具</b> 极大增强通才能力，前端+ML、编程+云安全等混合技能正成招聘硬通货。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI咨询与客户成功部 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
