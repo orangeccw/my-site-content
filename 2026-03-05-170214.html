@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-03-05</div>
+        <div class="top-tags">
+            <span class="tag-item">#IQ时代</span>
+            <span class="tag-item">#OpenClaw</span>
+            <span class="tag-item">#QoderWork</span>
+            <span class="tag-item">#自主科研Agent</span>
+            <span class="tag-item">#EasyClaw</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>AI落地正从“屏幕内”迈向“物理世界”</strong>
+            <p>小米Vision GT、Miloco等产品表明，头部厂商正以“人-车-家”为闭环，推动AI突破屏幕边界，通过端侧大模型+混合稀疏架构实现低延迟、高感知的实体交互。</p>
+        </div>
+        <div class="trend-card">
+            <strong>Agent正从极客玩具走向“开箱即用”的生产力基建</strong>
+            <p>QoderWork和EasyClaw代表两条路径：前者以安全沙盒+分级模型+Skills广场实现商业化办公Agent落地；后者以零命令行、全语音驱动、自动Skill沉淀，将Agent门槛压缩至14分钟。</p>
+        </div>
+        <div class="trend-card">
+            <strong>科研范式迎来“人机协同”代际跃迁</strong>
+            <p>全球首个自主科研Agent挑战赛启动，要求智能体在零人工干预下完成文献解析、假设提出、代码演进与实验迭代，直击CNS级科学问题，标志着AI从“辅助工具”升级为“超级科研合伙人”。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzkyNjU2ODM2NQ==&mid=2247625848&idx=1&sn=1b31c958703a3751591a677a95217ce3" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">中国AI闪耀巴展，但小米可能正藏着通往未来的钥匙</a>
+            </h2>
+            <div class="meta">
+                <span>📰 硅星人Pro</span>
+                <span>🕒 2026-03-04 10:05</span>
+            </div>
+            <div class="news-summary">摘要：MWC 2026正式迈入“IQ时代”，中国参展商逆势增长超20%，小米以Vision GT、Miloco、MiMo-V2-Flash和HySparse等软硬协同方案，展示AI突破屏幕边界、深度融入物理世界的落地路径。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>AI落地新范式</strong>：小米提出<mark>智能突破屏幕边界</mark>，通过Vision GT座舱联动、Miloco家居视觉Agent实现“眼里有活”的物理世界交互，依托<b>Xiaomi MiMo-V2-Flash</b>与<b>HySparse</b>架构实现端侧高效智能。</li>
+                <li><strong>硬件即AI底座</strong>：小米超<b>10亿台</b>智能设备+<b>8亿台</b>手机+数十万汽车构成“人车家”闭环，为AI提供真实场景与数据引水渠，而非仅依赖大模型单点突破。</li>
+                <li><strong>中国AI独特优势</strong>：GSMA定义的“IQ时代”强调深度思考与现实结合，中国凭借最大市场、最丰富消费场景与最强硬件供应链，成为AI与世界互动的首选试验场，<mark>拒绝悬浮技术</mark>，聚焦<b>智能基建</b>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzkyNjU2ODM2NQ==&mid=2247625848&idx=2&sn=5e000c695f3786016ad0941316e56f61" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">林俊旸离开Qwen，阿里重整了Qwen、阿里云和千问产品的关系</a>
+            </h2>
+            <div class="meta">
+                <span>📰 硅星人Pro</span>
+                <span>🕒 2026-03-04 10:05</span>
+            </div>
+            <div class="news-summary">摘要：阿里千问核心负责人林俊旸宣布卸任，恰逢Qwen3.5小模型系列发布与“通义千问”品牌统一为“千问”，标志阿里进入模型、云与产品协同作战新阶段，开源生态已成全球最大之一。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>战略整合关键节点</strong>：林俊旸卸任与<b>Qwen3.5</b>小模型发布、品牌统一为<b>千问</b>同步发生，反映阿里正重构模型研发、云服务销售与C端产品分工，<mark>协同对外打仗</mark>成为新重心。</li>
+                <li><strong>开源生态里程碑</strong>：Qwen系列三年内完成从开放到生态霸主跃迁，HuggingFace数据显示衍生模型超<b>20万个</b>，下载量破<b>10亿次</b>，<mark>全球最大开源生态之一</mark>已成型。</li>
+                <li><strong>个人影响力稀缺性</strong>：林俊旸是少有的以个人身份在X平台建立强大影响力的中国模型负责人，其卸任引发社区广泛关注，凸显<b>开源社区</b>中<b>个人IP</b>对技术愿景传播的关键价值，<mark>stepping down</mark>成行业焦点。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652680064&idx=1&sn=535c07338b0688655ab978d1649740ce" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">阿里版Claude Cowork杀疯了！一句话直出杂志级PPT，全球打工人变天</a>
+            </h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-03-04 12:46</span>
+            </div>
+            <div class="news-summary">摘要：阿里QoderWork正式登陆Windows，以“本地沙盒+模型分级+Skills广场”三重能力，实现PPT生成、市场分析、会议纪要等办公任务全自动，安全可控且开箱即用，定义桌面Agent新标准。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>安全优先的Agent架构</strong>：QoderWork构建全隔离<b>本地沙盒</b>，实现逻辑删除、高危拦截与沙箱隔离三层防护，<mark>AI在透明隔离室干活</mark>，彻底规避OpenClaw式安全翻车，保障<b>Windows</b>用户数据安全。</li>
+                <li><strong>生产力革命实测</strong>：实测用4000张乱序图片一键生成19页杂志风PPT，自动识别内容、重命名、像素级裁切、五幕剧结构编排，<mark>班味儿秒散</mark>，全程调用<b>QoderWork</b>旗舰模式与<b>frontend-design</b>技能。</li>
+                <li><strong>智能体能力扩展范式</strong>：支持MCP+Skills开放生态，官方“技能广场”与自定义Skills可热插拔，如“自动识别文章配图”技能，<mark>无需重启任务</mark>，让AI能力真正融入<b>每个工作流</b>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652680064&idx=2&sn=ae8c0439f07ed73e8ae998de8d5d58f4" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">全球首个自主科研Agent挑战赛！零人工干预冲击CNS成果SOTA，科研变天？</a>
+            </h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-03-04 12:46</span>
+            </div>
+            <div class="news-summary">摘要：上智院与复旦大学发起全球首个自主科研Agent挑战赛，要求智能体在零人工干预下完成文献理解、代码重构、假设提出与实验验证，直击DrugCLIP、蛋白质构象等CNS级难题，评审团由金力、龚新高等院士领衔。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>科研闭环能力定义</strong>：参赛智能体须具备四大自动化能力：文献解析与逻辑解构、瓶颈诊断与假设提出、自主设计与代码演进、实验验证与科学迭代，<mark>全科研生命周期闭环</mark>成为硬性门槛，依托<b>大圣</b>科研智能体平台。</li>
+                <li><strong>高规格科学评审</strong>：赛事由复旦大学校长<b>金力</b>院士等CNS作者组成评审委员会，聚焦科学性能、探索效率与演进逻辑三维度，<mark>挑战CNS成果SOTA</mark>，推动AI从“被动辅助”升级为“主动科研合伙人”。</li>
+                <li><strong>真实场景驱动创新</strong>：四大任务直击生物医药、化学合成、计算生物学与物理建模前沿痛点，如DrugCLIP虚拟筛选优化任务，要求智能体系统性提升<b>EF1%</b>指标，<mark>突破算力瓶颈</mark>，为全基因组尺度药物发现提供新路径。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&mid=2653100350&idx=1&sn=09d4b96cf30c7a70a27d74a7145849a1" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">从 OpenClaw 到 EasyClaw：AI Agent 的「最后一公里」</a>
+            </h2>
+            <div class="meta">
+                <span>📰 极客公园</span>
+                <span>🕒 2026-03-04 14:30</span>
+            </div>
+            <div class="news-summary">摘要：傅盛亲测14天“养龙虾”，用猎豹自研EasyClaw从零搭建8个Agent团队，实现公众号日更、百万阅读推文自主发布；EasyClaw以零命令行、全语音驱动、自动Skill沉淀，将Agent普及门槛压缩至3分钟。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>极客到大众的跨越</strong>：OpenClaw需命令行部署、配API key、处理安全漏洞，<mark>普通人用不上</mark>；而EasyClaw实现<mark>下载-打开-说话</mark>三步完成，<b>EasyClaw</b>将复杂度封装为开箱即用体验，<b>3分钟</b>即可上手。</li>
+                <li><strong>Skill即核心资产</strong>：傅盛14天22万字对话沉淀40+个Skill，如“向量化记忆部署”，<mark>踩坑即积累</mark>，Skill可在Agent间秒级共享，<b>1秒</b>完成能力复制，远超人类培训效率，<b>猎豹</b>16年工具产品经验成关键壁垒。</li>
+                <li><strong>双线商业化布局</strong>：EasyClaw同步覆盖To C(<b>easyclaw.com</b>)与To B(<b>easyclaw.work</b>)，国际版与国产版<b>元气AI Bot</b>双线并进，<mark>把细节打磨到无感</mark>，直击SaaS向Agent转型的“最后一公里”。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI咨询与客户成功部 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
