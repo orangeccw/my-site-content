@@ -1,0 +1,28 @@
+name: Monthly Repo Cleanup
+
+on:
+  schedule:
+    # 这里的 cron 表达式意思是：每月 1 号的凌晨 0 点（UTC 时间）
+    - cron: '0 0 1 * *'
+  workflow_dispatch: # 允许你手动点击按钮立刻运行测试
+
+jobs:
+  cleanup-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: pip install requests urllib3
+
+      - name: Run cleanup script
+        env:
+          # 这里引用 GitHub 的密钥，保护你的 Token 不泄露
+          MY_GITHUB_TOKEN: ${{ secrets.MY_CLEANUP_TOKEN }}
+        run: python scripts/cleanup.py
