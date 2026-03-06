@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-03-06</div>
+        <div class="top-tags">
+            <span class="tag-item">#编程Agent</span>
+            <span class="tag-item">#绿色AIDC</span>
+            <span class="tag-item">#人类第一视角数据</span>
+            <span class="tag-item">#软硬协同设计定律</span>
+            <span class="tag-item">#Yuan3.0-Ultra</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>企业级AI正从“对话”迈向“干活”</strong>
+            <p>OpenAI与Anthropic年化收入双双突破百亿美元，编程Agent成为核心增长引擎，企业客户和广告等新业务线加速商业化落地。</p>
+        </div>
+        <div class="trend-card">
+            <strong>绿色算力基建成AI时代“水电煤”</strong>
+            <p>华为发布GW级绿色AIDC方案，以“每一瓦特产出更多Token”为目标，推动能源效率与AI规模增长深度耦合，碳竞争力正成为AI核心竞争力。</p>
+        </div>
+        <div class="trend-card">
+            <strong>具身智能范式发生根本性迁移</strong>
+            <p>深度机智等团队验证“先理解、后执行”路线，用千小时人类第一视角数据超越数万小时真机轨迹，物理常识正成为具身大模型的“暗物质”与Scaling Law新支点。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA4MTQ4NjQzMw==&mid=2652798004&idx=3&sn=cb01b357c11d0919e05833d2d29f9177" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">1700亿！OpenAI年化收入曝出，Anthropic暴增三倍紧追不舍，编程Agent立功</a>
+            </h2>
+            <div class="meta">
+                <span>📰 智东西</span>
+                <span>🕒 2026-03-05 18:17</span>
+            </div>
+            <div class="news-summary">摘要：OpenAI年化收入达250亿美元（约1724亿元），Anthropic达190亿美元（约1310亿元），编程智能体驱动企业级收入爆发，双方均瞄准2030年超2000亿美元营收目标并筹备IPO。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>收入跃升</strong>：OpenAI年化收入<mark>突破250亿美元</mark>，<b>Anthropic</b>增长近三倍至<mark>190亿美元</mark>，<b>Codex</b>周活用户达<mark>200万</mark>。</li>
+                <li><strong>商业化路径</strong>：ChatGPT仍是主力，但<mark>企业客户与广告</mark>成新增长极，正与<b>The Trade Desk</b>洽谈合作，<b>GPT-5</b>用户增长放缓暴露产品体验瓶颈。</li>
+                <li><strong>军备竞赛代价</strong>：OpenAI预计2030年服务器成本达<mark>6650亿美元</mark>，现金流转正推迟至<mark>2030年</mark>，<b>五角大楼</b>合作破裂加剧<b>Anthropic</b>联邦收入不确定性。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA4MTQ4NjQzMw==&mid=2652798004&idx=1&sn=6875a6667e40890f4790b916d0acf329" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">华为MWC放出绿色AIDC大招：重构AI发展“水电煤”，从技术突围到联合生态共建</a>
+            </h2>
+            <div class="meta">
+                <span>📰 智东西</span>
+                <span>🕒 2026-03-05 18:17</span>
+            </div>
+            <div class="news-summary">摘要：华为在MWC 2026发布绿色AIDC整体解决方案，通过冷电协同、预制模块化等技术将PUE优化至0.01，联合GCC发起全球生态共建，推动AI基建从“高耗能”转向“高能效”。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>能效革命</strong>：华为AIDC方案实现<mark>全链效率提升5%</mark>，<b>PUE</b>优化至<mark>0.01</mark>，100MW场景年省<mark>500万元</mark>，<b>泰国、马来</b>项目已规模化交付。</li>
+                <li><strong>工程突破</strong>：交付周期从<mark>18个月压缩至3个月</mark>，<b>PowerPOD 5.0</b>单箱密度达<mark>3.2MVA</mark>，<b>iCooling</b>实现AI预测性维护。</li>
+                <li><strong>生态共建</strong>：联合<b>GCC</b>发起<mark>AIDC生态共建倡议</mark>，推动全球规范与标准体系建设，<b>华为数字能源</b>发挥“电力电子+数字技术”融合优势，定义AI时代绿色底座。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247872475&idx=2&sn=6050952c66c3385aef55ed3399940944" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">企业级OpenClaw最强拍档来了！万亿参数的国产多模态大模型，刚刚开源发布</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-03-05 14:30</span>
+            </div>
+            <div class="news-summary">摘要：YuanLab.ai开源万亿参数多模态大模型Yuan3.0-Ultra，采用LAEP算法提升预训练效率49%，在文档理解、RAG、Text-to-SQL等企业任务中全面超越GPT-5.2等前沿模型，全面开源支持二次开发。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>结构创新</strong>：Yuan3.0-Ultra采用<mark>MoE+LAEP剪枝</mark>，参数减少33.3%，预训练效率<mark>提升49%</mark>，激活参数仅<mark>68.8B</mark>，<b>YuanLab.ai</b>团队提出“更有效专家”新范式。</li>
+                <li><strong>企业能力</strong>：在<b>DocMatix</b>等评测中<mark>领先Claude Opus 4.6</mark>，支持图文混排解析、跨文档RAG、<b>Spider</b>基准Text-to-SQL生成，为<b>OpenClaw</b>智能体提供核心多模态引擎。</li>
+                <li><strong>开源生态</strong>：模型权重、代码、技术报告<mark>全面开源</mark>，支持<b>4bit量化</b>部署，GitHub、HuggingFace等平台同步上线，<b>Yuan3.0</b>系列含Flash/Pro/Ultra多版本，参数量覆盖40B至1T。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2651019594&idx=1&sn=3a84909162929d5dc9c501bc75eafc07" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">弯道超车？国产具身，千小时人类数据激发智能涌现</a>
+            </h2>
+            <div class="meta">
+                <span>📰 机器之心</span>
+                <span>🕒 2026-03-05 12:12</span>
+            </div>
+            <div class="news-summary">摘要：深度机智发布PhysBrain1.0，仅用千小时人类第一视角视频即超越Pi0.5等数万小时真机模型，在SimplerEnv达79.8%成功率，验证“先理解、后执行”路线，开启具身智能物理常识建模新纪元。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>范式跃迁</strong>：深度机智提出<mark>Understanding first, action next</mark>，用<b>Egocentric2Embodiment</b>管线将人类视频转为结构化VQA教材，<b>PhysBrain</b>以千小时数据<mark>超越Pi0.5</mark>22.7%。</li>
+                <li><strong>架构突破</strong>：首创<b>TwinBrainVLA</b>双脑架构，冻结VLM左脑保通用能力，训练右脑专精动作，<mark>知识迁移不遗忘</mark>，在SimplerEnv达<mark>64.5%成功率</mark>。</li>
+                <li><strong>算法精进</strong>：设计<b>LangForce</b>防偷懒机制，强制模型理解指令语义，<mark>成功率提升至66.5%</mark>，<b>PhysBrain1.0</b>在RoboCasa达<mark>58.1%成功率</mark>，展现跨本体泛化能力。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&mid=2653100418&idx=1&sn=1515f55ade40fd875b6a02aa4adf5fd5" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">告别「暴力堆料」，理想汽车打破车载芯片「高算力 低智能」困局</a>
+            </h2>
+            <div class="meta">
+                <span>📰 极客公园</span>
+                <span>🕒 2026-03-05 16:52</span>
+            </div>
+            <div class="news-summary">摘要：理想联合国创研究所提出“软硬协同设计定律”，构建PLAS架构搜索框架，实现在相同延迟下精度提升19.42%，为自研芯片马赫100奠基，重新定义车载AI性能评价体系。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>理论突破</strong>：提出<mark>软硬协同设计定律</mark>，融合Roofline建模与大模型特性，<b>PLAS</b>框架可自动输出最优模型架构，<mark>一周完成芯片适配</mark>，替代传统数月试错。</li>
+                <li><strong>反直觉发现</strong>：车载AI性能瓶颈在<mark>内存带宽</mark>而非峰值算力，<b>MoE稀疏架构</b>以100%概率碾压密集架构，<b>FFN扩展比</b>需重设，<mark>混合精度原生支持</mark>成关键。</li>
+                <li><strong>芯片落地</strong>：为<b>马赫100</b>芯片奠基，5nm制程，<mark>2560TOPS有效算力</mark>，是<b>Thor U</b>的3倍，定义“算法原生芯片”新范式，推动车载AI从“能用”迈向“好用”。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI咨询与客户成功部 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
