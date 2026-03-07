@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-03-07</div>
+        <div class="top-tags">
+            <span class="tag-item">#VLA架构</span>
+            <span class="tag-item">#GPT-5.4</span>
+            <span class="tag-item">#InSpatio-WorldFM</span>
+            <span class="tag-item">#FlashAttention-4</span>
+            <span class="tag-item">#物理AI</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>智驾进入“物理AI”范式跃迁</strong>
+            <p>小鹏第二代VLA跳过L3直攻L4，以端到端视觉-动作建模、原生多模tokenizer和图灵芯片重构智驾底层，标志着AI从语言智能正式迈向具身物理世界理解与控制。</p>
+        </div>
+        <div class="trend-card">
+            <strong>专业工作Agent成为大模型主战场</strong>
+            <p>OpenAI发布GPT-5.4，首次整合原生computer use、tool search与Office套件深度协同能力，将模型定位从“聊天助手”彻底转向“可交付成果的AI同事”，金融、法律、研发等垂直场景迎来生产力拐点。</p>
+        </div>
+        <div class="trend-card">
+            <strong>世界模型开源化引爆空间智能普惠</strong>
+            <p>浙大章国锋团队开源InSpatio-WorldFM——全球首个实时可交互3D世界模型，以“数据升维+几何约束”突破3D数据荒，消费级GPU即可运行，为具身机器人、XR和数字孪生提供低成本、高一致性的三维底座。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzkyNjU2ODM2NQ==&mid=2247625929&idx=2&sn=2af2bce7e27471f1f7f2c9d79eb8ca4d" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">越过 L3 直达 L4，小鹏就是中国智驾的 DeepSeek</a>
+            </h2>
+            <div class="meta">
+                <span>📰 硅星人Pro</span>
+                <span>🕒 2026-03-06 11:11</span>
+            </div>
+            <div class="news-summary">小鹏发布第二代VLA智驾系统，首次实现视觉信号直连动作指令的端到端生成，去掉语言中间表征，搭载自研图灵芯片与编译器，宣称将直接面向L4落地，目标“妈妈都能用”。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>架构革命：</strong>实现<mark>端到端视觉-动作生成</mark>，彻底<b>去掉语言中间表征</b>，采用原生多模tokenizer与视觉CoT，推理效率提升32倍。</li>
+                <li><strong>算力突破：</strong>自研<mark>图灵芯片架构</mark>达<b>10颗OrinX等效算力</b>，云端单GPU训练效率提升1010%，4个月内“暴力”迭代468版模型。</li>
+                <li><strong>战略跃迁：</strong>正式宣布<mark>跳过L3直攻L4</mark>，将智驾定位为“坐电梯”级体验，并推动两会提案加速<b>L4中国法规落地</b>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzkyNjU2ODM2NQ==&mid=2247625929&idx=1&sn=d452d8e35461cbd12bff7a6661297b65" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">GPT-5.4：OpenAI做了个Kimi K2.5 +MiniMax M2.5？</a>
+            </h2>
+            <div class="meta">
+                <span>📰 硅星人Pro</span>
+                <span>🕒 2026-03-06 11:11</span>
+            </div>
+            <div class="news-summary">OpenAI发布GPT-5.4，定位“面向专业工作的最强frontier model”，整合原生computer use、tool search与Office深度协同能力，支持105万token上下文，首推ChatGPT for Excel及金融数据集成。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>能力融合：</strong>成为<mark>首个原生computer use通用模型</mark>，在OSWorld-Verified达75.0%准确率，超<b>人类水平72.4%</b>。</li>
+                <li><strong>工作流嵌入：</strong>推出<mark>ChatGPT for Excel</mark>插件，直接驱动建模与情景分析，并集成<b>FactSet、S&P Global等6大金融数据源</b>。</li>
+                <li><strong>工程创新：</strong>引入<mark>tool search机制</mark>，在MCP Atlas基准上token用量降47%，精度不变，解决<b>复杂工具生态调用瓶颈</b>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2651020091&idx=1&sn=c67bb3f04ba35160ab0a3b24b5d1eb4c" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">李飞飞50亿美金赛道被开源！浙大教授章国锋带队创业，打造无限时长实时3D世界模型</a>
+            </h2>
+            <div class="meta">
+                <span>📰 机器之心</span>
+                <span>🕒 2026-03-06 12:28</span>
+            </div>
+            <div class="news-summary">影溯（InSpatio）开源InSpatio-WorldFM——全球首个实时可交互3D世界模型，基于“数据升维”激活2D视频中的3D知识，支持无限时长生成、跨视角一致编辑，单卡RTX4090即可实时推理。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>范式突破：</strong>抛弃2D像素生成路径，构建<mark>原生3D世界模型</mark>，以几何约束保障<b>无限时长空间一致性</b>，解决“长时序遗忘”行业痛点。</li>
+                <li><strong>工程普惠：</strong>实现<mark>消费级GPU实时推理</mark>，仅用<b>100张卡完成训练</b>，远低于主流视频模型万卡规模，算力门槛大幅降低。</li>
+                <li><strong>编辑能力：</strong>支持<mark>全局一致性编辑</mark>，可跨视角统一调整风格/布局/光照，确保<b>前景与新背景物理级对齐</b>，告别“盲盒抽卡”式生成。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2651020091&idx=2&sn=dc5a27b3f449a9d5ea45b053cacb184f" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">FlashAttention-4正式发布：算法流水线大改，矩阵乘法级速度</a>
+            </h2>
+            <div class="meta">
+                <span>📰 机器之心</span>
+                <span>🕒 2026-03-06 12:28</span>
+            </div>
+            <div class="news-summary">FlashAttention-4针对Blackwell架构重构算法流水线，通过多项式指数仿真、2-CTA MMA等创新，在B200上实现1605TFLOPs/s注意力计算，达矩阵乘法级速度，PyTorch FlexAttention已集成。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>性能跃升：</strong>在B200上达<mark>1605TFLOPs/s</mark>，为cuDNN 9.13的1.3倍，<b>注意力速度逼近矩阵乘法</b>，突破SFU与共享内存瓶颈。</li>
+                <li><strong>硬件协同：</strong>深度适配Blackwell新特性，利用<mark>2-CTA MMA指令</mark>与<b>张量内存TMEM</b>，降低冗余数据传输，atomic reduction减半。</li>
+                <li><strong>开发革命：</strong>全Python CuTe-DSL实现，编译时间<mark>缩短20–30倍</mark>，<b>FlexAttention已支持FA4后端</b>，研究人员可兼顾灵活性与高性能。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI咨询与客户成功部 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
