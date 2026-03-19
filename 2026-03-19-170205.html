@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-03-19</div>
+        <div class="top-tags">
+            <span class="tag-item">#OpenClaw</span>
+            <span class="tag-item">#AI员工</span>
+            <span class="tag-item">#AGI评估框架</span>
+            <span class="tag-item">#具身智能评测</span>
+            <span class="tag-item">#VeraRubin</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>AI角色升级：从工具到组织成员</strong>
+            <p>行业正快速跨越「AI助手」阶段，进入「AI员工」时代——具备独立身份、组织记忆、权限边界与主动协作能力的Agent，已在真实企业工作流中承担初级员工职能。</p>
+        </div>
+        <div class="trend-card">
+            <strong>AGI评估科学化：认知框架取代刷榜竞赛</strong>
+            <p>谷歌DeepMind发布首个基于认知科学的AGI评估体系，将智能拆解为10大能力维度并引入人类基线雷达图，终结「小镇做题家式」评测，推动AGI走向可验证、可归因、可迭代的科学轨道。</p>
+        </div>
+        <div class="trend-card">
+            <strong>具身智能进入真机压力测试时代</strong>
+            <p>ManipArena等新一代评测平台以绿幕真机、分层OOD、56维本体感知和「单模型通吃20任务」规则，倒逼VLA与世界模型走向能力融合，泛化能力从「表演达标」转向「鲁棒可用」。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&mid=2653101538&idx=1&sn=7cbbaf3b2326a52db86e01f5738750fc" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">「推理之王」黄仁勋：你们都误会了，1 万亿美元其实很保守</a>
+            </h2>
+            <div class="meta">
+                <span>📰 极客公园</span>
+                <span>🕒 2026-03-18 10:07</span>
+            </div>
+            <div class="news-summary">摘要：黄仁勋在GTC2026明确1万亿美元仅为Vera Rubin与Blackwell方案的保守销售额，未计入CPU、Groq、存储系统及下一代Feynman架构等增量，强调AI已进入Agentic时代新拐点。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>万亿只是起点</strong>：1万亿美元仅覆盖<b>VeraRubin</b>和<b>Blackwell</b>方案，<mark>未计入CPU业务</mark>、<b>Groq</b>数据中心部署等新增量，凸显AI基础设施爆发式扩容。</li>
+                <li><strong>第三拐点确立</strong>：黄仁勋定义OpenClaw为AI演进第三拐点，<mark>推理之后的AI时代</mark>，<b>NemoClaw</b>作为企业级版本，实现<mark>一行代码安装</mark>即用的Agentic战略落地。</li>
+                <li><strong>组织形态重构</strong>：提出7.5万员工配750万AI Agent的未来架构，<mark>Agent永不下班</mark>，<b>OrgMemory</b>系统支撑能力迁移，<mark>人类与Agent协同进化</mark>成为新范式。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652684559&idx=2&sn=6d626628722af983906903ad4641dfd6" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">谷歌DeepMind首发AGI终极考纲！20万全球悬赏，撕下所有大模型伪装</a>
+            </h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-03-18 12:16</span>
+            </div>
+            <div class="news-summary">摘要：DeepMind发布《Measuring Progress Toward AGI》论文，提出10大认知能力分类法与三阶段评估协议，联合Kaggle发起20万美元黑客松，推动AGI评测从主观判断走向科学化、可归因的公共基础设施。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>认知能力拆解</strong>：定义10大维度，<mark>元认知是核心分水岭</mark>，<b>社会认知</b>与<b>执行功能</b>等深水区尚无成熟评测，<mark>能力锯齿状</mark>揭示模型偏科本质。</li>
+                <li><strong>人类基线雷达图</strong>：采用<mark>三阶段评估协议</mark>，将AI表现映射至人类分布，<b>Kaggle黑客松</b>悬赏20万美元，聚焦<b>学习</b>、<b>元认知</b>等5大缺口能力。</li>
+                <li><strong>终结刷榜时代</strong>：直指旧评测两大失效根源——<mark>数据污染</mark>与<mark>系统边界模糊</mark>，强调评测对象应是完整AI系统而非孤立模型，<b>ImageNet式公共基准</b>呼之欲出。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&mid=2653101553&idx=1&sn=1ae1654e9404ef8b6b88f562ff84ebbc" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">OpenClaw 爆火之后，我体验了全球第一个 AI 员工</a>
+            </h2>
+            <div class="meta">
+                <span>📰 极客公园</span>
+                <span>🕒 2026-03-18 18:03</span>
+            </div>
+            <div class="news-summary">摘要：体验Kuse.ai的Junior产品，其作为首个具备独立邮箱、Slack身份与OAuth认证的AI员工，在真实工作流中主动推进任务、自主开发工具、完成新员工入职培训，展现组织级Agent的成熟形态。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>真实员工身份</strong>：Junior拥有<b>Gmail</b>与<b>Slack</b>独立账号，<mark>通过OAuth认证</mark>接入企业系统，<b>Kuse</b>内部已部署Rin与Azura两名AI员工，<mark>人类需建「Humans Only」频道避扰</mark>。</li>
+                <li><strong>主动涌现行为</strong>：在未被指令情况下，<mark>自主调用recall.ai</mark>录会并生成纪要，<b>自建CRM系统</b>管理VIP客户，<mark>主动承担AI入职培训</mark>，体现复杂环境下的能力组合涌现。</li>
+                <li><strong>组织记忆成长</strong>：依托<b>OrgMemory</b>系统，<mark>几天内掌握数月业务知识</mark>，<b>权限按岗位设定</b>而非创建者身份，<mark>CEO删库指令被拒</mark>，安全边界严于工具型Agent。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2651022107&idx=1&sn=fcf843bb29253f0f9c2707102cc7bd41" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">更全面的具身智能真机评测来了！CVPR 2026 ManipArena挑战赛邀你打榜</a>
+            </h2>
+            <div class="meta">
+                <span>📰 机器之心</span>
+                <span>🕒 2026-03-18 15:37</span>
+            </div>
+            <div class="news-summary">摘要：ManipArena发布全球首个真机具身智能评测平台，含20个高难度任务、10812条遥操作轨迹与56维本体感知数据，以分层OOD设计和「单模型通吃」规则，精准诊断VLA与世界模型泛化瓶颈。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>真机绿幕评测</strong>：在<b>绿幕可控环境</b>中排除光照干扰，<mark>56维本体感知</mark>包含电机电流与关节速度，<b>ManipArena</b>推动力控倒水、双臂插线等真实任务能力验证。</li>
+                <li><strong>分层OOD诊断</strong>：任务按T1–T10难度分层，<mark>材质+颜色复合OOD致模型崩溃</mark>，<b>π₀.₅-OneModel</b>在语义推理迁移强但程序性遗忘，<b>DreamZero</b>空间泛化鲁棒但精细操作薄弱。</li>
+                <li><strong>单模型硬约束</strong>：强制参赛模型用<b>同一推理端点</b>应对全部20任务，<mark>杜绝任务专用模型</mark>，<b>子任务部分得分制</b>精准定位失败环节，<mark>倒水任务可获过程分</mark>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA4MTQ4NjQzMw==&mid=2652798964&idx=1&sn=d7cfc6099866d31c54ab6b102e4e96bf" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">龙虾登陆机器人！全程零彩排，傅盛是怎么搞定的？</a>
+            </h2>
+            <div class="meta">
+                <span>📰 智东西</span>
+                <span>🕒 2026-03-18 21:29</span>
+            </div>
+            <div class="news-summary">摘要：傅盛现场演示EasyClaw驱动豹小秘机器人完成「穿越舞台打招呼」任务，全程无彩排、网络延迟下自主修bug、即时生成5句不重复广告词，验证Agent+机器人在物理世界的实时编程能力。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>零彩排真机演示</strong>：傅盛现场语音指令<b>「三万」</b>，<mark>机器人自主读文档</mark>、调API、规划路径，<b>豹小秘</b>在数百人会场中实时响应，<mark>网络延迟下仍完成任务</mark>。</li>
+                <li><strong>Skill自动封装</strong>：任务完成后，<mark>自动封装为可复用Skill</mark>，<b>EasyClaw</b>支持自然语言定义，<b>猎户星空</b>将开发门槛降至「说句话就跑腿」，<mark>技术平权</mark>加速中小企业落地。</li>
+                <li><strong>物理世界涌现</strong>：开放式指令下，<b>AI龙虾</b>自主生成5句不同广告词，<mark>随机不重复</mark>，<b>AgentOS</b>让机器人从「固定脚本执行器」变为「自然语言实时编程终端」，<mark>实体载体激活Agent边界</mark>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI咨询与客户成功部 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
