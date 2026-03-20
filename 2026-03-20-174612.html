@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-03-20</div>
+        <div class="top-tags">
+            <span class="tag-item">#VibeDesign</span>
+            <span class="tag-item">#OpenClaw</span>
+            <span class="tag-item">#LibTV</span>
+            <span class="tag-item">#垂类Agent</span>
+            <span class="tag-item">#飞书aily</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>巨头生态碾压式入场</strong>
+            <p>谷歌以免费+生态捆绑+分发优势推出<b>Stitch</b>，两天内致<b>Figma</b>股价暴跌<mark>13%</mark>，印证AI工具竞争已从技术比拼转向生态控制权争夺。</p>
+        </div>
+        <div class="trend-card">
+            <strong>Agent从“对话助手”进化为“执行主体”</strong>
+            <p>OpenClaw、飞书aily、LibTV等产品共同推动AI从“回答问题”转向“接管操作层”，<b>IM正成为自然语言时代的命令行</b>，<mark>agent有手</mark>成为新分水岭。</p>
+        </div>
+        <div class="trend-card">
+            <strong>垂类Agent价值超越通用模型</strong>
+            <p>当基础模型能力趋同，<b>TapTap制造</b>等产品靠游戏领域<mark>专业技能注入</mark>和<mark>结构化数据沉淀</mark>建立护城河，验证“好不好用”比“能不能用”更值钱。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247876334&idx=2&sn=1fb3500c5a2f6c23582d2968075fa2e0" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">AI屠刀下一站“Vibe设计”！谷歌一个产品把合作伙伴Figma干崩了</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-03-20 13:00</span>
+            </div>
+            <div class="news-summary">摘要：谷歌发布AI设计工具Stitch支持语音驱动的Vibe Design，无需键盘即可生成UI界面，上线后Figma股价两日暴跌13%，凸显巨头以免费+生态优势颠覆垂类工具的现实威胁。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>颠覆性交互方式</strong>：谷歌Stitch实现<mark>语音实时交互</mark>，用户仅需说“给我三个菜单选项”即可生成UI，<b>Vibe Design</b>重新定义设计工作流。</li>
+                <li><strong>生态降维打击</strong>：凭借<mark>免费策略</mark>、<b>Gmail/Drive</b>亿级用户分发及<b>Workspace</b>企业套餐捆绑，谷歌绕过技术比拼直接抢占市场份额。</li>
+                <li><strong>合作变竞对讽刺</strong>：2025年10月谷歌云刚与<b>Figma</b>宣布扩大AI合作，2026年3月即以Stitch发起进攻，<mark>合作转竞对</mark>凸显AI时代巨头战略弹性与生态主导权逻辑。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247876334&idx=1&sn=3ef5755145cf7a758ca2f551ad7915f8" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">龙虾也能当导演了！LibTV解锁全自动拍片，一句话从剧本干到成片</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-03-20 13:00</span>
+            </div>
+            <div class="news-summary">摘要：LiblibAI推出LibTV，首创“人+Agent双入口”视频创作平台，支持无限画布+节点工作流，人类可精细操控，Agent可一句话全自动成片，定价较竞品低76%，模型积分低92%。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>双模创作架构</strong>：LibTV同时开放<mark>无限画布</mark>供人类精细编辑与<mark>OpenClaw Skill</mark>接口供Agent全自动执行，<b>人负责审美判断</b>、<b>Agent负责执行扩展</b>。</li>
+                <li><strong>专业级可控生成</strong>：内置摄像机控制、多角度生成、25宫格连贯分镜等<mark>20+独有功能</mark>，支持调用<b>市面顶流图像/视频模型</b>，拒绝“抽盲盒”式生成。</li>
+                <li><strong>极致性价比策略</strong>：年卡最低<mark>39折</mark>，模型积分定价低至竞品<mark>2折</mark>，<b>LibTV</b>会员SKU价格较竞品低<mark>76%</mark>，以价格战加速市场教育。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzkyNjU2ODM2NQ==&mid=2247626433&idx=1&sn=60956a9dd0e71722017b56bac9f1a852" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">OpenClaw不重要，重要的是它以后跑在哪里</a>
+            </h2>
+            <div class="meta">
+                <span>📰 硅星人Pro</span>
+                <span>🕒 2026-03-20 09:38</span>
+            </div>
+            <div class="news-summary">摘要：OpenClaw热潮后，“装虾易养虾难”成共识，飞书通过aily智能伙伴、妙搭Agent协作、多维表格AI搭建等能力，将IM升级为自然语言时代的“执行总线”，成为Agent落地首选平台。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>IM即命令行</strong>：飞书aily将<mark>agent开箱即用</mark>，权限与用户一致，支持自然语言安装Skill，<b>IM正成为自然语言时代的CLI</b>，降低人机交互门槛。</li>
+                <li><strong>平台级Agent调度</strong>：飞书整合通讯、文档、多维表格、审批等2500+API，构建企业<mark>可操作骨架</mark>，使Agent操作的是组织抽象模型，而非孤立工具，<b>飞书</b>成为<mark>权限中枢</mark>与<mark>行为日志沉淀点</mark>。</li>
+                <li><strong>生态快速整合</strong>：3月19日飞书宣布<b>火山引擎</b>、<b>阶跃星辰</b>、<b>Kimi</b>等六家模型厂商完成对接，<mark>统一交互层</mark>战略清晰，验证“谁离工具链最近，谁就掌握调度权”。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzkyNjU2ODM2NQ==&mid=2247626433&idx=2&sn=61a3e699bbf7731c5739f546ba871a2b" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">同样的模型，为什么大佬做出来的游戏比你的好十条街？｜对话 TapTap 制造负责人姜黎</a>
+            </h2>
+            <div class="meta">
+                <span>📰 硅星人Pro</span>
+                <span>🕒 2026-03-20 09:38</span>
+            </div>
+            <div class="news-summary">摘要：TapTap制造（TTM）作为垂类Agent，通过注入游戏开发专业技能、内置UrhoX引擎与马里奥等经典案例知识库，实现从文档研究到自主编程的闭环，支撑30万行代码中型项目，免费策略加速生态占领。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>专业技能注入</strong>：TTM不依赖通用知识，而是深度集成<b>UrhoX引擎</b>文档、<b>马里奥</b>等经典游戏案例，让Agent先<mark>文档研究</mark>再编码，解决通用工具“知识盲区”痛点。</li>
+                <li><strong>拟人化共创体验</strong>：以看板娘<b>嗒啦啦</b>为Agent人格化载体，支持“共创讨论”范式——AI提供选项A/B，<mark>人做最终决策</mark>，强化创作愉悦感与控制感。</li>
+                <li><strong>闭环生态优势</strong>：TTM自研引擎+知识库+<b>TapTap</b>分发平台一体化，游戏可一键发布，<mark>免运维托管</mark>，对比<b>Unity</b>等传统引擎的转型包袱，形成轻量敏捷护城河。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI咨询与客户成功部 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
