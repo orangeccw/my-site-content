@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-03-22</div>
+        <div class="top-tags">
+            <span class="tag-item">#Superapp</span>
+            <span class="tag-item">#EdgeClaw</span>
+            <span class="tag-item">#TokenEconomy</span>
+            <span class="tag-item">#OpenClaw</span>
+            <span class="tag-item">#ModelSourcing</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>战略从“广撒网”转向“单点突破”</strong>
+            <p>OpenAI公开承认过去一年产品线过度分散，将ChatGPT、Codex、Atlas三合一打造桌面Superapp，以Codex为骨架集中资源攻坚企业级AI工作站。</p>
+        </div>
+        <div class="trend-card">
+            <strong>端云协同成为隐私与成本双解方案</strong>
+            <p>EdgeClaw等框架通过三级安全协同（S1/S2/S3）与性价比感知路由，实现敏感数据本地处理、简单任务调用低价模型，让AI既安全又省钱。</p>
+        </div>
+        <div class="trend-card">
+            <strong>Token正从计费单位升级为新型生产要素</strong>
+            <p>工程师薪酬结构中开始加入年度token预算，企业设立Token Hub统筹调度，算力配额成为与薪资、期权并列的核心人才激励与组织治理工具。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzkyNjU2ODM2NQ==&mid=2247626488&idx=2&sn=13a8d01ef7c9609d8ce7906ec81a546c" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">OpenAI突然宣布"三合一"：浏览器+编程+ChatGPT合并，内部承认过去一年走错了</a>
+            </h2>
+            <div class="meta">
+                <span>📰 硅星人Pro</span>
+                <span>🕒 2026-03-21 11:12</span>
+            </div>
+            <div class="news-summary">摘要：OpenAI发布内部备忘录，宣布将ChatGPT、Codex和Atlas合并为统一桌面Superapp，承认过去一年“摊子铺得太大”，转向聚焦Codex这一已验证爆发力的核心产品。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>战略转向</strong>：OpenAI <mark>公开认错</mark> 并启动 <b>Codex</b> 为骨架的三合一整合，Greg Brockman亲自督阵产品重组。</li>
+                <li><strong>竞争倒逼</strong>：Anthropic的 <b>Claude Code</b> 在开发者市场快速渗透，触发OpenAI内部 <mark>Code Red</mark> 高度警戒状态。</li>
+                <li><strong>商业意图</strong>：Fidji Simo主导销售落地，Superapp被明确定义为 <b>必须快速变现的战略武器</b>，而非纯技术产品。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&mid=2247659346&idx=2&sn=dff63653a2743e233ab33a6d1edb13b3" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">面壁智能发布 EdgeClaw 智能体框架，主打安全和省钱</a>
+            </h2>
+            <div class="meta">
+                <span>📰 AI前线</span>
+                <span>🕒 2026-03-21 13:31</span>
+            </div>
+            <div class="news-summary">摘要：面壁智能联合多家机构开源EdgeClaw框架，通过三级安全协同（S1/S2/S3）与性价比感知路由，解决OpenClaw存在的数据泄露与token浪费问题。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>安全分级</strong>：EdgeClaw首创 <mark>三级安全协同</mark>，S3级敏感数据强制由本地 <b>MiniCPM</b> 离线处理，杜绝云端泄露。</li>
+                <li><strong>成本优化</strong>：性价比感知机制将 <b>60–80%</b> 的编程助手请求路由至低价模型，显著降低企业AI使用成本。</li>
+                <li><strong>端云一体</strong>：支持在 <b>MacMini</b>、DGXSpark等桌面设备部署，实现“公开数据上云、敏感数据脱敏、私密数据落地”的 <mark>无感协同</mark>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2651022945&idx=1&sn=cffe9b496ae04a400bba539f772dfbf6" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">「龙虾」爆火，token成「硬通货」后，这场AI比赛变得更重要了</a>
+            </h2>
+            <div class="meta">
+                <span>📰 机器之心</span>
+                <span>🕒 2026-03-21 13:01</span>
+            </div>
+            <div class="news-summary">摘要：腾讯广告算法大赛启动，奖金池达600万元，首次设立工业赛道并与KDD顶会联动，聚焦“推荐系统统一架构”这一AI基础设施级难题。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>赛题价值</strong>：挑战“序列建模与特征交互统一”，推动推荐系统从拼装式工程转向 <b>Transformer</b> 统一架构，验证 <mark>Scaling Law</mark> 在工业级场景的可行性。</li>
+                <li><strong>真实驱动</strong>：数据来自腾讯广告真实脱敏日志，提供完整 <b>Baseline</b> 和免费算力，目标是解决每家大厂都面临的 <mark>算力效率瓶颈</mark>。</li>
+                <li><strong>人才信号</strong>：学术+工业双赛道并轨，Top队伍可直通腾讯广告系统落地，标志着AI人才竞争已从模型能力转向 <b>系统级工程能力</b>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&mid=2247659346&idx=1&sn=c5494b7ceb50b6da4cebfdcce4ba2d26" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">发 token 当工资？工程师不只拿现金和期权，开始按 token 分身价了</a>
+            </h2>
+            <div class="meta">
+                <span>📰 AI前线</span>
+                <span>🕒 2026-03-21 13:31</span>
+            </div>
+            <div class="news-summary">摘要：黄仁勋提出“token即新货币”，阿里、领英等公司已试点发放token预算，工程师年薪中token配额占比或超20%，算力分配成为新型组织治理问题。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>薪酬变革</strong>：工程师总成本中AI推理支出占比已达 <b>20%</b>，阿里成立 <b>Alibaba Token Hub</b>，吴泳铭亲自挂帅统筹 <mark>Token创造与输送</mark>。</li>
+                <li><strong>资源稀缺</strong>：OpenAI Codex工程负责人证实，面试者已主动询问 <b>专属推理算力</b> 预算，算力配额正成为与薪资、期权并列的 <mark>核心谈判筹码</mark>。</li>
+                <li><strong>价格飞涨</strong>：腾讯云、智谱、阿里云密集提价，<b>Tencent HY2.0Instruct</b> 输入输出价涨幅超 <mark>450%</mark>，凸显token作为新型生产资料的定价权争夺。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&mid=2651279167&idx=1&sn=9e4f662f8ee2df417e3b5c1d070a5bab" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Cursor 新模型被指就是Kimi K2.5，联创回应：确实是，下次我们会说清楚</a>
+            </h2>
+            <div class="meta">
+                <span>📰 InfoQ</span>
+                <span>🕒 2026-03-21 10:12</span>
+            </div>
+            <div class="news-summary">摘要：Cursor发布Composer 2模型被逆向分析出调用Kimi K2.5，联创Aman Sanger公开承认“k2.5被证明是最强的”，并确认为授权商业合作。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>模型溯源</strong>：Composer 2实际模型ID为 <b>kimi-k2p5-rl-0317-s515-fast</b>，分词器与Kimi完全一致，证实其基于 <mark>Kimi K2.5</mark> 深度优化。</li>
+                <li><strong>合作模式</strong>：Cursor通过 <b>@FireworksAI_HQ</b> 托管平台调用Kimi模型，属授权商业合作，Kimi团队发文祝贺并称其为 <mark>开源生态典范</mark>。</li>
+                <li><strong>行业共识</strong>：Cursor承认“没在博客里提Kimi是疏忽”，标志行业已形成新默契——<b>模型复用与再训练</b> 成为高效创新常态，透明化成为新伦理底线。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI咨询与客户成功部 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
