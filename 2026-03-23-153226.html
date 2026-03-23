@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-03-23</div>
+        <div class="top-tags">
+            <span class="tag-item">#TeraFab</span>
+            <span class="tag-item">#太空算力</span>
+            <span class="tag-item">#端到端+经典栈</span>
+            <span class="tag-item">#AI版权链路诉讼</span>
+            <span class="tag-item">#GrokComputer</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>算力基建正从地面跃迁至太空</strong>
+            <p>马斯克启动TeraFab项目，以1太瓦（TW）级太空算力为目标，依托星舰运载+轨道太阳能+微型AI卫星，将AI计算中心搬上天，破解地球电力、散热与土地的三重物理瓶颈。</p>
+        </div>
+        <div class="trend-card">
+            <strong>智驾进入「可验证安全」新阶段</strong>
+            <p>英伟达推出Halos OS安全栈，对端到端模型输出的10条轨迹做实时审查与否决，实现“黑盒推理+白盒兜底”双轨并行，推动L4商业化落地加速。</p>
+        </div>
+        <div class="trend-card">
+            <strong>版权争议从训练数据升级至全链路</strong>
+            <p>大英百科起诉OpenAI，首次将侵权指控覆盖训练抓取、权重记忆、RAG实时检索三环节，并叠加商标侵权，试图为AI知识调用划定法律红线。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2651022970&idx=2&sn=e3eccb77a7b1cecdbacc5d0f7298fe5f" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">刚刚，马斯克启动TERAFAB项目：万亿瓦算力工厂，瞄准太空</a>
+            </h2>
+            <div class="meta">
+                <span>📰 机器之心</span>
+                <span>🕒 2026-03-22 13:31</span>
+            </div>
+            <div class="news-summary">马斯克官宣TeraFab项目：联合SpaceX、Tesla与xAI，建设年产1太瓦（10¹²W）算力的太空芯片工厂，80%算力部署于轨道，目标是突破地球能源与散热极限，迈向卡尔达肖夫I型文明。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>太空算力基建启动</strong>：马斯克宣布<mark>正式启动TeraFab</mark>，目标年产<b>1太瓦</b>算力，其中<b>80%</b>部署于太空，依托星舰实现每年<b>1000万吨</b>入轨运力。</li>
+                <li><strong>全流程晶圆厂革命</strong>：奥斯汀工厂将集成<b>光刻掩模制作→芯片制造→测试→迭代</b>闭环，实现芯片设计效率数量级提升，是全球首个<b>逻辑+存储+封装全栈整合</b>的晶圆厂。</li>
+                <li><strong>微型AI卫星量产化</strong>：首发<b>AI Sat Mini</b>功率达<b>100kW</b>，未来升级至兆瓦级；太空“永远是晴天”，太阳能获取效率为地面<b>5倍以上</b>，部署成本或<b>2–3年</b>内低于地面。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIxODUzNTg2MA==&mid=2247490340&idx=1&sn=298b8fe8076bafb6c40ab42dc78f0856" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">全文｜马斯克突发官宣! 人类史上最大造芯计划“TeraFab”：全球算力只够2%？把AI算力全部送上太空</a>
+            </h2>
+            <div class="meta">
+                <span>📰 web3天空之城</span>
+                <span>🕒 2026-03-22 19:09</span>
+            </div>
+            <div class="news-summary">马斯克直言全球晶圆厂产能仅能满足其愿景的2%，故自建TeraFab；提出“月球电磁质量投射器”构想，为未来拍瓦（PW）级算力奠基，并描绘AI+机器人驱动的“后稀缺时代”——货币消亡、土星旅行免费。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>算力缺口倒逼自建</strong>：马斯克称现有供应链（<b>台积电</b>、<b>三星</b>、<b>美光</b>）总产能仅占TeraFab需求的<b>2%</b>，因此必须自建晶圆厂，<mark>拒绝等待外部扩产</mark>。</li>
+                <li><strong>太空芯片双重优化</strong>：专为太空设计的芯片需耐受高能辐射、高热运行，<mark>散热器体积极小</mark>，且无需厚重电池，<b>功率密度</b>达每吨<b>100kW</b>，支撑轨道AI矩阵。</li>
+                <li><strong>月球基建开启拍瓦时代</strong>：提出在月球部署<b>电磁质量投射器</b>，利用其<b>1/6重力</b>与无大气优势，实现零火箭发射；目标是利用太阳能量的<b>百万分之一</b>，构建比当前地球经济大<b>100万倍</b>的AI经济体。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&mid=2653101816&idx=1&sn=f819244af71951a3162373f58795dee6" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">英伟达的智驾野心，藏不住了</a>
+            </h2>
+            <div class="meta">
+                <span>📰 极客公园</span>
+                <span>🕒 2026-03-22 12:04</span>
+            </div>
+            <div class="news-summary">英伟达在GTC 2026发布Halos OS安全栈与Alpamayo推理模型，构建“端到端+经典安全栈”双轨架构；Hyperion L4参考平台获Uber 10万辆订单，开启智驾生态标准化进程。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>安全架构范式升级</strong>：Halos OS对Alpamayo输出的<b>10条候选轨迹</b>逐条审查，<mark>可否决全部并接管控制</mark>，使奔驰CLA获<b>Euro NCAP 2025年度最佳表现奖</b>。</li>
+                <li><strong>三台电脑全栈赋能</strong>：英伟达覆盖云端训练、仿真测试、车载推理三类算力，不强求硬件全自研，<mark>向特斯拉销售训练与仿真算力</mark>，<b>Cosmos</b>与<b>NuRec</b>成中国车企最常用仿真工具。</li>
+                <li><strong>Hyperion生态加速落地</strong>：Uber宣布采购<b>10万辆</b>Hyperion兼容车，覆盖<b>28城4洲</b>；吉利、BYD已采用双<b>Thor芯片</b>+Hyperion架构新车，为L4 Robotaxi-ready。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&mid=2653101814&idx=1&sn=a3f84943b2f0e24bfcd47e06bf9a0c12" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">库克：AI是对人能力的放大，而非取代人；月之暗面回应 Cursor 套壳 Kimi K2.5；曝 ChatGPT 广告测试推进缓慢｜极客早知道</a>
+            </h2>
+            <div class="meta">
+                <span>📰 极客公园</span>
+                <span>🕒 2026-03-22 08:41</span>
+            </div>
+            <div class="news-summary">库克强调AI是“能力放大器”；月之暗面确认Cursor Composer 2为授权合作；xAI启动工程师上门服务争夺企业客户；Grok Computer智能体即将上线，定位“数字擎天柱”系统2。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>Grok Computer智能体发布</strong>：马斯克确认<mark>即将上线Grok Computer</mark>，作为“<b>数字擎天柱</b>”的系统2（决策层），与系统1（直觉层）协同，实现<b>屏幕/键盘/鼠标级</b>自动化办公。</li>
+                <li><strong>AI企业服务模式升级</strong>：xAI向企业客户派遣工程师上门服务，已赢得<b>Shift4 Payments</b>订单，助其淘汰<b>ChatGPT</b>转用<b>Grok</b>，形成“技术+服务”双壁垒。</li>
+                <li><strong>开源合作边界澄清</strong>：月之暗面回应Cursor套壳事件，确认Composer 2为<b>Kimi K2.5</b>授权商用，<mark>属Fireworks AI平台托管合作</mark>，Cursor将下版本补全<b>模型来源标注</b>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652685570&idx=3&sn=c7f77fb24c1e02833b6e784f6972c262" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">OpenAI又摊上事了！大英百科状告ChatGPT：查资料也算侵权</a>
+            </h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-03-22 09:58</span>
+            </div>
+            <div class="news-summary">大英百科联合韦氏词典起诉OpenAI，指控GPT-4逐字复现其版权内容、RAG实时检索构成侵权、幻觉归因损害品牌，并援引《兰纳姆法》主张商标侵权，系AI版权诉讼史上首例全链路指控。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>全链路版权诉讼首案</strong>：Britannica起诉覆盖<b>训练抓取</b>、<b>权重记忆</b>、<b>RAG检索</b>三环节，<mark>首次主张实时调用即侵权</mark>，并叠加<b>Lanham Act商标侵权</b>指控。</li>
+                <li><strong>模型记忆能力成焦点</strong>：指控GPT-4可<b>逐字默写</b>近<b>10万篇</b>百科条目，援引斯坦福/耶鲁研究——大模型对《哈利·波特》原文提取率高达<b>96%</b>，证明版权内容已固化于权重。</li>
+                <li><strong>法律分歧加剧行业风险</strong>：德国法院认定权重还原即侵权，英国高院则判模型非侵权副本；此案在纽约审理，若支持RAG侵权，<b>Perplexity</b>等联网AI公司或面临<b>全行业授权重构</b>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI咨询与客户成功部 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
