@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-04-02</div>
+        <div class="top-tags">
+            <span class="tag-item">#超级应用</span>
+            <span class="tag-item">#ComputerUse</span>
+            <span class="tag-item">#AI超级应用</span>
+            <span class="tag-item">#PixVerseV6</span>
+            <span class="tag-item">#ClaudeCode乱扣费</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>超级应用成AI公司战略重心</strong>
+            <p>OpenAI首次提出构建统一AI超级应用，整合ChatGPT、Codex与智能体能力，试图从模型提供商跃升为AI时代操作系统级入口。</p>
+        </div>
+        <div class="trend-card">
+            <strong>智能体原生交互成开发者新战场</strong>
+            <p>Anthropic推出ComputerUse能力，让Claude可直接操控GUI应用；OpenAI反向渗透Claude生态发布codex-plugin-cc插件，AI已从“写代码”迈向“用电脑”阶段。</p>
+        </div>
+        <div class="trend-card">
+            <strong>AI视频进入“场景化交付”新周期</strong>
+            <p>PixVerse V6以电影级运镜、物理仿真与实时交互（R1+World直播）重构AI视频价值，竞争焦点从参数比拼转向工作流嵌入与用户留存。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&mid=2651280604&idx=1&sn=600bf4d677ec3756249802f5a22b06dd" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">1220亿美金！OpenAI 完成史上最大规模融资，微软“退居二线”，首次提及“超级应用”</a>
+            </h2>
+            <div class="meta">
+                <span>📰 InfoQ</span>
+                <span>🕒 2026-04-01 12:52</span>
+            </div>
+            <div class="news-summary">摘要：OpenAI完成1220亿美元创纪录融资，估值达8520亿美元，首次提出构建整合ChatGPT、Codex与智能体能力的AI超级应用，并加速推进多芯片自研与全球数据中心建设。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>融资规模破纪录</strong>：完成<mark>史上最大融资</mark>，金额达<b>1220亿美元</b>，投后估值升至<b>8520亿美元</b>。</li>
+                <li><strong>超级应用战略落地</strong>：首次正式提出<mark>AI超级应用</mark>愿景，整合<b>ChatGPT</b>、<b>Codex</b>与智能体能力，打造“以智能体为先”的统一入口。</li>
+                <li><strong>算力自主化加速</strong>：与<b>博通</b>合作开发10GW定制AI芯片，租用<b>谷歌TPU</b>、部署<b>AMD GPU</b>6GW，构建多元算力底座。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzkyNjU2ODM2NQ==&mid=2247627081&idx=3&sn=cc7526f203b2e87e5425ac703fe59cc9" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">刚刚，OpenAI拿下1220亿美元创纪录融资，首次向散户敞开大门</a>
+            </h2>
+            <div class="meta">
+                <span>📰 硅星人Pro</span>
+                <span>🕒 2026-04-01 10:18</span>
+            </div>
+            <div class="news-summary">摘要：OpenAI本轮1220亿美元融资中，首次向高净值个人投资者开放，募资超30亿美元，并将纳入ARK Invest ETF；月营收达20亿美元，周活用户超9亿，但仍未盈利。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>散户通道开启</strong>：首次<mark>向散户敞开大门</mark>，通过银行渠道募资超<b>30亿美元</b>，并纳入<b>ARK Invest</b>旗下多只ETF。</li>
+                <li><strong>商业化进展亮眼</strong>：月营收达<mark>20亿美元</mark>，周活用户超<b>9亿</b>，企业业务占比超<b>40%</b>，API每分钟处理超150亿token。</li>
+                <li><strong>盈利压力未解</strong>：虽营收高增，但因<b>算力</b>与<b>人才</b>成本指数级上升，仍处于<mark>大规模亏损</mark>状态，尚未披露任何利润数据。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&mid=2651280604&idx=2&sn=e7c294f7eecc713f2bf6462c71b8c7fe" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Claude Code刚放出大招，转眼就被群嘲“用不起”！OpenAl趁机甩出最阴插件，直接偷家</a>
+            </h2>
+            <div class="meta">
+                <span>📰 InfoQ</span>
+                <span>🕒 2026-04-01 12:52</span>
+            </div>
+            <div class="news-summary">摘要：Anthropic上线Claude Code“Computer Use”能力，支持GUI级计算机操控；OpenAI同步发布codex-plugin-cc插件反向渗透其生态，提供代码审查与任务接管能力。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>Computer Use上线</strong>：Claude Code正式推出<mark>Computer Use</mark>能力，支持操控<b>macOS原生应用</b>、<b>Electron</b>及无CLI专有软件，实现端到端自动化。</li>
+                <li><strong>OpenAI反向渗透</strong>：发布<mark>codex-plugin-cc</mark>插件，支持在Claude Code中调用<b>Codex</b>执行代码审查、对抗性审查与任务接管，形成“第二意见系统”。</li>
+                <li><strong>权限与安全设计</strong>：采用<mark>按需授权</mark>机制，权限仅在当前会话有效；支持批量授权，平衡<b>GUI操作</b>通用性与<b>CLI执行</b>精确性。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247879591&idx=2&sn=7d39b57cd592ec5702cab4147227f6a2" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Claude终于承认乱扣费！最高多收你20倍，一句「你好」干掉13%额度</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-04-01 12:00</span>
+            </div>
+            <div class="news-summary">摘要：Anthropic承认Claude Code存在prompt cache失效bug，导致token消耗膨胀10–20倍；用户反馈“一句你好”耗尽13%额度，最高级套餐3.5小时即用完，暴露交付与响应短板。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>计费bug被实锤</strong>：确认存在<mark>prompt cache失效</mark>问题，导致token消耗被动放大至<b>10–20倍</b>，一句“你好”即耗尽<b>13%</b>额度。</li>
+                <li><strong>用户可用性崩塌</strong>：Claude Pro用户反馈<b>每周一用满</b>、<b>3.5小时耗尽</b>200美元套餐，实际可用天数仅约<b>12天/月</b>，接近“不可用”状态。</li>
+                <li><strong>响应滞后成短板</strong>：用户逆向发现bug已两天，Anthropic才回应“正在紧急排查”，暴露<mark>交付响应迟缓</mark>问题，对比<b>OpenClaw</b>“连夜修复”差距明显。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247879591&idx=1&sn=5aca906a42c51bb5e4aec7fa266aaa81" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Sora走了，PixVerse V6来了！AI视频空间时间处理能力大增，延时拍摄、慢动作都能搞</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-04-01 12:00</span>
+            </div>
+            <div class="news-summary">摘要：爱诗科技发布PixVerse V6，支持电影级运镜、物理仿真与实时音效；同步上线Team Plan团队协作、Mini Apps一键成片及R1实时世界模型升级，全球用户破1亿。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>V6沉浸式升级</strong>：支持<mark>延时摄影</mark>、<mark>慢动作</mark>与POV视角，物理仿真还原浪花轨迹、深海压迫感，音效随动作自然起伏，<b>15秒极速出片</b>。</li>
+                <li><strong>工作流产品化</strong>：推出<mark>Team Plan</mark>团队积分池与权限管理，<b>Mini Apps</b>一键成片，支持商品图自动生成广告视频，直击内容工作室真实需求。</li>
+                <li><strong>R1实时交互突破</strong>：升级<b>PixVerse R1</b>支持数字分身拖拽互动与24小时<b>World直播</b>，用户弹幕触发实时生成，将AI视频从“单人创作”变为“多人互动娱乐”。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI咨询与客户成功部 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
