@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-04-06</div>
+        <div class="top-tags">
+            <span class="tag-item">#Yoroll</span>
+            <span class="tag-item">#StreamingClaw</span>
+            <span class="tag-item">#GPT-6</span>
+            <span class="tag-item">#OpenClaw</span>
+            <span class="tag-item">#世界模型</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>🎮 游戏范式迁移：世界模型+互动视频=新游戏基建</strong>
+            <p>AI不再只生成“可看”的视频，而是构建“可玩”的实时生成世界——Yoroll平台让个人创作者一周做出Steam可上架的AI原生游戏，传统引擎护城河正被视频原生交互架构瓦解。</p>
+        </div>
+        <div class="trend-card">
+            <strong>⚡ 护城河重定义：大模型成大宗商品，生态与工具链成新壁垒</strong>
+            <p>OpenAI面临“网景诅咒”，模型同质化加剧、用户低频使用（80%年交互＜1000次）、财务重力飙升（Meta资本开支占总收入50%），真正壁垒转向创作工作流、交互组件库与创作者闭环。</p>
+        </div>
+        <div class="trend-card">
+            <strong>👁️‍🗨️ 具身智能进入流式实时时代</strong>
+            <p>理想StreamingClaw实现毫秒级“边看边记边行动”，打破传统视频Agent离线处理瓶颈，将具身智能从“看录像”升级为“直播式感知-决策-执行”，为座舱、机器人、AI眼镜铺平落地通路。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652689872&idx=1&sn=904b28d1a4ad705405a3cb91170e0d6b" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">游戏引擎被偷家？硅谷AI黑马掀翻游戏圈，世界模型造游戏杀疯了</a>
+            </h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-04-05 12:31</span>
+            </div>
+            <div class="news-summary">摘要：LinearGame旗下Yoroll平台将世界模型与互动视频融合，支持一句话生成3D可玩空间，个人创作者一周即可做出爆款AI互动游戏《华君传》，标志AI游戏从“能生成”迈向“可工业化供给”新阶段。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>平台范式突破：</strong>Yoroll实现<mark>一句话生成可运行3D空间</mark>，<b>Vibe Coding Agent</b>自动完成场景搭建、角色创建、脚本编写全流程，压缩传统3D开发为自然语言指令。</li>
+                <li><strong>UGC爆发验证：</strong>抖音创作者“唯爱华君”用<mark>一周零基础开发</mark>女尊后宫互动游戏《华君传》，单条视频播放破百万，<b>Yoroll.ai</b>已签约数十位AI视频游戏创作者并支持Steam发行。</li>
+                <li><strong>技术融合创新：</strong>首创<mark>视频叙事+实时3D交互无缝切换</mark>，通过提示词与状态约束保证风格一致性，让<b>AI视频负责好看、3D玩法负责好玩</b>，构建真正电影感+玩法深度的AI原生游戏。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652689872&idx=2&sn=2fd79ffec10c38563429b06649f6856c" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">OpenAI没有护城？AI即兴软件时代来临，美国再迎「网景诅咒」！</a>
+            </h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-04-05 12:31</span>
+            </div>
+            <div class="news-summary">摘要：Benedict Evans指出大模型已成“大宗商品”，OpenAI面临护城河危机——用户低频（80%年交互＜1000次）、模型同质化加剧、财务重力失控（Meta资本开支占总收入50%），行业正转向“即兴软件”新范式。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>用户行为真相：</strong>全球<mark>80%用户年交互不足1000次</mark>，仅<5%愿为AI付费，<b>ChatGPT</b>本质仍是“偶尔好用的搜索增强器”，未成为生产力中枢。</li>
+                <li><strong>财务重力临界：</strong>Meta资本开支占<mark>总收入50%以上</mark>，远超利润占比，<b>AI竞赛</b>已进入“建造国家基础设施”级投入，但真实市场需求仍疲软。</li>
+                <li><strong>软件范式迁移：</strong>AI正催生<mark>即兴软件革命</mark>，将琐碎业务流程快速软件化，<b>SAP/Oracle</b>等制度化系统仍不可替代，但溢价能力正从“写代码”转向“深度业务理解”。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247880900&idx=1&sn=a17acaa2680901599ac85f378a1ceaf4" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">GPT-6，曝光了</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-04-05 12:39</span>
+            </div>
+            <div class="news-summary">摘要：GPT-6被曝4月14日发布，定位AGI“最后一公里”，原生多模态、2M上下文、代码/推理/智能体任务性能暴涨40%，将熔炼ChatGPT/Codex/Atlas为统一桌面级超级应用，OpenAI已砍掉Sora等非核心项目全力押注。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>AGI冲刺信号：</strong>内部定调为<mark>AGI最后一公里</mark>，预训练已于3月17日完成，<b>GPT-6</b>将统一ChatGPT、Codex与Atlas浏览器，打造首个桌面级AI超级应用。</li>
+                <li><strong>性能与架构跃迁：</strong>实现<mark>原生多模态统一架构</mark>，上下文窗口达<2M tokens>，代码/推理/智能体任务比<b>GPT-5.4</b>强40%，定价却仅略高于前代。</li>
+                <li><strong>战略孤注一掷：</strong>为算力让路，<mark>砍掉Sora项目</mark>致迪士尼十亿美元合同告吹，安全团队划归CRO，产品部门更名为<b>AGI Deployment</b>，All-in AGI落地。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247880900&idx=2&sn=562dbeb5fe110eb84440d28575a36f9d" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">具身龙虾，上车理想</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-04-05 12:39</span>
+            </div>
+            <div class="news-summary">摘要：理想发布StreamingClaw具身Agent框架，支持实时多模态流式交互，实现毫秒级“边看边记边行动”，在智能座舱中可实时检测驾驶风险、主动打招呼，标志具身智能从离线视频处理迈入直播式实时闭环。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>流式架构革命：</strong>突破传统<mark>离线视频处理瓶颈</mark>，采用<mark>增量计算</mark>与动态滑动窗口，实现毫秒级感知-决策-执行闭环，<b>StreamingClaw</b>原生兼容OpenClaw。</li>
+                <li><strong>多代理协同智能：</strong>主代理<mark>StreamingReasoning</mark>负责实时推理，从代理<mark>StreamingMemory</mark>提供长效记忆，<b>StreamingProactivity</b>实现全天候主动风险监控与事件触发。</li>
+                <li><strong>物理世界落地：</strong>已集成<mark>视频剪切、实时识别、具身动作序列</mark>等工具，支持在智能眼镜、座舱、机器人等终端部署，<b>理想汽车</b>已实现驾驶中哈欠/玩手机实时预警与取车主动问候。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2651025873&idx=1&sn=84b7b942ec8be9dd3f38e02fce8bdc4d" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">科技史上最贵的饭局：扎克伯格痛失DeepMind始末</a>
+            </h2>
+            <div class="meta">
+                <span>📰 机器之心</span>
+                <span>🕒 2026-04-05 12:31</span>
+            </div>
+            <div class="news-summary">摘要：哈萨比斯因扎克伯格对AI安全冷淡、且未通过“AI独特性”试探（将AI与VR/3D打印等同视之），最终选择谷歌6.5亿美元收购DeepMind；Meta元宇宙已宣布6月15日关闭，重心转向AI眼镜（Ray-Ban Meta年销700万副）。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>关键决策失误：</strong>扎克伯格在饭局中将<mark>AI与VR/3D打印同等热情</mark>，被哈萨比斯判定为<mark>不懂AI独特性</mark>，<b>DeepMind</b>最终以6.5亿美元被谷歌收购。</li>
+                <li><strong>AI安全成分水岭：</strong>苏莱曼明确要求设立<mark>独立AI监督委员会</mark>，谷歌高度重视，而Facebook企业发展主管<mark>对AI安全话题冷淡</mark>，直接导致交易失败。</li>
+                <li><strong>战略转向现实：</strong>Meta元宇宙<mark>6月15日关闭</mark>，但AI眼镜业务爆发，<b>Ray-Ban Meta</b>2025年销量达700万副，为2023-2024两年总和三倍，70%投入转向可穿戴与AI眼镜。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI咨询与客户成功部 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
