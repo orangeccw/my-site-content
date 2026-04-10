@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-04-10</div>
+        <div class="top-tags">
+            <span class="tag-item">#MuseSpark</span>
+            <span class="tag-item">#MoT架构</span>
+            <span class="tag-item">#AgentHarness</span>
+            <span class="tag-item">#ClaudeManagedAgents</span>
+            <span class="tag-item">#具身智能</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>闭源转向与超级智能落地加速</strong>
+            <p>Meta放弃Llama开源路线，以<MuseSpark>为起点押注“个人超级智能”，标志大厂从模型能力竞赛转向系统级AI代理落地。</p>
+        </div>
+        <div class="trend-card">
+            <strong>具身智能基座进入工程化爆发期</strong>
+            <p>腾讯HY-Embodied系列以<MoT-2B>架构突破端侧性能瓶颈，在22项评测中16项登顶，证明VLM正从“看图说话”迈向“下地干活”的物理世界执行。</p>
+        </div>
+        <div class="trend-card">
+            <strong>Agent从开发者工具走向消费级系统</strong>
+            <p>CREAO和Claude Managed Agents同步引爆“Agent Harness”范式，让普通人用自然语言即可生成可持久运行的自动化系统，<AgentHarness>正成为AI普惠的关键基础设施。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&mid=2247660642&idx=1&sn=456b92271517c6f43c83eeef3e4e94e2" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Meta 143亿挖角后首个作品来了：Alexandr Wang 推出闭源模型，杨立坤点赞</a>
+            </h2>
+            <div class="meta">
+                <span>📰 AI前线</span>
+                <span>🕒 2026-04-09 11:18</span>
+            </div>
+            <div class="news-summary">摘要：Meta发布首个闭源多模态推理模型<MuseSpark>（代号Avocado），由Alexandr Wang带队打造，强调“模型+工具+环境+多智能体”系统协同，性能媲美Gemini Pro与GPT 5.4，已接入Meta AI眼镜及全系App。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>战略转向</strong>：Meta放弃开源路线，<mark>闭源首发</mark> <b>MuseSpark</b>，标志其AI战略从Llama社区转向“个人超级智能”系统级落地。</li>
+                <li><strong>技术突破</strong>：首创<mark>可视化思维链</mark>与<b>Hyperion数据中心</b>支撑，多模态推理能力在“人类最后的考试”中达58%完成率。</li>
+                <li><strong>商业路径</strong>：启动<b>私有API预览</b>，面向特邀合作伙伴开放，计划未来提供付费API服务，<mark>API商业化</mark>成新盈利引擎。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247881936&idx=3&sn=f0d96438cc47c19e904c2a1fa200259a" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">MoE不够看了，腾讯推出MoT：2B具身模型22项评测16项最佳</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-04-09 12:06</span>
+            </div>
+            <div class="news-summary">摘要：腾讯混元团队发布HY-Embodied-0.5系列具身智能基座，创新采用混合Transformer（MoT）架构，2B小模型在22项评测中斩获16项第一，已实机验证打包、堆叠等机器人任务效果显著优于基线模型。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>架构革新</strong>：首创<mark>MoT混合Transformer</mark>架构，为视觉分支配置非共享参数与双向注意力，<b>HY-ViT 2.0</b>原生支持任意分辨率输入。</li>
+                <li><strong>评测统治力</strong>：在22项权威具身评测中，<b>MoT-2B</b>模型取得<mark>16项最佳</mark>，性能超越Qwen3-VL-4B及RoboBrain2.5等竞品。</li>
+                <li><strong>工程闭环</strong>：通过<mark>在线蒸馏</mark>将大模型能力高保真压缩至端侧，<b>HY-Embodied-0.5</b>已支持真实机器人实机控制，打通“感知-推理-规划-执行”全链路。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652690621&idx=2&sn=69196aee2bb6f8c60503610e2be9bb2d" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">黄仁勋刚讲完AI「五层蛋糕」，他们就跑通了！算力、模型、Agent一次打穿</a>
+            </h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-04-09 09:04</span>
+            </div>
+            <div class="news-summary">摘要：易鑫构建覆盖算力调度（Vesta平台）、垂直模型（Xin系列）、平台产品（PaaP）与业务应用（全链路风控）的汽车金融AI全栈体系，成为国内首个通过生成式AI大模型备案的汽车金融企业。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>全栈实践</strong>：落地黄仁勋“AI五层蛋糕”，<mark>训推一体</mark> <b>Vesta平台</b>实现算力成本可控与推理低延迟，支撑规模化AI应用。</li>
+                <li><strong>垂直模型</strong>：自研<b>XinMM-AM1</b>等Agentic大模型，<mark>本地化部署</mark> DeepSeek，并开源<b>YiXin-Agentic-Qwen3-14B</b>推动行业共建。</li>
+                <li><strong>业务穿透</strong>：AI覆盖汽车金融全链路，<mark>端到端风控</mark>直接输入音视频原始数据，融合可解释模型，避免人工特征信息损耗。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247881936&idx=2&sn=4ff44acbe72912cf5977e94aafbcd143" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Claude封杀龙虾后推自家Agent服务，又被开源平替了</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-04-09 12:06</span>
+            </div>
+            <div class="news-summary">摘要：Anthropic发布Claude Managed Agents托管服务，支持模块化智能体编排与长时自主运行；开源项目Multica同日上线GitHub获2.6k Star，实现Agent即协作队友、全流程免运维运行。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>托管服务</strong>：Anthropic推出<mark>生产级托管</mark> <b>Claude Managed Agents</b>，支持沙箱隔离、多智能体协同与端到端追踪，任务成功率提升10%。</li>
+                <li><strong>开源平替</strong>：开源项目<b>Multica</b>以<mark>10分钟上手</mark>体验秒跟，支持WebSocket实时进度推送与Skill沉淀复用，GitHub获2.6k Star。</li>
+                <li><strong>企业落地</strong>：Notion已集成该能力，工程师用<b>Claude Code</b>高效交付代码，知识工作者快速生成网站与演示文稿，<mark>交付提速10倍</mark>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2651026681&idx=1&sn=c0a6b2ec98046f83c0c31387b190b920" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">帮普通人「驯服」Agent，这支硅谷初创团队冲上了X全球热搜</a>
+            </h2>
+            <div class="meta">
+                <span>📰 机器之心</span>
+                <span>🕒 2026-04-09 11:59</span>
+            </div>
+            <div class="news-summary">摘要：硅谷初创公司Creao AI发布CREAO，用户仅用自然语言描述任务，系统即可自动生成可持久运行的Agent，支持定时执行、变量复用与跨平台工具连接，真正实现“对话结束，系统永续”。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>消费级突破</strong>：CREAO实现<mark>自然语言即系统</mark>，用户描述“每周一扫描竞品价格”，系统自动生成并<mark>永久运行</mark> <b>CREAO Agent</b>，无需代码与配置。</li>
+                <li><strong>工程本质</strong>：AI仅负责逻辑定义，执行路径静态化后<mark>脱离实时推理</mark>，以确定性程序运行，<b>Google Sheets</b>与<b>Slack</b>等300+平台一键打通。</li>
+                <li><strong>范式迁移</strong>：将Agent从“瞬时能力”升级为<mark>持续系统</mark>，支持会议录音→总结→行动项→邮件发送全流程闭环，<b>Outlook</b>自动发送无需人工介入。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI咨询与客户成功部 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
