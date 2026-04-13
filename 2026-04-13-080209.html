@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-04-13</div>
+        <div class="top-tags">
+            <span class="tag-item">#AgentRuntime</span>
+            <span class="tag-item">#Revo3</span>
+            <span class="tag-item">#Ultrasound-CLIP</span>
+            <span class="tag-item">#ORCALab</span>
+            <span class="tag-item">#IstioAmbient</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>Agent基础设施进入“数字总部”时代</strong>
+            <p>企业不再满足于单个AI Agent试用，而是亟需可管、可控、可继承的运行底座，腾讯云Agent Runtime沙箱正成为大规模部署AI员工的生产级基础设施。</p>
+        </div>
+        <div class="trend-card">
+            <strong>具身智能硬件进入“水桶手”成熟期</strong>
+            <p>强脑科技Revo 3以21自由度+全直驱反驱+视触觉融合实现性能与成本平衡，标志着灵巧手从实验室Demo迈向真实场景量产交付的关键拐点。</p>
+        </div>
+        <div class="trend-card">
+            <strong>AI原生基础设施全面升级</strong>
+            <p>从Istio支持多集群AI推理流量，到松应ORCA Lab实现“10岁孩子训机器人”，云原生与物理AI平台正深度重构研发范式，降低AI应用门槛。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA4MTQ4NjQzMw==&mid=2652800679&idx=1&sn=ff7d0b8c3b70edad02647f5d48a9ac2e" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">护航MiniMax、驯服小龙虾，腾讯云的AI Agent“数字总部”亮了</a>
+            </h2>
+            <div class="meta">
+                <span>📰 智东西</span>
+                <span>🕒 2026-04-12 21:35</span>
+            </div>
+            <div class="news-summary">腾讯云推出Agent Runtime沙箱方案，为AI Agent打造“防爆箱”式数字办公环境，已支持MiniMax百万级吞吐零事故强化学习训练，并开源底层Cube技术。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>安全可控规模化部署</strong>：实现<mark>环境秒开、用完即删</mark>，支撑<b>MiniMax</b>十万级并发、百万级吞吐零事故训练。</li>
+                <li><strong>企业级Agent治理三支柱</strong>：状态与算力分离、凭证网关按需注入、<mark>技能/记忆/协作资产独立存储</mark>，确保<b>Agent Runtime</b>可管、可继承、可审计。</li>
+                <li><strong>开源底座加速生态共建</strong>：宣布将底层沙箱技术<b>Cube</b>开源，支持企业灵活部署；<mark>打通三道坎</mark>——基础设施敢接、数据资产留住、组织真正用好。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247882513&idx=1&sn=d4c16158273ff392d9636bf5d11912ba" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">超越人手！中国第一家脑机接口独角兽，要把仿生手带给机器人</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-04-12 09:59</span>
+            </div>
+            <div class="news-summary">强脑科技发布21自由度灵巧手Revo 3，融合全掌触觉与指尖视触觉，支持柔顺力控与仿真-实机无缝迁移，定价具性价比，已获宇树、逐际动力等头部具身企业验证。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>21自由度“甜点位”设计</strong>：经系统测试验证，<mark>21自由度带来性能跃升</mark>，可稳定复现盘珠子、拉花绳等精细人手动作，优于行业常见11–20自由度方案，属<b>Revo3</b>核心突破。</li>
+                <li><strong>全直驱+可反驱架构</strong>：采用自研高密度电机与减速器，实现<mark>柔顺力控</mark>，显著弥合仿真到实机的gap，让强化学习策略在<b>真机上大概率跑通</b>。</li>
+                <li><strong>全栈能力迁移验证</strong>：依托七年仿生手量产经验，将高可靠性、长寿命标准迁移至机器人灵巧手，<mark>已适配MuJoCo/Isaac Gym</mark>等主流仿真平台，获<b>宇树</b>等头部机构实测选用。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247882513&idx=3&sn=59341c179023f0b961d21b4cf66b6d12" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">36.4万超声图文对！中国团队构建首个大规模超声专属数据集，让AI真正读懂临床诊断语义丨CVPR'26</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-04-12 09:59</span>
+            </div>
+            <div class="news-summary">浙大城市学院等联合发布首个100%超声专属大规模图文数据集US-365K（36.4万对），并提出Ultrasound-CLIP框架，实现超声临床语义精准建模，成果入选CVPR 2026。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>填补超声跨模态数据空白</strong>：构建首个<b>US-365K</b>数据集，含36.4万对超声图像-文本样本、11676个临床病例，<mark>数据有效率超90%</mark>，彻底解决超声样本在医疗多模态数据中占比不足5%的瓶颈。</li>
+                <li><strong>UDT知识框架驱动语义理解</strong>：首创超声诊断分类体系<b>UDT</b>，含UHAT解剖层级与UDAF诊断属性框架，<mark>实现临床知识结构化建模</mark>，为模型注入专业推理逻辑。</li>
+                <li><strong>Ultrasound-CLIP双目标优化</strong>：引入UDAF引导异质图编码器与语义软标签，<mark>多任务平均准确率达59.61%</mark>，在乳腺/胃肠等4个下游数据集零样本迁移中全面领先，<b>CVPR2026</b>接收。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&mid=2651281378&idx=2&sn=28b25243da18ba52f236122663f8950f" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">10岁孩子都能训机器人！对话松应科技创始人：做物理AI界的“安卓”挑战英伟达，正将其开源开放</a>
+            </h2>
+            <div class="meta">
+                <span>📰 InfoQ</span>
+                <span>🕒 2026-04-12 10:16</span>
+            </div>
+            <div class="news-summary">松应科技发布轻量化AI原生平台ORCA Lab 1.0，支持零代码、笔记本运行，可1分半钟扫描生成3D物理场景，目标培养百万物理AI人才，对标英伟达Omniverse打造开放“安卓生态”。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>普惠化物理AI开发平台</strong>：推出<b>ORCALab1.0</b>开发者版，<mark>10岁孩子都能上手</mark>，支持手机扫描1分半生成可训练3D物理场景，<b>RTX3060</b>笔记本即可流畅运行。</li>
+                <li><strong>“1:8:1”黄金合成数据策略</strong>：可自动化生成20维高保真多模态数据，<mark>补齐长尾与危险场景</mark>，覆盖物理建模、传感器模拟、机器人交互等，为AI注入因果理解能力。</li>
+                <li><strong>开放安卓式生态卡位</strong>：兼容摩尔线程、沐曦等20+国产GPU，<mark>不绑定单一硬件</mark>，已与<b>宇树科技</b>、傅利叶、北京/上海人形机器人国地中心等深度合作，共建国产物理AI基础设施。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&mid=2651281378&idx=3&sn=174e48b5f79c2f669c8bd9e685ac7d1e" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Istio 引入多集群、环境模式及推理功能，应对 AI 时代的不断发展</a>
+            </h2>
+            <div class="meta">
+                <span>📰 InfoQ</span>
+                <span>🕒 2026-04-12 10:16</span>
+            </div>
+            <div class="news-summary">Istio发布重大升级，新增环境模式多集群支持、网关API推理扩展及智能体网关实验集成，将服务网格升级为AI感知型平台基础组件，支持生成式AI与Agent工作负载。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>AI原生服务网格演进</strong>：Istio新增<mark>环境多集群部署</mark>，扩展无sidecar“ambient模式”至跨云/跨区场景，<b>CNCF</b>定位其为下一代AI基础设施基础层。</li>
+                <li><strong>推理流量原生集成</strong>：通过<b>网关API推理扩展</b>，将AI推理请求纳入Kubernetes原生API统一管理，<mark>实现AI流量一致路由与可观测</mark>，降低定制化工具依赖。</li>
+                <li><strong>智能体时代控制平面升级</strong>：引入实验性智能体网关数据平面，<mark>处理动态Agent交互流量</mark>，推动服务网格从微服务网络向<b>AI感知平台控制平面</b>演进。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI咨询与客户成功部 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
