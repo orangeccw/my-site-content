@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-04-18</div>
+        <div class="top-tags">
+            <span class="tag-item">#YOYOClaw</span>
+            <span class="tag-item">#Cerebras</span>
+            <span class="tag-item">#Opus4.7</span>
+            <span class="tag-item">#数据编译</span>
+            <span class="tag-item">#AI原生游戏</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>算力供应链战略化：从采购转向资本绑定</strong>
+            <p>OpenAI以1300亿人民币巨资下单Cerebras芯片并入股，本质是将算力采购升级为“芯片+资本+基建”三位一体的供应链控制，对冲英伟达依赖风险，同时优化自身IPO财务报表。</p>
+        </div>
+        <div class="trend-card">
+            <strong>AI终端进入Agent原生时代：端侧智能体走向消费级普惠</strong>
+            <p>荣耀YOYO Claw技术通过端云协同、Token调度引擎与内核级安全，首次将高可用AI Agent“开箱即食”化，推动AI PC从工具升级为“创作伙伴”，标志Agent真正落地大众场景。</p>
+        </div>
+        <div class="trend-card">
+            <strong>具身智能进入“数据基建”阶段：物理世界数字化成新赛道</strong>
+            <p>智域基石提出的“数据编译”五层管线，将原始多模态机器人数据转化为可训练、可检索、可交付的结构化资产，填补了物理世界与大模型之间的关键鸿沟，成为具身智能规模化落地的底层基础设施。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA4MTQ4NjQzMw==&mid=2652801216&idx=2&sn=c2af696c794c714c8ad0b4aa5b2a4448" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">1300亿！曝OpenAI花大价钱给英伟达找备胎</a>
+            </h2>
+            <div class="meta">
+                <span>📰 智东西</span>
+                <span>🕒 2026-04-17 14:39</span>
+            </div>
+            <div class="news-summary">摘要：OpenAI未来三年将支付超200亿美元采购Cerebras芯片，并提供10亿美元资助其数据中心建设；此举既为规避英伟达单一依赖风险，也为优化自身IPO财务报表结构。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>战略级备胎签约</strong>：OpenAI <mark>下单Cerebras芯片</mark> 并获其少数股份认股权证，总投入超<b>200亿美元</b>，打造全球最大AI推理部署项目。</li>
+                <li><strong>财务结构创新</strong>：向Cerebras数据中心提供的<b>10亿美元</b>融资可记为资产，芯片付款部分可记为利息收入，<mark>优化IPO报表</mark>。</li>
+                <li><strong>IPO协同加速</strong>：Cerebras计划下月IPO，目标估值<b>350亿美元</b>，OpenAI与亚马逊订单助其摆脱对G42的收入依赖，<mark>重启上市进程</mark>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&mid=2653104140&idx=1&sn=2fe0d6a982e7d96e61e4dcdf84c97b71" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">当游戏遇见 AI：为什么头部厂商都在选择阿里云</a>
+            </h2>
+            <div class="meta">
+                <span>📰 极客公园</span>
+                <span>🕒 2026-04-17 20:20</span>
+            </div>
+            <div class="news-summary">摘要：阿里云以36.2%份额蝉联中国游戏云市场第一，其全栈AI能力支撑《历史模拟器：崇祯》等AI原生游戏，实现从“选择剧情”到“创造剧情”的玩法革命。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>AI原生游戏落地</strong>：《历史模拟器：崇祯》依托<b>千问大模型</b>实现玩家自然语言决策与实时国运推演，<mark>创造无限支线</mark>，突破传统线性脚本限制。</li>
+                <li><strong>全链路技术支撑</strong>：阿里云<b>百炼平台</b>提供每分钟亿级tokens处理能力，<b>PolarDB</b>数据压缩技术使存储成本<mark>降低50%以上</mark>。</li>
+                <li><strong>全球化基建底座</strong>：支撑《明日方舟：终末地》全球上线次日下载破<b>3000万</b>，依托<b>29个公共云地域</b>与毫秒级网络架构，<mark>实现零卡顿跨国联机</mark>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA4MTQ4NjQzMw==&mid=2652801216&idx=1&sn=8f88336612f8c30bd309b0385c17d2f0" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Agent拐点时代已至，荣耀成了第一个吃螃蟹的“养虾人”</a>
+            </h2>
+            <div class="meta">
+                <span>📰 智东西</span>
+                <span>🕒 2026-04-17 14:39</span>
+            </div>
+            <div class="news-summary">摘要：荣耀发布YOYO Claw技术，预置于PC中实现“开箱即食”，Token消耗暴降50%，支持端侧自主学习与100%本地化数据处理，定义AI PC 3.0新范式。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>端侧Agent普惠化</strong>：荣耀YOYO Claw技术出厂预置，扫码即连微信/钉钉，<mark>0学习成本</mark>，让AI Agent走进<b>寻常百姓家</b>。</li>
+                <li><strong>Token调度引擎</strong>：自研算法实现全链路优化，上下文压缩、技能精准匹配、本地模型优先调用，<mark>Token消耗暴降50%</mark>，显著降低用户使用成本。</li>
+                <li><strong>内核级安全架构</strong>：系统对敏感数据进行<b>内核级加密</b>，设置“独立安全虾”监控高危操作，<mark>核心数据100%本地化</mark>，突破隐私安全瓶颈。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2651028221&idx=1&sn=38628e0cd0dc1142f40eb4d98f2542d0" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">π0.6和GEN-1谁代表未来？乾坤未定，但这条底层赛道浮出水面</a>
+            </h2>
+            <div class="meta">
+                <span>📰 机器之心</span>
+                <span>🕒 2026-04-17 11:03</span>
+            </div>
+            <div class="news-summary">摘要：智域基石提出“数据编译”概念，构建五层自动化管线，将原始物理世界数据转化为结构化训练输入，已获近亿元订单，成为具身智能上游关键基础设施。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>五层数据编译管线</strong>：覆盖质检、底座、编译、检索、交付全链路，<mark>全量自动化质检</mark>，单位成本显著低于人工，支撑<b>万亿小时</b>级数据处理。</li>
+                <li><strong>真实场景闭环验证</strong>：与地方政府共建数据采集工厂，联合本体与模型厂商部署机器人实测，<mark>打通反馈闭环</mark>，已获<b>近亿元订单</b>。</li>
+                <li><strong>路线中立基础设施</strong>：不押注GEN-1或π0.6单一路线，专注将人类行为、真机数据、部署反馈三类数据统一编译，<mark>成为模型训练入口</mark>，服务<b>多家具身智能公司</b>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzkyNjU2ODM2NQ==&mid=2247627644&idx=1&sn=be2bfcbf301a94848579540e9d5d4018" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Opus 4.7 压根没想做“最强模型”：各位吹Claude的速度都跟不上Anthropic 的节奏了</a>
+            </h2>
+            <div class="meta">
+                <span>📰 硅星人Pro</span>
+                <span>🕒 2026-04-17 10:58</span>
+            </div>
+            <div class="news-summary">摘要：Anthropic发布Opus 4.7，编程与视觉能力大幅跃升（SWE-bench达87.6%，XBOW达98.5%），但主动牺牲长上下文能力（MRCR v2暴跌46%），体现其从“大而全”转向“精准刀法”的商业化策略。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>编程能力跃升</strong>：SWE-bench Verified达<b>87.6%</b>，为公开模型第一；CursorBench达<b>70%</b>，<mark>解决多文件竞态条件</mark>，获Rakuten等客户实测“任务量提升3倍”。</li>
+                <li><strong>视觉重建级升级</strong>：XBOW基准从54.5%跃至<b>98.5%</b>，图像分辨率提升3倍，<mark>computer use首次达生产门槛</mark>，误点率大幅下降。</li>
+                <li><strong>主动战略取舍</strong>：MRCR v2 @1M从78.3%暴跌至<b>32.2%</b>，tokenizer变更致token消耗增35%，<mark>名义定价不变但实际成本翻倍</mark>，为Mythos安全护栏铺路。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI咨询与客户成功部 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
