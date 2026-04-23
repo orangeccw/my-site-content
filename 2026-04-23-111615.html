@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-04-23</div>
+        <div class="top-tags">
+            <span class="tag-item">#OpenClaw</span>
+            <span class="tag-item">#SOP智能体</span>
+            <span class="tag-item">#端侧智能体</span>
+            <span class="tag-item">#Cursor收购期权</span>
+            <span class="tag-item">#STAPO算法</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>AI编程正成为AGI核心战场</strong>
+            <p>马斯克以600亿美元期权绑定Cursor，本质是押注“代码即验证”——编程是AI能力最易量化、反馈最快、递归改进最直接的AGI路径。</p>
+        </div>
+        <div class="trend-card">
+            <strong>端侧智能体迎来量产拐点</strong>
+            <p>商汤Sage以3B激活参数实现94% PinchBench任务完成率，证明端侧可承载真实Agent闭环能力，车载、办公等场景迎来“说到做到”的智能体落地元年。</p>
+        </div>
+        <div class="trend-card">
+            <strong>企业AI落地从“知识平权”转向“技能固化”</strong>
+            <p>宇视聚焦SOP智能体，将老师傅肌肉记忆转化为可审计、可迭代的流程智能体，标志着AI赋能从消费级提示词走向企业级可驾驭工程。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652694174&idx=2&sn=2fc5802c86f1f97eaec3fc01b6bbc36f" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">马斯克祭出「霸王条款」！Cursor焊死SpaceX战车，600亿砸穿OpenAI</a>
+            </h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-04-22 11:00</span>
+            </div>
+            <div class="news-summary">摘要：SpaceX宣布600亿美元收购Cursor期权或100亿美元合作费，通过Colossus超算赋能Cursor自研Composer模型，补足xAI编程短板，为史上最大IPO（1.75万亿美元）注入AI叙事资产。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>战略捆绑</strong>：SpaceX与Cursor达成<mark>600亿收购期权</mark>，本质是用<b>Colossus超算</b>换<b>Composer模型</b>自主权，实现AI编程能力闭环。</li>
+                <li><strong>人才与算力双投喂</strong>：xAI已向Cursor输送<mark>数万张芯片</mark>算力并挖走<b>Andrew Milich</b>和<b>Jason Ginsberg</b>两位核心工程师，构建深度协同。</li>
+                <li><strong>IPO保险策略</strong>：600亿期权实为<mark>地面保险</mark>，对冲<b>太空数据中心</b>技术风险，确保<b>100万日活</b>和<b>20亿美元年收入</b>等硬指标支撑IPO估值。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&mid=2247661396&idx=1&sn=73626eb958f454babe5291167c76b195" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">xAI落后太多，马斯克“开大”重金求购Cursor，100亿美金“分手费”都敢签！</a>
+            </h2>
+            <div class="meta">
+                <span>📰 AI前线</span>
+                <span>🕒 2026-04-22 13:22</span>
+            </div>
+            <div class="news-summary">摘要：Cursor获100亿美元“分手费”级合作对价，将使用xAI百万H100等效算力训练Composer模型；其估值已超500亿美元，但面临Anthropic与OpenAI同类工具的直接竞争压力。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>算力瓶颈突破</strong>：Cursor长期受困<mark>算力瓶颈</mark>，此次合作将接入<b>xAI Colossus</b>超算，使<b>Composer 2</b>模型训练成本大幅降低。</li>
+                <li><strong>分发渠道战略化</strong>：100亿美元被业内视为<mark>分发渠道收购价</mark>，标志<b>IDE入口</b>已从技术中立转向AI实验室主导，<b>OpenClaw</b>生态格局重塑。</li>
+                <li><strong>融资节奏对冲</strong>：Cursor原计划以<mark>500亿美元估值</mark>融资20亿美元，与<b>Andreessen Horowitz</b>和<b>Nvidia</b>等xAI资方深度重叠，交易实为资本协同布局。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652694174&idx=1&sn=5b9f02bb09666a0f6ceec9327753c281" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">全球自动驾驶激战，滴滴与清华走出一条技术新路</a>
+            </h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-04-22 11:00</span>
+            </div>
+            <div class="news-summary">摘要：滴滴自动驾驶与清华李升波团队联合发布STAPO算法，精准剔除强化学习中0.01%虚假Token，显著提升端到端模型泛化能力，推动Robotaxi从算法论文走向真实道路。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>算法微调革命</strong>：STAPO以<mark>0.01%噪声剔除</mark>实现训练效果跃升，证明<b>大模型强化学习</b>瓶颈不在规模而在<b>信号质量</b>，为自动驾驶提供新范式。</li>
+                <li><strong>产学研中国范式</strong>：滴滴与清华共建<mark>深穹远航实验室</mark>，打通<b>清华学术能力</b>与<b>滴滴2100天安全运行</b>真实场景，实现论文→代码→车辆闭环。</li>
+                <li><strong>稳健型技术路径</strong>：依托<mark>主业反哺</mark>，滴滴自动驾驶以<b>2267亿元年营收</b>支撑L4研发，避开Cruise式激进陷阱，走出“慢即是快”的<b>混合派单</b>落地路径。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA4MTQ4NjQzMw==&mid=2652801512&idx=1&sn=e97b0de7fff1f7a6ecd0c36408e4d7a9" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">不做老钱做闯将：宇视向企业“干活流程”开枪，发SOP智能体全家桶</a>
+            </h2>
+            <div class="meta">
+                <span>📰 智东西</span>
+                <span>🕒 2026-04-22 17:14</span>
+            </div>
+            <div class="news-summary">摘要：宇视发布“阳关”SOP智能体平台，首创“可驾驭工程”理念，通过梧桐大模型Skills层与边缘一体机，将老师傅肌肉记忆转化为可审计、可进化的流程智能体系统。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>企业级智能体定义</strong>：宇视提出<mark>可驾驭工程</mark>理念，以<b>阳关平台</b>为“军火库”，让合作伙伴用<b>零代码</b>开发SOP智能体，不做集成只做基座。</li>
+                <li><strong>边缘智能突破</strong>：梧桐大模型新增<mark>Skills能力层</mark>，算法开发成本降40%，适配<b>低成本边缘硬件</b>，实现<b>数据不上云</b>与<b>Token零消耗</b>。</li>
+                <li><strong>组织级AI落地</strong>：张鹏国提出“品字形架构”，要求企业设立<mark>AI驾驭小分队</mark>，推动从“搬箱子”伙伴向<b>AI-SOP咨询服务商</b>转型，构建长期服务收益。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247885436&idx=4&sn=adbc0d1af7ada4cbd1c729dbf4ed563f" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">3B激活参数，干翻GPT-5.4和Opus4.6，商汤绝影把龙虾塞进了车里</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-04-22 14:51</span>
+            </div>
+            <div class="news-summary">摘要：商汤绝影发布Sage端侧大模型，仅3B激活参数即在PinchBench达94%任务完成率，超越GPT-5.4等云端旗舰，已部署于OrinX平台，实现座舱“说到做到”智能体能力。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>端侧智能体里程碑</strong>：Sage以<mark>3B激活参数</mark>达成<b>94% PinchBench</b>任务完成率，首次证明<b>端侧可承载云端级Agent</b>闭环能力。</li>
+                <li><strong>核心技术双突破</strong>：SCOUT技术<mark>省60%算力</mark>，ERL技术使任务成功率<b>提升20%</b>，两项技术均被<b>ICLR2026</b>收录，支撑真实座舱复杂任务。</li>
+                <li><strong>量产就绪能力</strong>：Sage在<mark>OrinX平台</mark>实现<b>0.5秒首字响应</b>与<b>92%场景推理精度</b>，支持空调/导航/影音多系统联动，从语音助手升级为<b>出行伙伴</b>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI咨询与客户成功部 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
