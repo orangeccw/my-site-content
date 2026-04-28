@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-04-28</div>
+        <div class="top-tags">
+            <span class="tag-item">#AgentHarness</span>
+            <span class="tag-item">#AgentSkill</span>
+            <span class="tag-item">#LLM-as-a-Verifier</span>
+            <span class="tag-item">#AI3D</span>
+            <span class="tag-item">#LUI</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>Agent控制层正式商业化分叉</strong>
+            <p>Anthropic、OpenAI、谷歌、微软对Agent运行时（Harness）是否独立收费出现尖锐分歧：Anthropic按会话小时收费，OpenAI开源免费，谷歌/微软拆分计费，市场进入“托管vs开源vs原语化”三轨并行阶段。</p>
+        </div>
+        <div class="trend-card">
+            <strong>Skill成为Agent能力交付新范式</strong>
+            <p>谷歌官方发布Agent Skills仓库，Addy Osmani开源工程纪律Skill，剪映落地剪辑Skill化执行体——Skill正从“工具封装”升级为“专业知识+工程规范”的可组合、可版本化、可跨平台交付的AI能力抽象层。</p>
+        </div>
+        <div class="trend-card">
+            <strong>AI工作流正从生成走向闭环交付</strong>
+            <p>Meshy打通“AI创意→实体3D打印”，剪映实现“语音指令→轨道级编辑”，斯坦福验证框架提升Agent长程任务成功率——AI不再止步于内容生成，而是深度嵌入专业工作流并完成端到端交付。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&mid=2651282822&idx=2&sn=59c2ed57d3e4fda742863044f6f6be41" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Anthropic、OpenAI、谷歌和微软都认为智能代理控制层是产品，但在定价上存在分歧</a>
+            </h2>
+            <div class="meta">
+                <span>📰 InfoQ</span>
+                <span>🕒 2026-04-27 14:33</span>
+            </div>
+            <div class="news-summary">摘要：五大AI巨头就Agent控制层（Harness）商业化路径公开分化：Anthropic推每会话小时8美分托管服务，OpenAI开源免费SDK，谷歌拆分计费，微软按工具计量，亚马逊将跟进Bedrock原语层，市场进入多模式共存新阶段。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>定价模式三极分化</strong>：Anthropic选择<mark>托管收费</mark>，OpenAI坚持<mark>开源免费</mark>，谷歌与微软则分别采用<mark>组件拆分计费</mark>与<mark>工具绑定计费</mark>模式，<b>Anthropic</b>、<b>OpenAI</b>、<b>Google</b>、<b>Microsoft</b>形成战略对垒。</li>
+                <li><strong>技术定位本质差异</strong>：Anthropic将Harness定义为<mark>安全可控的黑盒服务</mark>，OpenAI将其视为<mark>开发者基础设施</mark>，谷歌强调<mark>可观测性原语</mark>，<b>Managed Agents</b>、<b>Agents SDK</b>、<b>Vertex AI Agent Engine</b>代表三种底层哲学。</li>
+                <li><strong>初创公司生存逻辑重置</strong>：横向框架（如LangChain）面临<mark>模型原生SDK冲击</mark>，付费托管平台遭遇<mark>大厂托管服务挤压</mark>，差异化必须聚焦<mark>治理与多模型控制</mark>，<b>Sycamore</b>、<b>CrewAI</b>、<b>VoltAgent</b>需重构价值主张。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&mid=2651282822&idx=1&sn=ab7b459ab3c73352f589347f06c92425" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">谷歌开源“Agent Skill 超级工具箱”，云、库、引擎、AI全线打通，开发者狂喜</a>
+            </h2>
+            <div class="meta">
+                <span>📰 InfoQ</span>
+                <span>🕒 2026-04-27 14:33</span>
+            </div>
+            <div class="news-summary">摘要：谷歌正式发布官方Agent Skills仓库（github.com/google/skills），覆盖13项GCP核心服务及安全/可靠性/成本优化三大架构支柱；同步Addy Osmani开源20项工程纪律Skill，形成“云操作+工程规范”双轨能力体系。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>Skills定义全新能力抽象</strong>：Skills是<mark>按需加载的轻量Markdown</mark>，区别于Prompt（不可复用）、RAG（被动检索）、Tools（无逻辑），<b>Google官方Skills</b>与<b>Addy Osmani工程Skill</b>共同构成AI能力交付新标准。</li>
+                <li><strong>深度集成MCP与多平台</strong>：所有Skills均<mark>兼容MCP协议</mark>，支持<mark>跨平台一键安装</mark>，已深度整合Antigravity、Gemini CLI、Claude Code等，<b>npx skills install github.com/google/skills</b>实现秒级接入。</li>
+                <li><strong>解决开发者真实痛点</strong>：Skills将适配器开发从<mark>重复劳动</mark>变为<mark>零维护调用</mark>，BigQuery等技能可替代40+行工具封装代码，<b>GCP凭证自动复用</b>、<b>API变更由谷歌维护</b>、<b>Gemini验证兼容</b>显著降低工程成本。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247886631&idx=3&sn=ac64453495e17186d571dc34efab68a2" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">超越Claude Mythos和GPT-5.5！斯坦福Agent验证框架拿下SOTA，Transformer作者转发</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-04-27 11:47</span>
+            </div>
+            <div class="news-summary">摘要：斯坦福-伯克利-英伟达联合推出LLM-as-a-Verifier框架，通过细粒度评分、重复验证与标准分解，在Terminal-Bench等长程编程基准上超越Claude Mythos与GPT-5.5，实现SOTA性能并彻底消除平局现象。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>验证范式根本升级</strong>：从LLM-as-a-Judge的<mark>粗粒度打分</mark>转向LLM-as-a-Verifier的<mark>多维细粒度验证</mark>，在Terminal-Bench上平局率从27%降至<mark>零平局</mark>，<b>LLM-as-a-Verifier</b>成为Agent长程任务新基线。</li>
+                <li><strong>三重技术突破</strong>：通过<mark>评分token粒度扩展</mark>（1→20级）、<mark>重复验证16次</mark>、<mark>标准三元分解</mark>（规范/格式/错误），验证准确率提升7%+，<b>ForgeCode</b>准确率达86.4%，<b>Terminus-Kira</b>达79.4%。</li>
+                <li><strong>通用无缝集成能力</strong>：框架<mark>与任意Harness兼容</mark>，已在ForgeCode、Terminus等主流Agent框架验证，<b>开源代码</b>与<b>Notion博客</b>同步发布，<b>Ion Stoica</b>、<b>Azalia Mirhoseini</b>、<b>Marco Pavone</b>联合背书。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&mid=2653104850&idx=1&sn=8ab8b0012247f78e1d403febe95fa41f" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">当剪辑工具开始「听懂人话」：剪映做了视频创作的 Skill 化 Agent</a>
+            </h2>
+            <div class="meta">
+                <span>📰 极客公园</span>
+                <span>🕒 2026-04-27 14:27</span>
+            </div>
+            <div class="news-summary">摘要：剪映AI助手上线LUI（语言用户界面），支持语音/文字指令驱动多轨道剪辑，集成剪辑Skill库，实现“说需求→自动执行→轨道级可编辑”，完成从GUI到LUI+Skill的范式跃迁。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>LUI重构专业交互范式</strong>：剪映AI助手将剪辑从<mark>图形界面操作</mark>升级为<mark>自然语言对话</mark>，用户说“配欢快音乐”“生成背景图”，<b>剪映AI助手</b>即调用对应Skill完成执行，<b>端云协同动态草稿</b>支持实时微调。</li>
+                <li><strong>三类创作者全覆盖</strong>：为剪辑高手提供<mark>批量编辑Skill</mark>，为初阶用户设计<mark>模糊指令触发</mark>，为小白用户打造<mark>零操作一键出片</mark>，<b>多Agent分治</b>调度剪辑/配乐/调色子Agent，<b>动态可编辑草稿协议</b>保障人机共创。</li>
+                <li><strong>行业首个剪辑Skill化体</strong>：不同于通用Agent，剪映是首个将<mark>专业剪辑引擎</mark>与<mark>Skill化能力库</mark>深度融合的落地产品，<b>语音交互</b>、<b>轨道级编辑</b>、<b>反思反问机制</b>三位一体，践行“All in AI，All in One”理念。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247886631&idx=1&sn=f4c1f8faece9b49afa707d78820fc577" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Meshy用户破千万后杀向新战场：ARR年翻14倍，头部厂商集体买单</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-04-27 11:47</span>
+            </div>
+            <div class="news-summary">摘要：Meshy上线创意工坊（Creative Lab），打通“AI生成→3D打印→实物交付”全链路，支持钥匙扣/冰箱贴/键帽定制，签约拓竹/xTool等头部厂商，ARR达4000万美元，年增长14倍，用户破千万。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>AI3D首次实现端到端闭环</strong>：Meshy Creative Lab支持<mark>上传照片→生成3D→一键打印→全球配送</mark>，<b>Meshy 6</b>模型在Bambu Studio切片通过率达97%，<b>拓竹专属“发送到Bambu”按钮</b>实现零手动操作。</li>
+                <li><strong>工业级质量保障体系</strong>：通过<mark>Materialise Magics网格检测</mark>与<mark>Bambu Studio切片验证</mark>双标准，55%模型导出即<mark>零孔洞密封</mark>，<b>3MF原生格式</b>支持全彩多材质，<b>Meshy MCP</b>打通骨骼绑定/重拓扑/UV贴图全流程。</li>
+                <li><strong>商业化爆发式增长</strong>：平台<mark>ARR达4000万美元</mark>，<mark>年增长14倍</mark>，<mark>用户破千万</mark>，<b>Meshy</b>市占率超60%，<b>胡渊鸣</b>领衔的图形学团队将建模成本从1000美元降至1美元，效率提升千倍。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI咨询与客户成功部 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
