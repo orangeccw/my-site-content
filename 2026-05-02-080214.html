@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-05-02</div>
+        <div class="top-tags">
+            <span class="tag-item">#MADS框架</span>
+            <span class="tag-item">#AI上下文负债</span>
+            <span class="tag-item">#Codex接管Mac</span>
+            <span class="tag-item">#Mythos模型</span>
+            <span class="tag-item">#DeepSeekV4</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>智能体即服务：AI进入“黑灯工厂”时代</strong>
+            <p>AI正从辅助工具跃迁为自主执行长周期任务的智能体，以极低token成本实现法律、医疗、开发等专业服务的无限规模化，商业AGI已在异步智能体落地中成为现实。</p>
+        </div>
+        <div class="trend-card">
+            <strong>资源战争白热化：Token成为新生产资料</strong>
+            <p>AI竞赛已从模型能力比拼转向算力与token配给权争夺，顶级模型（如<b>Mythos</b>）开启定向分发，企业能否获取“最聪明的token”直接决定其是否落入“永久底层”。</p>
+        </div>
+        <div class="trend-card">
+            <strong>工程化基建取代提示词：AI编程进入Harness时代</strong>
+            <p>真正决定AI编码成败的已非模型本身，而是上下文治理、自动化护栏与可复用技能体系——<b>CLAUDE.md</b>和<b>harness</b>架构成为企业AI落地的“新操作系统”。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIxODUzNTg2MA==&mid=2247491666&idx=1&sn=95ee155d64189b97e99183af11a710e2" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">万字实录｜ 红杉AI峰会2026主旨演讲：从软件时代到智能体时代的范式跃迁 ｜ 全文图解</a>
+            </h2>
+            <div class="meta">
+                <span>📰 web3天空之城</span>
+                <span>🕒 2026-05-01 11:52</span>
+            </div>
+            <div class="news-summary">摘要：红杉资本在2026AI峰会上提出“智能体时代”已至，定义商业AGI为能自主修复并完成长周期任务的系统，并发布MADS战略框架（护城河、可供性、扩散），预言99.9%认知工作将由机器完成。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>商业AGI定义落地</strong>：长周期智能体实现<mark>自主修复任务</mark>，标志着<b>商业意义上AGI</b>已降临，非学术讨论而是可交付产品。</li>
+                <li><strong>MADS框架三支柱</strong>：护城河源于<mark>客户需求绑定</mark>而非技术，可供性强调<mark>阻力最小路径</mark>，扩散鸿沟是应用层公司最大机遇，三者构成<b>模型之上竞争力</b>。</li>
+                <li><strong>认知工业革命开启</strong>：99.9%认知劳动将由机器完成，智能将如铝般廉价，设计将走向<mark>异类设计</mark>，催生如热力学般基础的<b>新科学</b>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&mid=2651283248&idx=1&sn=740073808e2db9880300ecbf99bb64a0" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">“如果你不用更多Token，就永远逃不出底层”：AI竞赛开始变成资源战争</a>
+            </h2>
+            <div class="meta">
+                <span>📰 InfoQ</span>
+                <span>🕒 2026-05-01 10:12</span>
+            </div>
+            <div class="news-summary">摘要：AI竞赛正演变为资源战争，顶级模型（如<b>Mythos</b>）因算力受限而限量供应，token需求爆炸式增长导致毛利率飙升至72%，企业若无法获取先进模型访问权，将被甩入“永久底层”。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>Token配给制时代</strong>：<mark>模型访问权</mark>成为核心壁垒，<b>Mythos</b>仅定向开放给网络安全等关键客户，形成“降维打击”级竞争优势。</li>
+                <li><strong>供给侧全面紧张</strong>：GPU、内存、CPU、光刻机等全链条出现<mark>涨价+延周期+收预付款</mark>，<b>DRAM</b>价格或再翻三倍，算力瓶颈远超模型迭代速度。</li>
+                <li><strong>幻影GDP与价值重估</strong>：AI创造的真实价值远超GDP统计，<mark>token经济学</mark>成最大未知变量，企业价值转向“选对问题—转化产出—捕获收益”三重能力，<b>Anthropic</b>年化token收入已达400亿美元。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&mid=2651283248&idx=2&sn=b17e226b2bdecbdfb34f9231832bbe6b" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">当国产模型追上闭源旗舰，企业 AI 编程的真正障碍才浮出水面</a>
+            </h2>
+            <div class="meta">
+                <span>📰 InfoQ</span>
+                <span>🕒 2026-05-01 10:12</span>
+            </div>
+            <div class="news-summary">摘要：DeepSeek V4开源并全面适配华为昇腾，打破国产企业“合规死锁”，但模型能力提升后，暴露更深层瓶颈——代码库中未文档化的业务隐知识，即“AI上下文负债”成为AI编程落地的唯一障碍。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>国产全栈闭环突破</strong>：DeepSeek V4-Pro在<b>SWE-bench</b>达80.6%，性能追平<b>Claude Opus 4.6</b>，首次实现<b>国产芯片+国产开源旗舰</b>全栈适配，推理成本降至每百万token 0.25元。</li>
+                <li><strong>AI上下文负债凸显</strong>：模型再强也无法弥补<mark>隐性业务规则缺失</mark>，九年前财务系统中“三张表对账”“三十天人工通道”等未文档化逻辑，使AI生成代码在<mark>业务上下文里错得不着痕迹</mark>。</li>
+                <li><strong>知识治理成新基建</strong>：企业必须建立<mark>架构规则文件</mark>与<mark>领域知识文档</mark>，推行规格驱动开发（SDD），<b>CLAUDE.md</b>和<b>OpenSpec</b>成为组织级AI协作的“入职手册”与“公司章程”。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652696950&idx=1&sn=21fccc2ad1d6da0a9081e392ba631c10" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">永别了，终端！OpenAI疯狂升级Codex，接管Mac人类全程0操作围观</a>
+            </h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-05-01 13:29</span>
+            </div>
+            <div class="news-summary">摘要：OpenAI Codex升级为通用电脑操控Agent，实测中全自动调用Adobe Audition、Photoshop、Firefly完成音频修复、封面设计与AI视频生成，人类全程0操作，标志着“使用电脑”被重新定义。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>Codex接管整台Mac</strong>：实现<mark>跨软件全自动协调</mark>，在实测中8分钟完成需2小时的手动任务，准确率达85–90分，<b>Codex</b>已从代码工具进化为<b>通用个人助理</b>。</li>
+                <li><strong>生态集成全面爆发</strong>：支持<b>Slack</b>、<b>Google Workspace</b>、<b>Microsoft365</b>深度集成，自动总结邮件、分析数据、生成报告，Greg Brockman宣布其已取代自己用了20年的<b>终端</b>。</li>
+                <li><strong>开发者用脚投票</strong>：用户因<b>Claude Code</b>准确率下滑转向<b>Codex</b>，奥特曼以星战梗回应“欢迎加入光明面”，<mark>实测效果</mark>成为技术选型的终极判据。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652696950&idx=2&sn=b8388fc8a9c5f6b51dbdf7e799d7f349" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">撕开Claude Code真相：让它好用的98.4%，是工程不是AI</a>
+            </h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-05-01 13:29</span>
+            </div>
+            <div class="news-summary">摘要：研究揭示Claude Code仅1.6%为AI决策逻辑，98.4%是工程基础设施；其真正威力来自CLAUDE.md（项目大脑）、skills（可复用工作流）与hooks（自动护栏）构成的Harness系统。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>Harness即新操作系统</strong>：Agent=Model+<mark>Harness</mark>，<b>CLAUDE.md</b>是AI每次启动读取的“入职手册”，<b>hooks</b>是确定性护栏，确保AI在犯错前就被挡住。</li>
+                <li><strong>工程化基建成标配</strong>：OpenAI Frontier团队用Harness实现<mark>100万行0人工代码</mark>，Stripe Minions每周生成1300+PR，<b>LangChain</b>调整Harness后Terminal Bench分数提升13.7分。</li>
+                <li><strong>工程师能力曲线迁移</strong>：未来五年核心能力从<mark>写多少行代码</mark>转向<mark>设计多严格的工作环境</mark>，<b>CLAUDE.md</b>和<b>awesome-claude-code-toolkit</b>成为开发者新基础设施。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI咨询与客户成功部 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
