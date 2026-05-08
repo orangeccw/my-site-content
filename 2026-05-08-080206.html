@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-05-08</div>
+        <div class="top-tags">
+            <span class="tag-item">#Harness</span>
+            <span class="tag-item">#SpaceXAI</span>
+            <span class="tag-item">#Terafab</span>
+            <span class="tag-item">#ClaudeCode</span>
+            <span class="tag-item">#UniGeo</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>算力主权加速重构</strong>
+            <p>马斯克将xAI并入SpaceX并启动550亿美元芯片厂Terafab，标志AI巨头正从“租算力”转向“自建硅基基础设施”，算力控制权成为新地缘竞争核心。</p>
+        </div>
+        <div class="trend-card">
+            <strong>Harness架构落地医疗刚需</strong>
+            <p>智诊科技WiseClaw 2.0将Harness理念工程化，首次在高合规、长周期的医疗场景实现Agent“可追溯、可执行、可治理”，平台型OS成AI规模化落地新门槛。</p>
+        </div>
+        <div class="trend-card">
+            <strong>太空计算从概念走向商业协议</strong>
+            <p>SpaceX与Anthropic签署22万GPU算力租赁协议，并明确合作开发吉瓦级轨道数据中心，太空算力首次进入真实商业闭环，解决地面电力与冷却瓶颈。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2651031726&idx=1&sn=e6eca005d102e4a279d9b460dfa0d35d" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">刚刚，马斯克官宣xAI解散，22万张GPU算力租给Anthropic</a>
+            </h2>
+            <div class="meta">
+                <span>📰 机器之心</span>
+                <span>🕒 2026-05-07 10:05</span>
+            </div>
+            <div class="news-summary">摘要：马斯克宣布xAI正式解散，整合进SpaceX新设子部门SpaceXAI；全球最大AI集群Colossus 1（22万块GPU）全部算力租予Anthropic，用于提升Claude Code等产品服务能力。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>战略重组</strong>：xAI <mark>正式解散</mark> 并入 <b>SpaceXAI</b>，11位联合创始人已全部离职，估值达<b>1.25万亿美元</b>。</li>
+                <li><strong>算力租赁</strong>：<mark>22万张GPU</mark>全部交付 <b>Anthropic</b>，支持其提升<b>Claude Code</b>速率限制与<b>Claude Opus</b> API吞吐能力。</li>
+                <li><strong>太空算力愿景</strong>：双方将合作开发<b>数吉瓦级轨道AI算力</b>，SpaceX称其是唯一能将<b>轨道计算</b>作为工程项目推进的组织。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&mid=2651283587&idx=1&sn=78b640d4bb76642ba23275cd36f54b0e" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">马斯克22万张GPU救场后，Claude勉强恢复“三个月前体验”，Gary Marcus却警告：GPU将严重过剩，很快不值钱</a>
+            </h2>
+            <div class="meta">
+                <span>📰 InfoQ</span>
+                <span>🕒 2026-05-07 11:21</span>
+            </div>
+            <div class="news-summary">摘要：Anthropic借力SpaceX Colossus 1算力，全面解除Claude Code速率限制；但用户反馈仅恢复至三个月前水平；Gary Marcus警告AI算力正面临严重过剩风险。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>体验修复</strong>：Claude Code五小时速率限制<mark>提高一倍</mark>，<b>Pro</b>与<b>Max</b>账户高峰时段限制被<mark>取消</mark>。</li>
+                <li><strong>算力经济模型</strong>：按24×365“take-or-pay”模式，22万GPU年收入约<b>50亿美元</b>，Anthropic有望转化出<b>150亿美元</b>年收入，毛利率达<mark>60%-70%</mark>。</li>
+                <li><strong>行业预警</strong>：Gary Marcus指出xAI出售算力暴露其<mark>AGI进展不及预期</mark>，并警示<b>GPU价格将急剧下跌</b>，冲击<b>Amazon</b>、<b>Google</b>等云厂商现金流。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&mid=2653105702&idx=1&sn=9dd39fc9a307421b94ab8adbcbc4754d" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">550 亿美元！马斯克的「芯片工厂」开始成为现实</a>
+            </h2>
+            <div class="meta">
+                <span>📰 极客公园</span>
+                <span>🕒 2026-05-07 17:25</span>
+            </div>
+            <div class="news-summary">摘要：SpaceX正式提交550亿美元芯片厂Terafab建设计划，目标自研AI芯片；项目与特斯拉协同，旨在掌控从硅片到太空算力的全栈AI基础设施。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>超级投资</strong>：Terafab首期投资<b>550亿美元</b>，总资本支出或达<b>1190亿美元</b>，规模超<b>英伟达2024财年营收</b>。</li>
+                <li><strong>垂直整合</strong>：马斯克构建<b>SpaceX</b>、<b>Tesla</b>、<b>xAI</b>芯片协同生态，目标摆脱对<b>英伟达</b>依赖，实现“算力自主”。</li>
+                <li><strong>长期挑战</strong>：摩根士丹利预测芯片量产最早在<b>2028年中期</b>，需攻克<b>EUV光刻</b>、<b>超纯水系统</b>等工程难关，属典型的<mark>15年战略</mark>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652698250&idx=1&sn=5a14a1c8e1bc9a397b51a7b1abb6ffae" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">全球医疗榜第一，中国AI杀疯了！医疗AI迈入Harness时代</a>
+            </h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-05-07 12:02</span>
+            </div>
+            <div class="news-summary">摘要：智诊科技发布WiseClaw 2.0医疗Agent OS平台，基于Harness架构实现长时程、可追溯、可执行、可治理的医疗AI服务，WiseDiag模型登顶DoctorBench全球第一。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>架构落地</strong>：WiseClaw 2.0是首个将<b>Harness</b>理念工程化落地的医疗平台，实现Agent“<mark>自带合规基因</mark>”，支持<b>健康档案驱动</b>与<b>心跳引擎</b>。</li>
+                <li><strong>模型领先</strong>：底层<b>WiseDiag</b>医疗多模态大模型登顶<b>DoctorBench</b>榜首，超越<b>Google Gemini</b>与<b>OpenAI GPT-5.4</b>。</li>
+                <li><strong>场景闭环</strong>：覆盖体检、慢病管理、家庭医生等五大“<mark>试金石场景</mark>”，支持从<b>院内院外联动</b>到<b>全链路AI支撑</b>的商业闭环。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652698250&idx=3&sn=7316822c2cf801062a70c512b40c95b5" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">打破碎片化瓶颈！浙大&哈佛开源UniGeo，高保真相机可控编辑</a>
+            </h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-05-07 12:02</span>
+            </div>
+            <div class="news-summary">摘要：浙大与哈佛联合发布UniGeo框架，首次在表示层、架构层、损失函数层全链路注入统一几何引导，显著提升相机可控图像生成的跨视角一致性与结构稳定性。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>技术突破</strong>：UniGeo在<b>DL3DV</b>、<b>RE10K</b>等数据集全面超越<b>CameraCtrl</b>等SOTA方法，实现<mark>高保真结构重建</mark>。</li>
+                <li><strong>全链路设计</strong>：创新性在表示层用<b>帧解耦点云</b>、架构层用<b>几何锚点注意力</b>、损失层用<b>轨迹端点监督</b>，实现三维几何严格对齐。</li>
+                <li><strong>应用前景</strong>：为<b>影视后期</b>与<b>具身智能感知</b>提供高可靠渲染基座，有望成为下一代<b>可控视觉生成</b>标准范式。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI数据与技术部-金融技术组 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
