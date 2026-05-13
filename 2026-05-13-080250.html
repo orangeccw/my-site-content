@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-05-13</div>
+        <div class="top-tags">
+            <span class="tag-item">#Agnes</span>
+            <span class="tag-item">#OpenClaw</span>
+            <span class="tag-item">#AI购物入口</span>
+            <span class="tag-item">#Token经济学</span>
+            <span class="tag-item">#CPO</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>Agent能力正从“能答”迈向“能干”</strong>
+            <p>以Peekaboo v3为代表的Computer Use工具让AI真正具备像素级屏幕理解与鼠标键盘操作能力，AI Agent开始在真实操作系统中完成点击、输入、拖拽等端到端任务，标志着Agent进入“具身执行”新阶段。</p>
+        </div>
+        <div class="trend-card">
+            <strong>AI基建迎来“玻璃革命”，光通信成算力底座新焦点</strong>
+            <p>康宁凭借175年光纤技术积累，借AI数据中心爆发实现逆袭，其SMF-28轮廓光纤等GlassWorks AI产品直击CPO与高密度布线需求，证明传统硬件巨头正以核心技术成为AI算力浪潮的隐形支柱。</p>
+        </div>
+        <div class="trend-card">
+            <strong>购物入口正被对话式AI重构，专业导购能力被封装为普惠服务</strong>
+            <p>淘宝与千问打通实现AI购物闭环，AI不再仅做推荐，而是通过多轮自然语言交互理解用户隐性需求（如体型、肤色、阅读水平），提供带解释的精准决策，让“买对东西”从技术门槛变为人人可得的服务。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzkyNjU2ODM2NQ==&mid=2247628650&idx=2&sn=7182ab7ba17e66f102e30231cc8afce6" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">全球AI Lab前十！Agnes新模型发布，以全模态+超低价定义模型性价比</a>
+            </h2>
+            <div class="meta">
+                <span>📰 硅星人Pro</span>
+                <span>🕒 2026-05-12 10:35</span>
+            </div>
+            <div class="news-summary">Agnes-2.0-Flash与Agnes-Image-2.0-Flash双模型跻身ClawEval与Artificial Analysis国际榜单前列，以轻量级架构进入全球AI Lab第9名，并以远低于行业均价的API与图像服务成本（仅为竞品约1/10），重塑模型性价比标准。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>全球排名跃升</strong>：Agnes正式进入<b>全球AI Lab第9名</b>，<mark>轻量模型登顶</mark>，在ClawEval等真实Agent任务榜单中超越Gemini Flash等主流模型。</li>
+                <li><strong>极致成本优势</strong>：文本API定价低至<b>0.03美元/百万输入tokens</b>，图像服务仅<b>3美元/1000张</b>，<mark>成本仅为行业平均1/10</mark>。</li>
+                <li><strong>Agent场景优先</strong>：聚焦<b>Claw-Eval</b>等任务导向评测，强调真实工作流执行能力，而非单纯刷题，<mark>推动AI从Chatbot迈向Agent阶段</mark>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA4MTQ4NjQzMw==&mid=2652802802&idx=1&sn=614bcc6536d2fa574cbc995c9285be1d" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">帮乔布斯造iPhone的公司，成了AI基建的“救世主”</a>
+            </h2>
+            <div class="meta">
+                <span>📰 智东西</span>
+                <span>🕒 2026-05-12 19:28</span>
+            </div>
+            <div class="news-summary">175年玻璃巨头康宁借AI数据中心爆发实现逆袭，光通信业务跃升为最大收入来源，获Meta 60亿美元与英伟达32亿美元大单，其GlassWorks AI产品线专为大模型高密度光纤需求设计，成为CPO与AI算力底座关键供应商。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>业务历史性反转</strong>：亏损20余年的<b>光通信业务</b>成最大收入来源，2025年销售额达<b>62.74亿美元</b>，<mark>同比增长35%</mark>。</li>
+                <li><strong>巨头订单背书</strong>：斩获<b>Meta 60亿美元</b>与<b>英伟达32亿美元</b>订单，<mark>合作CPO技术</mark>，推动光纤替代铜缆成为AI机架核心传输方案。</li>
+                <li><strong>技术深度适配</strong>：GlassWorks AI产品含<b>SMF-28轮廓光纤</b>等，尺寸缩小40%、抗弯增强，<mark>专为AI数据中心高密度布线设计</mark>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247889960&idx=2&sn=c067d56bf9e616977a469e5031a88243" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">OpenClaw低调更新重磅版本，龙虾长手长脚了</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-05-12 11:55</span>
+            </div>
+            <div class="news-summary">Peekaboo v3为Mac端AI Agent装上“眼睛”与“手脚”，实现像素级截图、UI元素定位、点击、输入、快捷键、拖拽等全操作能力，并支持自然语言指令与MCP集成，让AI真正能在桌面环境自主执行复杂任务。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>端到端操作突破</strong>：Peekaboo v3支持<b>Mac端全操作</b>，包括点击、输入文字、按快捷键、拖拽等，<mark>AI首次具备真实桌面执行能力</mark>。</li>
+                <li><strong>多模态感知升级</strong>：可读取<b>UI元素位置/类型/label</b>，实现像素级截图与结构化理解，<mark>从“看图”进化到“识界”</mark>。</li>
+                <li><strong>开箱即用生态</strong>：提供Homebrew、MCP Server、桌面App、Swift库四套接入方式，<mark>无缝集成Cursor/Claude Code等主流AI编程工具</mark>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&mid=2653106439&idx=1&sn=1415cd4fc753e8c4a0eb4ce95c44c807" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">AI 为什么一定会成为这代人的全新购物入口</a>
+            </h2>
+            <div class="meta">
+                <span>📰 极客公园</span>
+                <span>🕒 2026-05-12 19:44</span>
+            </div>
+            <div class="news-summary">淘宝与千问打通实现AI购物闭环，AI通过多轮自然语言交互理解用户隐性需求（如体型、肤色、阅读水平），提供带解释的精准推荐，并支持领券下单、物流查询、复购提醒等一站式服务，让购物从“信息过载”回归“专业服务”。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>购物范式迁移</strong>：千问购物支持<b>自然语言模糊需求</b>（如“正式晚宴低调穿搭”），<mark>首次实现对话式购物闭环</mark>，超越搜索与算法推荐局限。</li>
+                <li><strong>专业能力普惠化</strong>：AI基于用户体型、肤色、历史偏好等提供<b>带解释的推荐</b>，如为梨形身材推荐“领口有设计感+下摆收紧”款式，<mark>把专家导购能力封装为24小时服务</mark>。</li>
+                <li><strong>全链路服务整合</strong>：支持<b>领券下单、国补匹配、运费险推荐、物流查询</b>，<mark>一站式解决购物全旅程</mark>，尤其降低老年人电商使用门槛。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzkyNjU2ODM2NQ==&mid=2247628650&idx=1&sn=d3a007c4ace02337243cc6d321e89396" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">对话小宿科技：搜索比推理便宜10倍，但90%的人不知道</a>
+            </h2>
+            <div class="meta">
+                <span>📰 硅星人Pro</span>
+                <span>🕒 2026-05-12 10:35</span>
+            </div>
+            <div class="news-summary">小宿科技CEO杜知恒指出，Agent开发中“搜索与推理解耦”是降本关键：独立智能搜索API成本仅为模型内绑搜索的1/5–1/10；其Chunks技术可将输入Token降低30%，同时保持95%信息覆盖率，推动建立“Token经济学”。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>Token成本真相</strong>：模型内绑搜索成本是独立<b>小宿搜索API</b>的5–10倍，<mark>搜索解耦是Agent降本最有效路径</mark>。</li>
+                <li><strong>智能信息治理</strong>：通过<b>Chunks技术</b>提取关键片段重组内容，输入Token降低<b>30%</b>，<mark>信息覆盖率仍达95%</mark>。</li>
+                <li><strong>场景化模型选型</strong>：主张“围绕场景配置能力”，不同任务（分类/决策/协同）应匹配不同层级模型，<mark>拒绝一刀切使用最强模型</mark>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI数据与技术部-金融技术组 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
