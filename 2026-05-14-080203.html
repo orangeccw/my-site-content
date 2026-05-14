@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-05-14</div>
+        <div class="top-tags">
+            <span class="tag-item">#GeminiIntelligence</span>
+            <span class="tag-item">#VoiceAgent</span>
+            <span class="tag-item">#Googlebooks</span>
+            <span class="tag-item">#LangForce</span>
+            <span class="tag-item">#豆包输入法Mac版</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>AI硬件范式转向「高端门槛」</strong>
+            <p>Google放弃Android“全设备普惠”路线，以Gemini Intelligence为名绑定Pixel/Galaxy旗舰机型，效仿Apple Intelligence的硬件特权逻辑，宣告AI体验正从云端能力升级为算力+系统+芯片三位一体的硬件主权竞争。</p>
+        </div>
+        <div class="trend-card">
+            <strong>垂类Voice Agent进入工业级落地阶段</strong>
+            <p>易鑫以“Model + Harness”方法论打造汽车金融专属Voice Agent，通过Multi-Agent协同、Turn-Taking模型与场景降噪引擎，实现接通率媲美人工、加微转化率超20%，证明AI语音已从实验室Demo迈入真实业务闭环。</p>
+        </div>
+        <div class="trend-card">
+            <strong>VLA模型正突破“视觉捷径”瓶颈</strong>
+            <p>LangForce方法通过引入对数似然比（LLR）损失，强制VLA模型依赖语言指令而非视觉线索，在LIBERO Goal等歧义场景成功率提升至99.4%，为机器人通用指令跟随与分布外泛化提供新范式。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&mid=2653106452&idx=1&sn=f2c98af0b8776bacd94a2b3ac5cbcb50" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">谷歌开了一场「读作 Android，写作 Gemini」的硬件发布会</a>
+            </h2>
+            <div class="meta">
+                <span>📰 极客公园</span>
+                <span>🕒 2026-05-13 02:56</span>
+            </div>
+            <div class="news-summary">摘要：Google将Android发布会独立为The Android Show，以Gemini Intelligence为统一品牌，为高端设备（Pixel/Galaxy）打造AI能力矩阵，并推出全新AI原生硬件品类Googlebooks，标志AI战略从开放普惠转向硬件主权。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>Gemini硬件化</strong>：Android沦为<mark>Gemini的骨架</mark>，<b>Gemini Intelligence</b>成为高端设备专属AI品牌，首波仅限Pixel与Galaxy旗舰。</li>
+                <li><strong>Googlebooks新品类</strong>：联合<b>Acer、Asus、Dell、HP、Lenovo</b>五家厂商打造AI原生笔电，Magic Pointer光标交互与Create My Widget组件功能<mark>深度绑定Gemini</mark>。</li>
+                <li><strong>中国落地受限</strong>：因<b>小米澎湃OS、OPPO AndesGPT、华为盘古</b>等厂商AI生态已成熟，Gemini在中国市场<mark>几乎无发挥空间</mark>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&mid=2653106467&idx=1&sn=99f831e39a74b4cccb65ee17dec3f462" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">谷歌在安卓上全面强化 Gemini AI；宇树发布全球首款载人机甲，售价 390 万元；追觅高管回应「崩老头」｜极客早知道</a>
+            </h2>
+            <div class="meta">
+                <span>📰 极客公园</span>
+                <span>🕒 2026-05-13 08:54</span>
+            </div>
+            <div class="news-summary">摘要：Google发布Gemini Intelligence功能集与Googlebooks硬件，同时探索太空数据中心；三星因劳资谈判破裂或致AI芯片停产；宇树发布390万元GD01载人机甲；腾讯收购喜马拉雅获附条件批准。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>Gemini跨端组件</strong>：Create My Widget支持<mark>自然语言生成桌面小组件</mark>，并同步至<b>Wear OS</b>智能手表，迈向生成式UI第一步。</li>
+                <li><strong>太空算力布局</strong>：Google正与<b>SpaceX</b>谈判在轨道部署数据中心，目标成为<mark>AI算力新据点</mark>，并已收购<b>xAI</b>强化AI基建能力。</li>
+                <li><strong>AI芯片风险</strong>：三星工会计划<mark>5万人罢工18天</mark>，或将影响<b>AI芯片</b>生产，源于与SK海力士三倍奖金差距引发的劳资冲突。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652699935&idx=2&sn=7aeb517f4a7c4bec3e16e6d9d6794870" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">黄仁勋100万亿预言兑现！易鑫Voice Agent落地，汽车金融迎效率革命</a>
+            </h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-05-13 12:06</span>
+            </div>
+            <div class="news-summary">摘要：易鑫发布工业级Voice Agent系统，采用Multi-Agent协同架构与Turn-Taking模型，实现电销接通率媲美人工、加微转化率超20%，验证“场景原生”AI在金融垂类的实战能力。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>Multi-Agent流程管控</strong>：将电销SOP拆解为四大Agent模块，<mark>任务节点物理锁</mark>确保流程不偏移，<b>易鑫Voice Agent</b>实现可追溯、可质检的SOP闭环。</li>
+                <li><strong>场景降噪与Turn-Taking</strong>：自研降噪引擎达<mark>80%低信噪比消除率</mark>，<b>Yx-Turn预测模型</b>精准识别客户发言结束状态，解决“抢话/冷场”行业痛点。</li>
+                <li><strong>全球化TTS能力</strong>：支持<b>普通话+四川/广东/东北等方言</b>及<b>英语/西班牙语/葡萄牙语</b>等多语种，<mark>本地化定制覆盖日/马/新/墨/巴</mark>等核心出海市场。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652699935&idx=3&sn=cbd28843eb4c2b4247ad20c7fcca99bd" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">VLA模型为何忽视语言？破解指令跟随幻觉，分布外场景泛化新突破</a>
+            </h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-05-13 12:06</span>
+            </div>
+            <div class="news-summary">摘要：研究揭示VLA模型存在“视觉捷径”问题，提出LangForce方法通过LLR损失强化语言依赖，在LIBERO Goal等歧义场景达99.4%成功率，并保留VLM原始语言能力。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>视觉捷径归因</strong>：在目标驱动数据集中，<mark>视觉线索可预测动作</mark>，导致语言指令冗余，<b>Qwen3VL-4B-GR00T</b>等模型在LIBERO Goal中仅12.4%成功率。</li>
+                <li><strong>LangForce技术突破</strong>：引入<mark>对数似然比损失</mark>，双分支建模（仅视觉先验+视觉-语言后验），<b>LLR</b>强制模型学习语言与动作的语义关联。</li>
+                <li><strong>泛化与能力保留</strong>：在SimplerEnv分布外测试中达<mark>66.5%成功率</mark>，同时保持<b>Qwen3-VL</b>原始对话能力，避免VLA微调导致的语言能力退化。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIyMzA5NjEyMA==&mid=2647682201&idx=1&sn=57321ea63b1ad5839bb682670c764d2a" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">豆包输入法Mac版正式上线，所有人都该试试AI语音输入了。</a>
+            </h2>
+            <div class="meta">
+                <span>📰 数字生命卡兹克</span>
+                <span>🕒 2026-05-13 12:17</span>
+            </div>
+            <div class="news-summary">摘要：豆包输入法Mac版正式发布，支持流式语音输入、中英混说、轻声抗噪与个性化纠错，识别准确率高、延迟低，为开发者与普通用户开启“vibe coding”新交互范式。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>语音输入体验升级</strong>：支持<mark>长按/双击双模式</mark>，流式输出<mark>丝滑无延迟</mark>，<b>豆包输入法</b>在Mac端填补AI语音输入长期空白。</li>
+                <li><strong>场景化抗噪能力</strong>：轻声模式支持<mark>半米外压嗓识别</mark>，咖啡馆背景音下仍保持高准确率，<b>中英混说</b>自动识别ChatGPT/Skill等术语并纠错。</li>
+                <li><strong>自适应学习机制</strong>：通过用户纠错训练<mark>高频词个性化模型</mark>，如“虚实空际”“seedance→SD”，<b>越用越准</b>，显著降低后期修改成本。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI数据与技术部-金融技术组 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
