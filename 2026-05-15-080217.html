@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-05-15</div>
+        <div class="top-tags">
+            <span class="tag-item">#Claude企业市占率登顶</span>
+            <span class="tag-item">#AgentOS</span>
+            <span class="tag-item">#SGLang×MUSA</span>
+            <span class="tag-item">#human-data路线</span>
+            <span class="tag-item">#VGGT世界模型</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>企业AI采购权正从“订阅制”转向“按量计费”</strong>
+            <p>Anthropic靠Token用量驱动450亿美元ARR，企业为AI Agent的24小时自主运行买单，计费权回归真实工作流，SaaS模式被AI彻底重塑。</p>
+        </div>
+        <div class="trend-card">
+            <strong>AI竞争主战场已从C端体验升维至B端工作流嵌入</strong>
+            <p>OpenAI与Anthropic的胜负手不再是跑分高低，而是谁能深度嵌入软件开发、销售、IT自动化等核心业务流——Agent成为企业级AI的终极交付形态。</p>
+        </div>
+        <div class="trend-card">
+            <strong>国产AI基建正从“硬件替代”迈向“生态共建”新阶段</strong>
+            <p>摩尔线程联合SGLang、TileLang等开源顶流共建推理链路，通过Upstream PR、Day-0适配、CUDA兼容栈，将国产GPU嵌入全球主流工程网络。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652700447&idx=1&sn=4fe5e0318907d85fc5216e491cddfef4" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">奥特曼急了！OpenAI稳坐三年的王座，刚刚被Anthropic踹下去了</a>
+            </h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-05-14 13:05</span>
+            </div>
+            <div class="news-summary">摘要：Ramp数据显示Anthropic企业采用率达34.4%，首超OpenAI的32.3%；其按Token计费模式引爆450亿美元ARR，微软单年支出达5亿美元，AI Agent驱动企业真实付费意愿飙升。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>市占率历史性反转</strong>：Anthropic企业采用率<mark>首次登顶</mark>，达<b>34.4%</b>，OpenAI为<b>32.3%</b>。</li>
+                <li><strong>营收模式颠覆SaaS</strong>：全面转向<mark>按Token计费</mark>，年度经常性收入飙升至<b>450亿美元</b>，微软单年支出达<b>5亿美元</b>。</li>
+                <li><strong>Agent驱动成本焦虑</strong>：Workato单季Token调用量<mark>翻4倍</mark>，ServiceNow和Uber年初即<mark>烧光全年预算</mark>，CIO被迫每日盯<b>Anthropic账单</b>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA4MTQ4NjQzMw==&mid=2652802975&idx=1&sn=96d7222e5bc231e5d50284a5aacc0ba9" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">打破AI体验天花板，联发科成了Agent跨端生态“铺路人”</a>
+            </h2>
+            <div class="meta">
+                <span>📰 智东西</span>
+                <span>🕒 2026-05-14 18:52</span>
+            </div>
+            <div class="news-summary">摘要：联发科发布天玑AI智能体化引擎2.0与开发套件3.0，通过SensingClaw主动感知、eNPU工具链和LVM可视化部署，赋能跨手机/汽车/AI眼镜的全域智能体无缝流转，推动“芯片+生态”成为AI体验新基座。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>系统级智能体引擎</strong>：天玑AI智能体化引擎2.0支持<mark>Always-On主动感知</mark>，集成<b>SensingClaw</b>实现视觉/听觉/方位多模态感知。</li>
+                <li><strong>端侧开发效率跃升</strong>：LVM模型可视化部署效率<mark>提升50%</mark>，<b>天玑AI Partner</b>将端侧LLM部署耗时从5天压缩至<b>半天</b>。</li>
+                <li><strong>跨端生态协同落地</strong>：与<b>OPPO小布Claw</b>、<b>小米miclaw</b>深度合作，实现体检报告生成健身计划、一句话联动全屋设备等<mark>真实场景闭环</mark>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247890725&idx=2&sn=ebd8c3e6d058b71c14c65cb660250393" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">国产GPU组了个开源局，把SGLang等核心开发者都摇来了！</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-05-14 12:11</span>
+            </div>
+            <div class="news-summary">摘要：摩尔线程联合SGLang、TileLang、Mooncake等开源顶流举办Meetup，MUSA后端已合入SGLang主线，完成DeepSeek V4 Day-0适配，三层CUDA兼容栈让99% CUDA代码可直接运行，国产GPU正式进入全球推理工程主链路。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>主线生态深度融入</strong>：MUSA后端<mark>合入SGLang主线</mark>，摩尔线程累计提交<b>47个PR</b>，其中<b>41个已合入</b>。</li>
+                <li><strong>Day-0模型适配能力</strong>：通过<b>FlagOS/Triton</b>优化，DeepSeek V4首token延迟<mark>降低56.7%</mark>，吞吐量提升<b>23%</b>。</li>
+                <li><strong>开发者友好架构</strong>：三层<b>CUDA兼容栈</b>实现<mark>99% CUDA代码直跑</mark>，<b>torchada</b>导入仅需一行代码，大幅降低迁移门槛。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2651032918&idx=1&sn=d3663d4d0242a2e02473579558d04870" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">全球看中国，灵初智能用10万小时人类数据写下具身智能的中国答案</a>
+            </h2>
+            <div class="meta">
+                <span>📰 机器之心</span>
+                <span>🕒 2026-05-14 12:10</span>
+            </div>
+            <div class="news-summary">摘要：灵初智能聚焦human-centric路线，采集10万小时外骨骼手套+纯视觉人类操作数据，构建W0世界模型与R2策略闭环，实现人类动作到机器人policy的高迁移效率，SynData数据集Hugging Face下载量达1.46万次。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>human-data规模化验证</strong>：完成<mark>10万小时人类数据</mark>内部验证，效果媲美数万小时真机teleoperation数据，<b>SynData</b>数据集Hugging Face下载量达<b>1.46万次</b>。</li>
+                <li><strong>数据-模型闭环架构</strong>：W0世界模型作为<mark>可学习仿真器</mark>，R2策略在其中强化学习迭代，形成人类数据→机器人policy的<mark>闭环迁移管线</mark>。</li>
+                <li><strong>小全栈落地策略</strong>：聚焦“以模型为核心往下做”，自研外骨骼手套与采集系统，但触觉传感器等关键零部件<mark>选择外采</mark>，确保<b>硬件稳定性</b>与任务节拍匹配。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2651032918&idx=2&sn=432a33332eeea19bbf7a68f730b2bc88" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">突破三维感知瓶颈：魔芯科技发布VGGT系列成果，实现动态高保真重建并获新一轮融资</a>
+            </h2>
+            <div class="meta">
+                <span>📰 机器之心</span>
+                <span>🕒 2026-05-14 12:10</span>
+            </div>
+            <div class="news-summary">摘要：魔芯科技联合同济大学发布VGGT系列成果，通过StreamCacheVGGT（长效记忆）、4D动态解耦、HD-VGGT（高保真感知）三大创新，突破三维感知长序列、强动态、高精度瓶颈，4D基座模型验证Scaling Law，获富瀚微等联合投资。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>长效流式重建突破</strong>：StreamCacheVGGT实现<mark>O(1)恒定显存</mark>下无限长序列重建，KITTI 500帧测试深度误差<mark>降至0.123</mark>，优于传统方案。</li>
+                <li><strong>动态因果解耦能力</strong>：4D重建模型通过<mark>渐进式解耦</mark>与不确定性建模，在DyCheck基准Accuracy Mean提升<b>15.4%</b>，有效消除“鬼影”现象。</li>
+                <li><strong>空间智能技术获资本认可</strong>：VGGT系列验证三维/四维建模<mark>Scaling Law</mark>，获<b>富瀚微股份</b>、<b>联融志道</b>、<b>浙创投</b>联合投资，老股东持续跟投。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI数据与技术部-金融技术组 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
