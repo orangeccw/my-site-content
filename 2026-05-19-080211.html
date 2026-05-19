@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-05-19</div>
+        <div class="top-tags">
+            <span class="tag-item">#O+A双寡头</span>
+            <span class="tag-item">#CoordinationEngineering</span>
+            <span class="tag-item">#EvolveR</span>
+            <span class="tag-item">#具身智能端侧大模型</span>
+            <span class="tag-item">#AI互动视频游戏</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>大模型商业格局加速固化，双寡头主导89% ARR</strong>
+            <p>OpenAI与Anthropic合计拿下34家头部AI创业公司800亿美元年化收入的89%，企业级API与C端订阅双路径已形成强飞轮，中腰部公司被迫转向垂直专用模型突围。</p>
+        </div>
+        <div class="trend-card">
+            <strong>Agent范式跃迁：从单体Harness到群体Coordination</strong>
+            <p>行业工程重心正从“单Agent强执行”转向“多Agent自主协同”，openJiuwen发布JiuwenSwarm，首次实现可复用、可演进、可共享的蜂群智能体全栈开源落地。</p>
+        </div>
+        <div class="trend-card">
+            <strong>AI原生内容生产进入“轻工业”时代</strong>
+            <p>个人创作者用万元级成本10天打造爆款AI短片《丧尸清道夫》，并快速衍生为互动视频游戏；AI正重构影视与游戏的生产边界，让“一人即工作室”成为现实。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&mid=2653106807&idx=1&sn=660d3a8ca1a3ee97c0670056fbfda47c" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">垄断已成！AI 创业公司 800 亿美元 ARR，九成被 2 家公司拿走</a>
+            </h2>
+            <div class="meta">
+                <span>📰 极客公园</span>
+                <span>🕒 2026-05-18 18:07</span>
+            </div>
+            <div class="news-summary">摘要：OpenAI与Anthropic合计占据34家头部AI创业公司800亿美元年化收入的89%，企业级API策略助Anthropic两年内美企份额从1%跃升至34.4%，行业集中度逼近操作系统级寡头格局。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>ARR集中度触目惊心</strong>：89%的年化收入被<b>OpenAI</b>和<b>Anthropic</b>两家瓜分，<mark>寡头格局已成</mark>。</li>
+                <li><strong>企业市场逆转加速</strong>：Anthropic美企份额达<b>34.4%</b>，<mark>首次超越OpenAI</mark>，凸显API深度集成策略的高黏性优势。</li>
+                <li><strong>中腰部生存逻辑重构</strong>：32家公司分食剩余<b>11%</b>份额，<mark>转向垂直专用模型</mark>成为唯一破局路径。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2651033590&idx=2&sn=d5a0f0b450abfa021cf98610918ab29f" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">「虾马」之后，openJiuwen社区发布JiuwenSwarm，引领蜂群智能体新架构，开启「养蜂」时代</a>
+            </h2>
+            <div class="meta">
+                <span>📰 机器之心</span>
+                <span>🕒 2026-05-18 12:47</span>
+            </div>
+            <div class="news-summary">摘要：openJiuwen开源JiuwenSwarm，提出Coordination Engineering范式，支持多Agent自主分工、技能沉淀（Swarm Skills）、共享复用（Hub）与自演进，已在医疗会诊、昇腾算子开发等场景验证效果。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>协同工程范式落地</strong>：JiuwenSwarm实现<b>Agent Swarm</b>与<b>Swarm Skills</b>闭环，<mark>多Agent自主协同</mark>成为可工程化标准。</li>
+                <li><strong>技能自演进机制突破</strong>：演进引擎从任务轨迹中自动提炼技能，<mark>越用越强</mark>，在PinchBench评测中以<b>94.2%</b>综合得分刷新SOTA。</li>
+                <li><strong>人机协作双模式</strong>：支持<b>HOTS</b>（指挥官视角）与<b>HITS</b>（沉浸式成员），<mark>人即蜂群一员</mark>，重构人机协同范式。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247891568&idx=3&sn=798782569e8d7450ac5d2adf5e592159" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Agent学会自己「长」Skill了！从失败里长出经验，比人类写的更好用｜ICML 2026</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-05-18 17:23</span>
+            </div>
+            <div class="news-summary">摘要：EvolveR论文提出Agent自进化框架，从执行轨迹中蒸馏“认知Skill”，通过强化学习优化使用策略，在多跳问答中超越Search-R1等强基线，小模型自蒸馏经验反超GPT-4o-mini教师。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>Agent自我进化突破</strong>：EvolveR让Agent从<b>执行轨迹</b>中蒸馏经验，<mark>从失败里长出Skill</mark>，突破人类编写依赖。</li>
+                <li><strong>经验库动态管理</strong>：每条经验带<b>动态评分</b>与使用统计，<mark>自动剪枝合并</mark>，确保经验库轻盈高效。</li>
+                <li><strong>认知对齐效应显著</strong>：在<b>Qwen2.5-3B</b>模型上，Agent自蒸馏经验优于<b>GPT-4o-mini</b>教师，<mark>策略匹配优于教师权威</mark>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2651033590&idx=1&sn=6092be2c894bbc927b1dcdc18864c23d" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">消费级具身智能跨越式新品：算力提升1000倍，对标英伟达Jetson Thor芯片，成本仅1/10！</a>
+            </h2>
+            <div class="meta">
+                <span>📰 机器之心</span>
+                <span>🕒 2026-05-18 12:47</span>
+            </div>
+            <div class="news-summary">摘要：蔚蓝科技发布BabyAlpha A3机器狗，采用国产6芯异构集群，端侧70B模型TPS达280，视觉HDR达140dB、360°环视，实现家庭场景全自主导航，Q3量产上市。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>端侧算力代际突破</strong>：异构集群实现<b>1000倍</b>算力提升，<mark>70亿参数模型端侧可用</mark>，TPS达<b>280</b>。</li>
+                <li><strong>感知能力超人类</strong>：6600万像素+<b>HDR 140dB</b>视觉系统，<mark>360°环视面阵</mark>点云密度达<b>223.2万点/秒</b>。</li>
+                <li><strong>真自主闭环落地</strong>：端侧<b>Physical AI</b>算法实现建图-定位-规划全闭环，<mark>无需外部标签或基站</mark>，家庭场景全天候自主。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&mid=2247662530&idx=1&sn=fe99457d7e3360a9ed99f923549861d3" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">10 天 3000 元，一人造出全球 AI 爆款！好莱坞导演抢人、游戏版引爆期待，合作细节首次披露</a>
+            </h2>
+            <div class="meta">
+                <span>📰 AI前线</span>
+                <span>🕒 2026-05-18 15:40</span>
+            </div>
+            <div class="news-summary">摘要：中专毕业创作者Mx-Shell用Seedance 2.0等工具10天完成AI短片《丧尸清道夫》，B站播放210万，获Genre.ai CEO隔空邀约；已与Yoroll平台合作开发AI互动视频游戏，验证“短片→IP→游戏”新路径。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>个人创作范式革命</strong>：Mx-Shell以<b>3000元</b>成本10天打造爆款，<mark>一人即工作室</mark>，引爆全球AI视频圈。</li>
+                <li><strong>AI视频游戏新形态</strong>：Yoroll平台采用<b>世界模型+游戏系统</b>双轨架构，<mark>AI生成世界，系统裁决规则</mark>。</li>
+                <li><strong>商业化路径清晰</strong>：短片已启动大银幕改编与<b>AI互动游戏</b>开发，<mark>刷到即玩</mark>适配短视频平台分发。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI数据与技术部-金融技术组 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
