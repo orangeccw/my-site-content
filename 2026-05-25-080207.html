@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-05-25</div>
+        <div class="top-tags">
+            <span class="tag-item">#Claude4.8</span>
+            <span class="tag-item">#VibeCoding</span>
+            <span class="tag-item">#AIChipDesign</span>
+            <span class="tag-item">#Symphony</span>
+            <span class="tag-item">#VisualParaThinker</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>模型军备升级白热化</strong>
+            <p>Anthropic三线并进，<mark>Opus 4.8</mark>、<mark>Sonnet 4.8</mark>与<mark>Mythos 1</mark>同日曝光，IPO冲刺叠加OpenAI GPP-5.6、谷歌Gemini 3.5 Pro入局，ASI终极之战正式进入“贴身肉搏”阶段。</p>
+        </div>
+        <div class="trend-card">
+            <strong>AI原生工程范式全面落地</strong>
+            <p>从<mark>Design Conductor</mark>自主跑通芯片全流程，到<mark>Symphony</mark>重构编码协作流程，AI不再仅是辅助工具，而是承担端到端交付的“数字工程师”，人机分工正从“操作工具”转向“设定目标与判断取舍”。</p>
+        </div>
+        <div class="trend-card">
+            <strong>Vibe Coding破圈成为新生产力文化</strong>
+            <p>余华学<mark>本地部署</mark>、胡彦斌修<mark>bug</mark>、Milla Jovovich造<mark>MemPalace</mark>，<b>Vibe Coding</b>已超越技术方法论，演变为跨行业、低门槛、高创意的全民软件共创运动，加速“人人都是开发者”的现实进程。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652702564&idx=1&sn=a2f05d1fb8b85d44e89bdc336eafbcfa" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Anthropic三张底牌全翻了！Mythos 1首次现身，Opus 4.8曝光</a>
+            </h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-05-24 12:09</span>
+            </div>
+            <div class="news-summary">摘要：Anthropic三大模型Opus 4.8、Sonnet 4.8与Mythos 1同日曝光，其中Mythos 1首次现身Claude界面，标志其从“安全禁地”转向商业化产品线，AI攻防能力正式进入实战阶段。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>Opus 4.8突袭上线</strong>：<mark>已部署测试</mark>于<b>Google Vertex AI</b>平台，延续Anthropic“先后台后官宣”惯例，预计6月正式发布。</li>
+                <li><strong>Sonnet 4.8跳过4.7</strong>：<mark>51万行代码泄露</mark>证实版本直接跃迁，视觉准确率将超<b>98%</b>，但Token消耗量增加约<b>30%</b>。</li>
+                <li><strong>Mythos 1解禁商用</strong>：<mark>正式接入Claude Code</mark>与<b>Claude Security</b>，新增安全仪表盘，标志着AI安全能力从研究预览迈向企业级自动化漏洞平台。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652702564&idx=3&sn=86dba4d306bfd2594991c9ae5111430e" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">AI首次独自跑完芯片设计！219词进7nm图纸出，工程师全程没碰键盘</a>
+            </h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-05-24 12:09</span>
+            </div>
+            <div class="news-summary">摘要：Verkor公司Design Conductor系统仅凭219词需求描述，12小时内自主完成从架构设计到GDSII版图的全流程，生成tape-out ready的7nm RISC-V CPU VerCore，首次实现AI端到端芯片设计闭环。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>全流程自主交付</strong>：<mark>12小时跑通全链路</mark>，覆盖需求分析、RTL编码、功能验证、时序收敛至<b>GDSII</b>输出，工程师全程零干预。</li>
+                <li><strong>Agent协同调试能力</strong>：<mark>自主定位流水线bug</mark>，编写Python脚本分析VCD波形，精准识别分支冲刷缺陷并生成<b>RTL修复方案</b>。</li>
+                <li><strong>算力换经验模式</strong>：<mark>数百亿token消耗</mark>支撑试错式迭代，Verkor坦言AI尚缺直觉判断力，但可将芯片探索周期从<b>18–36个月</b>压缩至<b>3–6个月</b>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&mid=2651285214&idx=4&sn=9ea4923fc5f63239cd948d52f06043ef" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">OpenAI 开源 Symphony：面向自主编码智能体编排的 SPEC 规范文档</a>
+            </h2>
+            <div class="meta">
+                <span>📰 InfoQ</span>
+                <span>🕒 2026-05-24 10:15</span>
+            </div>
+            <div class="news-summary">摘要：OpenAI开源Symphony SPEC.md，定义基于问题追踪器的智能体编排范式，将开发工作流从“人工管理多个Codex会话”升级为“自动调度任务树”，大幅降低AI协作的人类注意力瓶颈。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>任务驱动新范式</strong>：<mark>以工单为控制平面</mark>，Symphony持续监控<b>问题看板</b>，自动分配、重启、调度子Agent，彻底摆脱PR绑定式协作。</li>
+                <li><strong>轻量级开源设计</strong>：<mark>仅一份SPEC.md</mark>文档，参考实现采用<b>Elixir</b>构建，强调“组织可定制”，非独立产品，定位为<b>编排协议标准</b>。</li>
+                <li><strong>人机权责再定义</strong>：<mark>人工专注审查决策</mark>，AI承担执行迭代，错误成本显著降低，工程师角色转向<b>目标设定</b>与<b>关键判断</b>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247892541&idx=1&sn=82b34f9a37463ad838a25d283587fb59" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">什么！你说胡彦斌也在苦修Vibe Coding</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-05-24 11:51</span>
+            </div>
+            <div class="news-summary">摘要：Vibe Coding风潮席卷文娱与文学圈，余华学会“本地部署”，胡彦斌用AI开发粉丝App“彦火”，Milla Jovovich联合Claude打造记忆系统MemPalace，标志AI创作力进入全民共创时代。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>跨圈层文化破壁</strong>：<mark>余华掌握本地部署</mark>、<mark>胡彦斌修bug</mark>、<mark>Milla造MemPalace</mark>，<b>Vibe Coding</b>成为连接不同行业的通用创作语言。</li>
+                <li><strong>低门槛创造爆发</strong>：<mark>凭感觉写代码</mark>，无需手敲首行，用户只需描述需求、界面与功能，AI完成生成、调试、交付，<b>MemPalace</b>在LongMemEval中斩获<b>96.6%</b>史上最高分。</li>
+                <li><strong>新生产力基础设施</strong>：<mark>人人都是开发者</mark>从口号落地，Vibe Coding不是替代程序员，而是将软件创造权交还给<b>所有有想法的人</b>，催生海量长尾创新。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2651034676&idx=2&sn=fdba4b43608ed22b18b1d4e7383e23cb" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">ICML 2026｜首个视觉语言模型并行思考框架，一文解析内在机制</a>
+            </h2>
+            <div class="meta">
+                <span>📰 机器之心</span>
+                <span>🕒 2026-05-24 15:00</span>
+            </div>
+            <div class="news-summary">摘要：浙江大学与小米团队提出Visual Para-Thinker，首个面向视觉任务的并行思考框架，通过块/扫描划分、Pa-Attention与LPRoPE机制，解决视觉注意力漂移与幻觉问题，在多项视觉基准上显著提升性能。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>视觉并行新范式</strong>：<mark>以视觉为中心划分</mark>推理路径，提出<b>块划分</b>与<b>扫描划分</b>两种策略，混合训练实现多样性与效率平衡。</li>
+                <li><strong>三重机制保障</strong>：<mark>Path-aware Attention</mark>确保路径隔离，<b>LPRoPE</b>实现无偏可区分位置编码，解决大模型固有<b>位置偏差</b>问题。</li>
+                <li><strong>实证性能跃升</strong>：<mark>幻觉任务提升6.1分</mark>，视觉搜索任务在<b>3B</b>模型上提升<b>12.6</b>，验证并行思考对视觉理解类任务的普适增益。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI数据与技术部-金融技术组 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
