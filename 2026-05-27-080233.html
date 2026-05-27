@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-05-27</div>
+        <div class="top-tags">
+            <span class="tag-item">#SkyClaw</span>
+            <span class="tag-item">#AI造AI</span>
+            <span class="tag-item">#1200万Token</span>
+            <span class="tag-item">#Token经济</span>
+            <span class="tag-item">#Agent原生训练</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>Token成本成企业AI落地生死线</strong>
+            <p>企业正从“模型性能竞赛”转向“Token效率革命”，能否以极低成本支撑Agent高频调用与长上下文推理，已成为AI商业化的分水岭。</p>
+        </div>
+        <div class="trend-card">
+            <strong>Agent模型进入“原生训练”时代</strong>
+            <p>新一代模型（如SkyClaw）不再适配通用任务，而是从训练第一阶段就扎根OpenClaw等真实Agent环境，用轨迹质量评估替代结果导向，真正为工具调用、多步规划而生。</p>
+        </div>
+        <div class="trend-card">
+            <strong>AI研发范式发生根本性迁移</strong>
+            <p>面壁智能的ForgeTrain标志“AI造AI”从L2辅助迈入L3端到端生产级，预训练框架可由AI自动生成并超越Megatron，软件工程正从“通用框架”转向“按需锻造”的AI原生范式。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652702909&idx=1&sn=242761d18907f204339ead4777ce72b4" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">AI公司烧不起Token了！国产Agent杀出，逼近Opus 4.6还免费</a>
+            </h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-05-26 12:30</span>
+            </div>
+            <div class="news-summary">摘要：昆仑万维发布SkyClaw-v1.0高性能Agent模型，性能逼近Claude Opus 4.6，输入成本仅为后者的1/24，限时免费开放，直击企业Token账单暴涨痛点。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>成本颠覆性突破：</strong>输入价格仅<mark>行业主流一半</mark>，<b>SkyClaw-v1.0</b>输入成本为<b>Claude Opus 4.6</b>的1/24，输出为1/6。</li>
+                <li><strong>Agent原生三阶段训练：</strong>在<mark>OpenClaw模拟环境</mark>中构建工具关系图谱，用<mark>轨迹质量评估</mark>替代结果导向，确保模型学会“高效做事”而非“蒙对答案”。</li>
+                <li><strong>旗舰+轻量双版本策略：</strong><mark>一键生成PPT</mark>与<mark>小红书网页直出</mark>等实测验证其生产力，<b>SkyClaw-v1.0-lite</b>覆盖日常轻量任务，成本仅为<b>主流模型零头</b>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652702909&idx=2&sn=4904830a23033a993691303fdf5c8171" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">OpenAI差点没了？总裁亲述：奥特曼被罢免当天，我就辞职了</a>
+            </h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-05-26 12:30</span>
+            </div>
+            <div class="news-summary">摘要：Greg Brockman首次完整复盘OpenAI 2023年72小时危机，揭示非营利转向营利结构的算力账逻辑、治理脆弱性根源，以及“造模型的机器”这一新护城河战略。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>治理结构崩塌导火索：</strong>董事会未说明理由即罢免奥特曼，<mark>连问三次无果</mark>，Brockman当日辞职，暴露<b>OpenAI</b>在AGI使命下<mark>决策权与信任机制</mark>的致命缺陷。</li>
+                <li><strong>营利转型源于算力现实：</strong>为支撑AGI研发所需“极其庞大的计算机”，创始团队2017年共识决定建立<mark>营利实体</mark>，<b>OpenAI LP</b>成为唯一路径，<b>利润上限</b>设计确保使命优先。</li>
+                <li><strong>新护城河定义为系统能力：</strong>OpenAI真正优势不在单个模型，而在<mark>造模型的机器</mark>——即AI自研流程提速10%-20%、自提研究想法的闭环系统，燃料是<mark>算力</mark>而非参数。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247893123&idx=1&sn=5d7d73a6ba59384a99ee4e5abc254e05" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">刚刚，国产AI自己造了AI，全球首例！</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-05-26 13:30</span>
+            </div>
+            <div class="news-summary">摘要：面壁智能发布全球首个AI编写的生产级预训练框架ForgeTrain，训练出MiniCPM5-1B小模型，性能超越同尺寸模型，训练速度比英伟达Megatron快10%。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>AI研发进入L3生产级：</strong><mark>AI编写预训练框架</mark>不再是辅助，ForgeTrain是全球首个<mark>完全由AI编写</mark>的生产级框架，性能超越<b>Megatron</b>，训练速度<mark>快10%</mark>。</li>
+                <li><strong>端侧智能密度跃升：</strong><mark>1B参数模型</mark>在AA-Index榜单超越所有2B以下模型，<b>MiniCPM5-1B</b>支持FP16（2GB）与INT4（0.5GB）部署，适配手机/车机等<mark>端侧场景</mark>。</li>
+                <li><strong>Forge Engineering新范式：</strong>抛弃通用框架，转向<mark>按需锻造专用代码</mark>，AI作为“不知疲倦工匠”，为不同模型/硬件/任务生成最优实现，<b>Harness</b>自动评测迭代闭环。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&mid=2651285679&idx=3&sn=f8b1bc49ba3c60e0b1eaf13137f7f5d3" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">上下文窗口限制被打破：Subquadratic推出了一个1200万Token的窗口</a>
+            </h2>
+            <div class="meta">
+                <span>📰 InfoQ</span>
+                <span>🕒 2026-05-26 14:05</span>
+            </div>
+            <div class="news-summary">摘要：迈阿密初创公司Subquadratic发布SSA架构模型，支持1200万Token上下文窗口，MRCR v2得分83，超越GPT-5.5，推理速度比密集注意力快52倍。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>次二次方注意力突破：</strong><mark>SSA架构</mark>实现计算与内存<mark>线性增长</mark>，100万Token下比密集注意力快52倍，<b>Subquadratic</b>在<mark>大海捞针</mark>任务中达92.1%准确率。</li>
+                <li><strong>性能全面领先：</strong>在MRCR v2测试中以<mark>83分</mark>超越<b>GPT-5.5</b>（74分），SWE-Bench得分为82.4%，略超<b>Opus 4.6</b>（81.4%），验证其在真实编码任务中的泛化能力。</li>
+                <li><strong>商业化路径清晰：</strong>通过API提供<mark>1200万Token窗口</mark>服务，运行于<mark>neoclouds</mark>而非超大规模云，<b>5000万Token</b>窗口预计Q4推出，已获2900万美元融资，估值5亿美元。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&mid=2651285679&idx=4&sn=a1d3ae046495a8e18a4e9ab60f2674dd" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">OpenAI 详解规模化低延迟语音 AI 的 WebRTC 架构</a>
+            </h2>
+            <div class="meta">
+                <span>📰 InfoQ</span>
+                <span>🕒 2026-05-26 14:05</span>
+            </div>
+            <div class="news-summary">摘要：OpenAI为全球语音AI重构WebRTC架构，采用中继收发器设计，将状态集中于收发器层，轻量中继无状态转发，显著降低公网UDP暴露与延迟。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>边缘协议行为保留：</strong><mark>中继收发器架构</mark>将ICE协商、DTLS握手等有状态逻辑集中于<mark>收发器层</mark>，中继保持<mark>无状态</mark>，避免复杂逻辑分散至后端或客户端。</li>
+                <li><strong>云原生深度适配：</strong>放弃传统SFU，专为<mark>一对一语音会话</mark>优化，适配<b>Kubernetes</b>与云负载均衡器，<b>WebRTC</b>会话状态集中存放，缩减公网端口暴露。</li>
+                <li><strong>低延迟全球覆盖：</strong>通过<mark>拉近媒体链路与用户距离</mark>，保障<mark>全球规模</mark>下媒体往返时延稳定，已支撑<b>ChatGPT语音</b>与<b>Realtime API</b>等核心产品。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI数据与技术部-金融技术组 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
