@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-05-28</div>
+        <div class="top-tags">
+            <span class="tag-item">#AI工厂</span>
+            <span class="tag-item">#智能精炼</span>
+            <span class="tag-item">#AI手机范式转移</span>
+            <span class="tag-item">#国产芯片混训</span>
+            <span class="tag-item">#模型永久降价</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>AI基建进入“工厂化”时代</strong>
+            <p>全球AI竞争焦点已从模型参数比拼转向“智能工业化生产”——谁能以更低单位Token成本、更高GPU利用率、更强电力与算力协同效率规模化交付场景化智能，谁就掌握新基础设施话语权。</p>
+        </div>
+        <div class="trend-card">
+            <strong>模型厂商正加速“硬件化”跃迁</strong>
+            <p>字节、小米、三星等不再满足于提供API，而是自建芯片、自研终端、自控物理层，通过“模型+硬件+场景”三位一体闭环，争夺AI时代用户入口与商业价值主导权。</p>
+        </div>
+        <div class="trend-card">
+            <strong>中国大模型开启“普惠定价”新周期</strong>
+            <p>小米、DeepSeek等头部厂商集体永久降价，API价格降幅最高达99%，Token配额翻5–8倍，以极致性价比抢占全球开发者心智，倒逼海外厂商定价体系松动。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA4MTQ4NjQzMw==&mid=2652803832&idx=1&sn=86a0bff2762c23ca7c5c4e1d83c06c06" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">全球AI工厂4万亿激战！这家国产厂商领先一个身位了</a>
+            </h2>
+            <div class="meta">
+                <span>📰 智东西</span>
+                <span>🕒 2026-05-27 19:48</span>
+            </div>
+            <div class="news-summary">摘要：Omdia报告首次定义商汤“智能精炼”范式，其五层AI工厂架构（能源协同、异构混训、训推共池、MaaS平台、场景化Token）已实现万卡级国产GPU混训95%效率，PUE低至1.265，领跑全球AI基建新赛道。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>范式开创者</strong>：Omdia将商汤大装置定义为全球唯一的<mark>智能精炼范式</mark>代表，其<b>商汤临港智算中心</b>已落地算电协同平台，能源预测准确率达88%。</li>
+                <li><strong>国产芯片破壁</strong>：率先实现<mark>万卡级异构混训</mark>，国产GPU集群训练效率达同构95%，<b>宁德时代</b>深度协同优化PUE至1.265，年省电费7%。</li>
+                <li><strong>场景Token落地</strong>：交付<mark>铁路设计多模态大模型</mark>（准确率超90%）与<b>云宇星空</b>（6000亿参数）政务大模型，验证“行业Know-How×AI工厂”闭环能力。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA4MTQ4NjQzMw==&mid=2652803832&idx=2&sn=279276a8165a52ce90908e7b20137403" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">超4700亿！曝字节加大今年AI基建投入，已购百万颗高通AI芯片</a>
+            </h2>
+            <div class="meta">
+                <span>📰 智东西</span>
+                <span>🕒 2026-05-27 19:48</span>
+            </div>
+            <div class="news-summary">摘要：字节跳动2026年AI基建投入或达700亿美元（约4747亿元），已采购数百万颗高通AI ASIC芯片，并储备超12万张英伟达卡及数万片寒武纪、晟腾等国产芯片，全面构建多元算力底座。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>资本投入加码</strong>：字节2026年AI资本开支或达<mark>700亿美元</mark>，较此前规划的2000亿元再增超<b>2000亿元</b>，重点投向AI芯片与数据中心。</li>
+                <li><strong>芯片组合升级</strong>：采购<mark>数百万颗高通AI ASIC</mark>，同步储备<b>英伟达A100/A800/H800</b>超12万张及寒武纪、晟腾910B/C等国产芯片数万片。</li>
+                <li><strong>战略意义突破</strong>：此举使高通首次获得<mark>重量级AI客户</mark>，有望将其从手机芯片商转型为AI基础设施供应商，<b>字节豆包</b>App月活已达2.27亿，验证AI原生应用爆发力。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&mid=2247662833&idx=1&sn=a688497764e31661ea5b752edde65bc1" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">利润腰斩也要卷AI！小米模型永久降价99%，雷军还要再砸600亿</a>
+            </h2>
+            <div class="meta">
+                <span>📰 AI前线</span>
+                <span>🕒 2026-05-27 13:18</span>
+            </div>
+            <div class="news-summary">摘要：小米宣布MiMo-V2.5系列API永久降价最高99%，Token配额提升5–8倍；Q1营收同比跌10.9%、利润腰斩，仍计划三年投入600亿元AI，技术优化使缓存命中率提升5倍、KV传输量降为1/7。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>激进普惠策略</strong>：MiMo-V2.5 Pro输入缓存命中价<mark>降至0.025元/百万tokens</mark>，降幅达99%，<b>MiMo-V2.5</b>系列全面降价并重置所有用户Token配额。</li>
+                <li><strong>技术驱动降本</strong>：通过<mark>SGLang HiCache+SWA优化</mark>，KV缓存传输量减少至1/7，可缓存token数提升近5倍，<b>雷军</b>宣布未来三年AI投入600亿元。</li>
+                <li><strong>全球性价比标杆</strong>：MiMo在Artificial Analysis榜单与DeepSeek-V4-Pro并列全球开源模型第一，价格仅为<b>GPT-5.5</b>的1/34，推动OpenRouter中国模型连续霸榜。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2651035341&idx=3&sn=c24ab7c8c7275ac2e9e050dec831c77b" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">从Foundation Model到Physical AI，三星「杀入」大模型核心战场</a>
+            </h2>
+            <div class="meta">
+                <span>📰 机器之心</span>
+                <span>🕒 2026-05-27 11:56</span>
+            </div>
+            <div class="news-summary">摘要：三星成立AI Model TF攻坚组织，发布Memory-Based架构Meki、多域强化学习M2RL及物理世界评测LiveClawBench，依托全球最大消费电子生态，将大模型能力深度嵌入手机、家居、机器人等真实物理设备。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>端侧架构创新</strong>：提出<mark>Memory-Based大模型Meki</mark>，利用ROM扩展知识容量，突破端侧RAM限制，适配<b>三星Galaxy S26</b>等真实设备长期运行需求。</li>
+                <li><strong>物理世界智能</strong>：发布<mark>LiveClawBench三维评测框架</mark>，从环境/认知/适应三维度评估Physical AI能力，<b>AI Model TF</b>由唐业辉博士领衔，聚焦World Model与Agentic AI。</li>
+                <li><strong>全栈生态优势</strong>：依托<mark>全球最大消费电子生态</mark>，三星将模型能力与<b>手机/家居/机器人/芯片</b>深度耦合，实现从Foundation Model到Physical AI的战略跃迁。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&mid=2653107356&idx=1&sn=8a866b9d350aabdea2e9ba90497acee2" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">AI 手机还没度上「蜜月」，模型厂商和手机厂商就已经开始「闹离婚」</a>
+            </h2>
+            <div class="meta">
+                <span>📰 极客公园</span>
+                <span>🕒 2026-05-27 18:20</span>
+            </div>
+            <div class="news-summary">摘要：豆包手机一代引爆AI手机范式革命，但中兴等合作厂商面临“命名权让渡”困境；OPPO、小米、华为加速自研AIOS与GUI Agent（如小布Claw、Xiaomi miclaw），模型厂商与硬件厂商在入口权、收入权、控制权上博弈加剧。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>入口权争夺白热化</strong>：豆包手机一代使用户认知转向<mark>“这是谁家的手机”</mark>，中兴M153被称“豆包手机”，<b>OPPO Find N6</b>则力推“小布Claw”强调自主AIOS叙事。</li>
+                <li><strong>商业闭环重构</strong>：AI Agent接管跨App操作，威胁手机厂商传统互联网收入（广告、分发、佣金），<mark>订阅费归属成暗战焦点</mark>，<b>字节豆包</b>提供整年免费额度形成先发优势。</li>
+                <li><strong>硬件能力再定义</strong>：2026年内存价格暴涨80%-90%，高通8 Elite Gen5芯片售价达280美元，<mark>AI体验取代参数成为核心卖点</mark>，二线厂商借AI Agent手机成“救命稻草”。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI数据与技术部-金融技术组 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
