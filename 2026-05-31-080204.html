@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-05-31</div>
+        <div class="top-tags">
+            <span class="tag-item">#AgentSubstrate</span>
+            <span class="tag-item">#ClawGym</span>
+            <span class="tag-item">#Symphony</span>
+            <span class="tag-item">#Gamma-World</span>
+            <span class="tag-item">#OpenClaw</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>Agent基础设施正走向“Kubernetes时刻”</strong>
+            <p>Google开源Agent Substrate与AX，首次将Agent生命周期管理与K8s深度协同，通过挂起/恢复机制实现97%硬件效率提升，标志着Agentic系统从实验走向企业级规模化部署。</p>
+        </div>
+        <div class="trend-card">
+            <strong>Personal Agent能力评估进入“工作区可验证”新阶段</strong>
+            <p>ClawGym框架以13.5K可执行任务+200任务评测集+沙盒强化学习闭环，终结“只说不干”式评测，30B模型凭高质量数据反超235B大模型，证明执行能力可训练、可迁移、可度量。</p>
+        </div>
+        <div class="trend-card">
+            <strong>多智能体世界模型突破“可扩展性瓶颈”</strong>
+            <p>Gamma-World用正单纯形编码+Hub Token通信机制，实现零样本从2人扩展至4人协同，算力复杂度从O(n²)降至O(n)，为具身智能、机器人协同、自动驾驶等物理AI场景提供首个可落地的多主体仿真基座。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&mid=2651285965&idx=3&sn=4983abf3b26a06107a296e637db04fbb" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Google 想为 AI Agent 打造下一个 Kubernetes</a>
+            </h2>
+            <div class="meta">
+                <span>📰 InfoQ</span>
+                <span>🕒 2026-05-30 10:00</span>
+            </div>
+            <div class="news-summary">Google开源Agent Substrate与AX两大项目，构建基于Kubernetes的Agent专属控制平面，通过挂起非活跃Agent状态实现97%硬件效率提升，支持百万级亚秒级工具调用，迈向企业级Agent规模化运行。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>架构定位</strong>：Agent Substrate是<b>Kubernetes之上</b>的轻量控制平面，<mark>解耦Agent生命周期</mark>与底层资源，专为高频亚秒级交互设计。</li>
+                <li><strong>核心能力</strong>：AX运行时支持<b>零空闲架构</b>，Agent挂起后Worker回归共享池，恢复仅需<mark>几百毫秒</mark>，避免秒级冷启动。</li>
+                <li><strong>生态策略</strong>：采用<b>Apache-2.0许可证</b>，内置Gemini Agent但强调厂商中立，复刻当年<b>Kubernetes</b>开源路径，以社区共建推动云服务需求。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA4MTQ4NjQzMw==&mid=2652803972&idx=1&sn=156190ad8d336d973689b078442953b0" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">AI记忆顶咖与AI芯片大牛领衔！Agent最火的九个方向，阿里美团腾讯7月同台切磋</a>
+            </h2>
+            <div class="meta">
+                <span>📰 智东西</span>
+                <span>🕒 2026-05-30 16:44</span>
+            </div>
+            <div class="news-summary">2026中国AI智能体大会将于7月2-3日在杭州举办，汇聚郝建业、方绍峡等AI记忆与芯片领域顶流，覆盖Coding Agent、自进化智能体、Agent Harness等九大前沿方向，阿里通义、美团LongCat、华为等一线团队将现场分享实战进展。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>权威阵容</strong>：天津大学<b>Hao Jianye</b>教授与清华系<b>方绍峡</b>博士领衔，阿里<b>李晨亮</b>、美团<b>顾奇</b>、华为<b>林炜哲</b>等一线团队负责人深度参与，<mark>产学研高度协同</mark>。</li>
+                <li><strong>技术纵深</strong>：设七场技术研讨会，聚焦<b>Agent Harness</b>、<b>Computer-Use Agent</b>等硬核方向，覆盖从底层框架到产品落地的全栈能力，<mark>直击工程落地痛点</mark>。</li>
+                <li><strong>产业信号</strong>：大会与<b>2026全球AI芯片峰会</b>形成技术闭环，凸显AI智能体正从算法层向<b>芯片-系统-应用</b>全栈演进，<mark>硬件协同成新焦点</mark>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247893825&idx=2&sn=2f1e5fdae519fe910eda7f64a58247ca" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">打破Agent训练瓶颈！人大&至知研究院开源Claw Agent数据+训练+评测全链条</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-05-30 12:00</span>
+            </div>
+            <div class="news-summary">人大与至知研究院开源ClawGym框架，含13.5K可执行任务数据集、SFT/RL训练流程及200任务ClawGym-Bench评测集，首次实现Personal Agent在真实工作区中“可执行、可验证、可诊断”，30B模型性能超越235B基座模型。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>数据创新</strong>：采用<b>persona-driven</b>与<b>skill-grounded</b>双路线合成13.5K任务，自动生成mock workspace并支持<mark>代码+量规混合验证</mark>。</li>
+                <li><strong>训练突破</strong>：基于<b>OpenClaw黑盒轨迹</b>训练ClawGym-30B-A3B，平均13轮交互/15.82次工具调用，<mark>沙盒并行RL</mark>进一步提升执行鲁棒性。</li>
+                <li><strong>评测范式</strong>：ClawGym-Bench覆盖六类工作区场景，200任务经<b>人类-大模型协同审查</b>，<mark>区分能力梯度清晰</mark>（Qwen3-8B 35.02 → Claude-4.7-Opus 77.81）。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&mid=2247662979&idx=2&sn=0c25ead65e49bf93cfc956c9b4767136" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">OpenAI 开源 Symphony：面向自主编码智能体编排的 SPEC 规范文档</a>
+            </h2>
+            <div class="meta">
+                <span>📰 AI前线</span>
+                <span>🕒 2026-05-30 13:30</span>
+            </div>
+            <div class="news-summary">OpenAI开源Symphony编排规范，将项目管理工具（如Jira）作为控制平面，自动分派编码任务给专用智能体，由人工审核成果；其参考实现基于Elixir，强调轻量、可定制、非产品化，旨在解决“人类注意力瓶颈”。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>范式转变</strong>：从<b>人工管理会话</b>转向以<b>问题/工单</b>为单元的自动编排，智能体不再绑定PR，可自主创建新问题，<mark>人类角色转为审核者</mark>。</li>
+                <li><strong>工程设计</strong>：采用<b>SPEC.md规范</b>而非黑盒系统，参考实现用<b>Elixir</b>构建，利用其并发管控优势，<mark>强调组织可定制</mark>而非开箱即用。</li>
+                <li><strong>价值定位</strong>：明确不作为产品，而是<b>降低试错成本</b>的参考框架，让开发者聚焦业务逻辑，<mark>错误成本显著降低</mark>，大幅提升工程师吞吐效率。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2651035907&idx=1&sn=cd65e6a8e2619188409acb7a14b19812" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">登顶HuggingFace日榜！英伟达清华团队γ-World：把世界模型从单机打到联机</a>
+            </h2>
+            <div class="meta">
+                <span>📰 机器之心</span>
+                <span>🕒 2026-05-30 10:30</span>
+            </div>
+            <div class="news-summary">NVIDIA与清华团队发布Gamma-World，首创正单纯形玩家编码与Hub Token通信机制，实现多智能体世界模型零样本泛化（2→4人），算力复杂度线性增长，在Minecraft与真实机械臂场景均验证跨域一致性，开启Physical AI数据生成新范式。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>底层突破</strong>：用<b>正单纯形顶点</b>编码玩家身份，打破对称性限制，支持任意人数推理无需重训；<mark>Hub Token通信</mark>将计算复杂度从O(n²)压至O(n)。</li>
+                <li><strong>泛化能力</strong>：在<b>Minecraft</b>实现零样本四人协同，在<b>真实机械臂</b>场景直接迁移，验证共享世界状态的物理一致性，<mark>跨域迁移成功</mark>。</li>
+                <li><strong>产业意义</strong>：作为<b>交互数据生成器</b>，可24小时生成多智能体轨迹，反哺机器人/自动驾驶训练，<mark>破解Physical AI数据稀缺瓶颈</mark>，启动“世界模型→数据→Policy”飞轮。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI数据与技术部-金融技术组 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
