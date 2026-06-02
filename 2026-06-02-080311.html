@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-06-02</div>
+        <div class="top-tags">
+            <span class="tag-item">#VeraRubin</span>
+            <span class="tag-item">#AgenticAI</span>
+            <span class="tag-item">#LoRA持续学习</span>
+            <span class="tag-item">#世界模型</span>
+            <span class="tag-item">#具身智能基座</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>智能体成为新计算范式</strong>
+            <p>AI正从“生成内容”跃迁至“执行任务”，以Vera Rubin系统和Vera CPU为标志，算力基建全面转向支撑智能体（Agent）的实时推理、工具调用与多步协同。</p>
+        </div>
+        <div class="trend-card">
+            <strong>持续学习成为Agent模型核心能力</strong>
+            <p>Mindverse等前沿团队验证LoRA+强化学习可实现低成本、高隔离度的个性化进化，模型不再“训完即定型”，而是像生物一样持续积累专属技能。</p>
+        </div>
+        <div class="trend-card">
+            <strong>物理世界落地依赖系统级基座</strong>
+            <p>具身智能突破不再靠单点算法，而是靠LiOS、Project Eden等端云协同OS与解耦式世界模型，统一纳管数据、模型、仿真与真机执行，打通“仿真→真机→闭环”的全链路。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&mid=2247663058&idx=1&sn=4cba37dc484b929bac51bd481da17301" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">刚刚，黄仁勋宣布 Rubin 全面投产，4万名工程师参与构建！史上最强CPU同步亮相</a>
+            </h2>
+            <div class="meta">
+                <span>📰 AI前线</span>
+                <span>🕒 2026-06-01 15:06</span>
+            </div>
+            <div class="news-summary">摘要：黄仁勋在台北GTC宣布Vera Rubin架构全面量产，同步发布专为智能体设计的Vera CPU，定义“实用AI”时代，强调Token即盈利单位、AI工厂即新型基建。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>全面投产</strong>：<mark>Vera Rubin量产</mark>，供应链规模达Grace Blackwell的<b>两倍</b>，机架组装时间从2小时压缩至<b>5分钟</b>。</li>
+                <li><strong>智能体CPU革命</strong>：<mark>Vera CPU首发</mark>，单线程性能达业界顶尖，SQL处理速度提升<b>3倍</b>，实时流处理性能提升<b>6倍</b>。</li>
+                <li><strong>AI工厂新范式</strong>：<mark>DSX全栈落地</mark>，集成Omniverse数字孪生与液冷技术，单座AI工厂成本已飙升至<b>500–600亿美元</b>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIxODUzNTg2MA==&mid=2247492023&idx=1&sn=4b5b9bba5971265e1d7163eacd748e62" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">3万字全文｜ 黄仁勋 GTC2026 台北主题演讲：智能体时代的算力革命与 AI 工厂</a>
+            </h2>
+            <div class="meta">
+                <span>📰 web3天空之城</span>
+                <span>🕒 2026-06-01 17:13</span>
+            </div>
+            <div class="news-summary">摘要：黄仁勋系统阐释Agentic AI架构，提出“CPU是指挥家、GPU是管弦乐队”，发布RTX Spark个人AI电脑、Cosmos 3物理AI模型及Isaac Groot人形机器人参考平台。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>PC范式重构</strong>：<mark>RTX Spark发布</mark>，集成20核Grace CPU与Blackwell GPU，支持本地运行<b>Nemotron 3 Ultra</b>模型，实现<b>24小时AI智能体</b>常驻。</li>
+                <li><strong>物理AI突破</strong>：<mark>Cosmos 3开源</mark>，全球首个支持闭环仿真与动作生成的物理AI基础模型，由<b>NVIDIA Omniverse</b>驱动合成数据生成。</li>
+                <li><strong>机器人即服务</strong>：<mark>Isaac Groot亮相</mark>，6英尺高、31自由度人形机器人，集成Thor操作系统与全栈仿真工具链，面向<b>高等教育与科研</b>开放。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247894090&idx=1&sn=9179a21958712e5c31ef6b8e9da5499f" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">近2亿美元！VAST完成新一轮融资，正式披露世界模型路线</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-06-01 16:26</span>
+            </div>
+            <div class="news-summary">摘要：VAST获近2亿美元融资，正式发布Project Eden世界模型技术路线，首创“状态推演与视觉渲染原生解耦”，支撑多人实时交互、状态永久留存的可演化虚拟世界。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>世界模型新架构</strong>：<mark>状态-渲染解耦</mark>，底层结构化状态层独立于视角，支持<b>Project Eden</b>实现原生环境持久化与<b>多玩家并发</b>交互。</li>
+                <li><strong>双态数据策略</strong>：<mark>互联网视频自标注</mark>（L1）+<b>Agent引擎合成</b>（L2），利用Tripo积累的<b>3D基础模型能力</b>反向解构2D视频，构建泛化底座。</li>
+                <li><strong>商业化深度领先</strong>：<mark>Tripo系列迭代</mark>，Tripo H3.1刷新几何精度，Tripo P1.0实现<b>秒级生产级网格</b>输出，已服务<b>阿里巴巴、腾讯、字节</b>等头部客户。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247894090&idx=2&sn=e505746db4e72c7d97d75fa113db3932" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">云端模型如何落地物理世界？招商局狮子山人工智能实验室用LiOS打通具身智能全链路</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-06-01 16:26</span>
+            </div>
+            <div class="news-summary">摘要：招商局狮子山实验室发布LiOS具身智能操作系统，通过端云协同架构实现“叠衣服”等柔性物体操作在SO101双臂机器人上的稳定真机落地，并开源低延时图传模块与LeFold数据集。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>OS级基础设施</strong>：<mark>LiOS统一纳管</mark>，覆盖云侧训练、端侧执行与端云协同，支持<b>SO101双臂平台</b>等多本体接入，实现<b>跨平台叠衣</b>任务复用。</li>
+                <li><strong>低延时图传突破</strong>：<mark>30ms端到端延迟</mark>，较通用方案加速<b>2.1～6.9倍</b>，GPU编码/解码直通云端显存，支撑<b>多路高帧率视觉</b>实时接入模型推理链路。</li>
+                <li><strong>真机数据开源</strong>：<mark>LeFold数据集发布</mark>，涵盖多材质衣物折叠全流程，含多视角视觉、关节状态与人工接管标注，面向社区开放<b>Hugging Face</b>与<b>GitHub</b>仓库。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&mid=2653107841&idx=1&sn=a0af2e2a487b657ae3fbf8157e9c8a01" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">独家丨美团领投 A 轮， Mindverse 总融资 5000 万美元，打造持续学习的 Agent 模型</a>
+            </h2>
+            <div class="meta">
+                <span>📰 极客公园</span>
+                <span>🕒 2026-06-01 18:27</span>
+            </div>
+            <div class="news-summary">摘要：Mindverse获美团领投5000万美元A轮融资，发布全球首个在GLM 5.1上完成强化学习后训练的750B Agent模型，首创“mixture of LoRA”架构实现模型能力模块化、可叠加、可隔离的持续进化。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>持续学习新范式</strong>：<mark>mixture of LoRA</mark>，单个底座挂载<b>百万级技能包</b>，每个LoRA仅占基模参数<b>千分之五</b>，支持一人一模型、一企一模型。</li>
+                <li><strong>工程级性能验证</strong>：<mark>万亿参数LoRA强化学习</mark>，效果媲美全参数训练，训练成本降低<b>1/10</b>，已与<b>英伟达官网</b>、<b>AReaL-MinT</b>等主流框架深度集成。</li>
+                <li><strong>生活场景SOTA</strong>：<mark>Macaron产品验证</mark>，200万用户、10万日活，生活类长链路任务（Living Bench/Vita Bench）与<b>生成式UI</b>（A2UI）均达开源模型<b>SOTA</b>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI数据与技术部-金融技术组 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
