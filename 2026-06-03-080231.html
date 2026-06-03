@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-06-03</div>
+        <div class="top-tags">
+            <span class="tag-item">#VeraRubin</span>
+            <span class="tag-item">#AI工厂</span>
+            <span class="tag-item">#OpenClaw</span>
+            <span class="tag-item">#计算连续体</span>
+            <span class="tag-item">#AgentInfra</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>AI基建进入“工厂化”时代</strong>
+            <p>英伟达正式将AI算力基础设施定义为“AI工厂”，单座1GW工厂投资已飙升至500–1000亿美元，算力交付从芯片级升级为全栈式、可仿真、一次投产的超级工程。</p>
+        </div>
+        <div class="trend-card">
+            <strong>智能体驱动芯片架构重构</strong>
+            <p>CPU/GPU不再为人类设计，而是为数十亿低延迟、高并发的智能体服务——英伟达推Vera CPU、高通推Dragonwing IQ10、微软+英伟达重定义PC，硬件全面转向Agent原生。</p>
+        </div>
+        <div class="trend-card">
+            <strong>AI硬件爆发进入“寒武纪时刻”</strong>
+            <p>从眼镜腿、玩具肚、扫地机到手机，AI正以“入口级Agent”形态下沉至千行百业；百度智能云成关键催化剂，服务超1000家硬件企业，提供AI Infra+Agent Infra+场景落地三层底座。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&mid=2651286142&idx=2&sn=8d8473097b958df32ae3acdf79db649a" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">黄仁勋宣布 Rubin 全面投产，4万名工程师参与构建！史上最强CPU同步亮相</a>
+            </h2>
+            <div class="meta">
+                <span>📰 InfoQ</span>
+                <span>🕒 2026-06-02 13:45</span>
+            </div>
+            <div class="news-summary">摘要：黄仁勋在台北GTC宣布Vera Rubin架构全面量产，定义“实用AI”已到来；4万工程师攻坚全栈AI工厂系统，同步发布专为智能体设计的Vera CPU与开源Nemotron 3 Ultra模型。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>AI工厂正式投产</strong>：Vera Rubin平台<mark>全面量产</mark>，供应链规模达上一代2倍，机架组装时间从2小时压缩至<b>5分钟</b>。</li>
+                <li><strong>史上最强CPU发布</strong>：Vera CPU专为智能体优化，SQL处理性能达现有平台<b>3倍</b>，流处理性能提升最高<b>6倍</b>。</li>
+                <li><strong>开源智能体基座上线</strong>：Nemotron 3 Ultra采用SSM+MoE混合架构，推理速度提升<b>5倍</b>，运行成本降低<b>30%</b>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247894165&idx=2&sn=0125e0e1973268ab6434b7a2664bcc8c" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">老黄带着英伟达CPU杀入PC赛道</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-06-02 12:05</span>
+            </div>
+            <div class="news-summary">摘要：英伟达发布RTX Spark芯片，首次将Blackwell GPU与Grace CPU“双芯合体”，实现1 petaflop算力，支持百万上下文大模型本地运行，今秋登陆戴尔、惠普等全系Windows PC。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>PC架构40年首次重塑</strong>：RTX Spark<mark>专为个人智能体打造</mark>，微软、戴尔、惠普等六大OEM今秋首发搭载<b>Windows PC</b>。</li>
+                <li><strong>端侧大模型突破</strong>：支持<b>120B参数</b>大模型+<b>100万上下文</b>本地运行，统一内存达<b>128GB</b>，NVLink-C2C实现芯片级直连。</li>
+                <li><strong>全场景AI生产力</strong>：支持4K AI视频生成、12K视频编辑、90GB+光追渲染，Adobe正底层重构<b>Photoshop</b>与<b>Premiere</b>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&mid=2653108011&idx=1&sn=fe1c5544484977b414688c8ae044c0fa" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">AI 硬件迎来寒武纪时刻：百度智能云如何成为爆发催化剂</a>
+            </h2>
+            <div class="meta">
+                <span>📰 极客公园</span>
+                <span>🕒 2026-06-02 17:30</span>
+            </div>
+            <div class="news-summary">摘要：百度智能云以中立底座角色服务超1000家AI硬件企业，提供AI Infra、Agent Infra与场景化工具三层能力，助力李未可眼镜、小度熊玩具、小熊电器等实现AI原生升级。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>硬件AI化加速器</strong>：百度智能云服务<b>全球TOP10手机厂商</b>、<b>中国TOP5 AI眼镜</b>及<b>500万台智能家电</b>，成行业“寒武纪式”催化剂。</li>
+                <li><strong>三层AI底座落地</strong>：AI Infra（百舸平台）、Agent Infra（千帆+RAG+MCP）、场景工具（AR导航、远场语音芯片<b>鸿鹄</b>）构成完整赋能链。</li>
+                <li><strong>硬件价值升维</strong>：小度熊搭载<b>200B参数大模型</b>实现角色化陪伴，玩具从一次性硬件转向<b>硬件+软件订阅</b>长期IP资产。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA4MTQ4NjQzMw==&mid=2652804103&idx=1&sn=b925bec7e32a5a7612b99337ef2e4133" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">从手机PC机器人到数据中心，高通“计算连续体”成Agent时代AI路基</a>
+            </h2>
+            <div class="meta">
+                <span>📰 智东西</span>
+                <span>🕒 2026-06-02 17:00</span>
+            </div>
+            <div class="news-summary">摘要：高通在Computex提出“计算连续体”战略，覆盖毫瓦级可穿戴到千瓦级数据中心，发布骁龙C平台、Dragonwing IQ10机器人参考设计及Dragonfly数据中心品牌。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>全场景AI基建定义</strong>：高通“计算连续体”<mark>从毫瓦到千瓦</mark>全覆盖，Dragonwing IQ10提供<b>700 TOPS</b>端侧算力与<b>12路GMSL2</b>摄像头支持。</li>
+                <li><strong>端侧智能体加速普及</strong>：骁龙C平台主打入门本，实现无风扇轻薄设计与<b>全天续航</b>，宏碁、惠普、联想将快速推出<b>AI龙虾本</b>。</li>
+                <li><strong>数据中心新势力登场</strong>：Dragonfly品牌正式发布，补齐高通从<b>可穿戴</b>到<b>数据中心</b>全栈布局，安蒙称其为“AI新基建核心筑基者”。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&mid=2651286142&idx=3&sn=cfdda501d9ce9bd63573aafb47b3e967" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Anthropic 在 Code With Claude 上发布托管式智能体、主动式工作流与能力曲线</a>
+            </h2>
+            <div class="meta">
+                <span>📰 InfoQ</span>
+                <span>🕒 2026-06-02 13:45</span>
+            </div>
+            <div class="news-summary">摘要：Anthropic在Code with Claude 2026大会上发布Claude Managed Agents，强调生产级智能体瓶颈已转向基础设施；披露Q1收入年化增长80倍，年化销售额达300亿美元。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>托管式智能体上线</strong>：Claude Managed Agents<mark>聚焦沙箱执行</mark>与<b>检查点控制</b>，解决生产环境安全与可验证性瓶颈。</li>
+                <li><strong>能力曲线量化跃迁</strong>：Opus 4.7在SWE-bench Verified达<b>87%</b>，较Sonnet 3.7的<b>62%</b>大幅提升，能力曲线预示未来一年持续加速。</li>
+                <li><strong>商业爆发验证拐点</strong>：Anthropic年化销售额达<b>300亿美元</b>，ServiceNow、Uber等客户<b>年初即用满全年token预算</b>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI数据与技术部-金融技术组 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
