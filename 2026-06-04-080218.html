@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-06-04</div>
+        <div class="top-tags">
+            <span class="tag-item">#计算连续体</span>
+            <span class="tag-item">#LingBot-VA</span>
+            <span class="tag-item">#ProjectSolara</span>
+            <span class="tag-item">#AndroidBench</span>
+            <span class="tag-item">#JoyInside</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>端边云协同成智能体基建新范式</strong>
+            <p>高通提出「计算连续体」架构，将手机、PC、机器人、汽车、边缘设备与数据中心统一调度，让智能体按任务需求动态分配算力，解决token爆炸式增长下的TCO（总拥有成本）瓶颈。</p>
+        </div>
+        <div class="trend-card">
+            <strong>世界模型驱动具身智能突破</strong>
+            <p>蚂蚁灵波发布LingBot-VA，首个自回归因果视频-动作世界模型，仅用50条真实数据即可解锁复杂物理操控，实现“一边思考一边行动”，显著提升长程规划与柔性物体操作能力。</p>
+        </div>
+        <div class="trend-card">
+            <strong>AI硬件进入Turnkey规模化落地阶段</strong>
+            <p>京东推出JoyInside平台，将大模型、多模态交互、长期记忆等AI能力封装为即插即用组件，联合供应链与渠道，实现30天内AI硬件从创意到货架的闭环，加速“万物皆可AI”商业化进程。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2651036834&idx=1&sn=8b0f4f0b3ee04d86335f17b70dfde29c" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">当Token飙到天文数字，高通用「计算连续体」重搭智能体新基建</a>
+            </h2>
+            <div class="meta">
+                <span>📰 机器之心</span>
+                <span>🕒 2026-06-03 15:30</span>
+            </div>
+            <div class="news-summary">摘要：高通在COMPUTEX 2026发布「计算连续体」战略，构建覆盖端侧（手机/PC/可穿戴）、边缘（汽车/机器人）与云端（Dragonfly数据中心）的分布式AI基础设施，以应对智能体时代token消耗激增与TCO挑战。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>战略升级</strong>：高通从芯片供应商转型为<b>系统级AI基础设施提供者</b>，以<mark>计算连续体</mark>统一调度端边云算力，支撑智能体持续运行与跨终端协同。</li>
+                <li><strong>全栈落地</strong>：发布<b>骁龙X2Elite</b>PC芯片、<b>骁龙WearElite</b>可穿戴平台、<b>跃龙IQ10RRD</b>机器人参考设计及全新数据中心品牌<b>高通飞龙</b>，实现<mark>端边云全场景覆盖</mark>。</li>
+                <li><strong>商业价值</strong>：通过端云协同降低token消耗，<b>ClaudeCode</b>任务中<mark>成本下降60%</mark>，验证<mark>TCO优化</mark>能力，直击智能体大规模部署核心痛点。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2651036834&idx=2&sn=2ee913b69d3841ccae7b2fa64b0704d4" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">RSS 2026｜蚂蚁灵波提出首个自回归因果世界模型，50条数据解锁通用机器人操控</a>
+            </h2>
+            <div class="meta">
+                <span>📰 机器之心</span>
+                <span>🕒 2026-06-03 15:30</span>
+            </div>
+            <div class="news-summary">摘要：蚂蚁灵波联合港科大推出LingBot-VA，首个自回归视频-动作世界模型，通过交错式因果建模统一物理预测与动作推理，仅用50条真实演示数据即在长程、高精度及柔性操作任务中达到SOTA性能。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>架构创新</strong>：采用<b>Mixture-of-Transformers</b>双流架构，<mark>视频专家</mark>与<mark>动作专家</mark>在严格因果掩码下协同，实现<mark>高级语义驱动</mark>的低延迟控制（2Hz）。</li>
+                <li><strong>数据效率</strong>：在真实机器人平台完成三类高难任务，<b>50条演示数据</b>即达SOTA，<mark>成功率92.0%</mark>（RoboTwin Hard），消融实验证明<mark>视频预测模块</mark>为性能核心。</li>
+                <li><strong>物理推理</strong>：摒弃双向注意力，以<mark>自回归因果建模</mark>显式学习物理先验，解决VLA模型轨迹记忆与长程歧义问题，为通用机器人提供可泛化的<b>隐式世界模型</b>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA4MTQ4NjQzMw==&mid=2652804165&idx=1&sn=f34b6438c1bed7b8adc2b8668169c5bd" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">微软Build大会一文看尽：9款自研模型、Windows版龙虾、“梦中情机”，黄仁勋猛夸</a>
+            </h2>
+            <div class="meta">
+                <span>📰 智东西</span>
+                <span>🕒 2026-06-03 13:03</span>
+            </div>
+            <div class="news-summary">摘要：微软Build 2026发布MAI系列7款自研模型、Surface RTX Spark Dev Box开发工作站、Project Solara智能体硬件参考设计、Windows版OpenClaw（Microsoft Scout）及MXC安全执行容器，全面构建智能体时代软硬协同基础设施。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>模型突破</strong>：发布<b>MAI-Thinking-1</b>旗舰推理模型，<mark>性能追平ClaudeOpus4.6</mark>，并针对<b>Maia200</b>芯片优化，<mark>每瓦性能超GB200 1.4倍</mark>，强化企业级模型可控性。</li>
+                <li><strong>硬件生态</strong>：推出<b>ProjectSolara</b>参考设计，含固定式办公终端（联发科）与可穿戴设备（<b>高通骁龙</b>），<mark>智能体随场景浮现</mark>，已获BestBuy、CVS等企业落地验证。</li>
+                <li><strong>安全治理</strong>：发布<b>MXC执行容器</b>SDK与<b>Windows365forAgents</b>，实现进程/会话级隔离，<mark>OpenClaw删除文件被实时拦截</mark>，构建企业级智能体可治理、可防护体系。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&mid=2651286214&idx=2&sn=c2a830ebbc9e6401d34dcaffa5cedf24" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">谷歌给 Android 开发者选模型：GPT-5.5 暂时领先</a>
+            </h2>
+            <div class="meta">
+                <span>📰 InfoQ</span>
+                <span>🕒 2026-06-03 12:30</span>
+            </div>
+            <div class="news-summary">摘要：谷歌推出Android Bench基准门户，基于真实GitHub Android项目任务评估LLM能力，GPT-5.5以综合性能登顶榜首；该平台聚焦延迟、token消耗与成本，推动模型开发者针对性优化Android开发能力。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>基准权威</strong>：Android Bench采用<b>真实开源Android项目</b>任务，覆盖Jetpack Compose迁移、网络幽灵等场景，<mark>拒绝数据污染</mark>，强调<mark>私有评估</mark>与公开基准互补。</li>
+                <li><strong>模型选型</strong>：GPT-5.5在最新榜单中登顶，<b>AndroidBench</b>提供延迟、token、成本四维评分，<mark>GPT-5.5综合得分最高</mark>，为开发者提供可信赖选型依据。</li>
+                <li><strong>生态意图</strong>：谷歌通过该平台推动<b>Android开发LLM能力标准化</b>，<mark>加速模型改进</mark>，最终提升整个Android生态应用质量，形成平台级技术话语权。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzkyNjU2ODM2NQ==&mid=2247629313&idx=1&sn=27760146786df3cc8a87b7fe823c0d3e" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">京东的AI硬件野心：模型、供应链和渠道一起打包</a>
+            </h2>
+            <div class="meta">
+                <span>📰 硅星人Pro</span>
+                <span>🕒 2026-06-03 11:05</span>
+            </div>
+            <div class="news-summary">摘要：京东发布JoyInside AI Turnkey平台，整合大模型、多模态交互、长期记忆等能力，联合供应链与渠道，支持品牌商30天内完成AI硬件上市；618期间AI台灯、炒菜机、魔法打印机等新品销量激增。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>Turnkey方案</strong>：JoyInside将<b>AI能力组件化</b>，提供语音、视觉、情感计算等标准化接口，<mark>30天极速上市</mark>，助力清华学生独立开发<b>画伴AI画框</b>。</li>
+                <li><strong>全链整合</strong>：京东打通模型、供应链与渠道三层能力，<mark>联合头部制造商</mark>打造AI智慧门等复杂产品，<b>小龙AI打印机</b>618开门红销量<mark>环比激增17倍</mark>。</li>
+                <li><strong>生态扩张</strong>：JoyInside已接入近<b>200家品牌</b>，年内目标覆盖超<b>千万台设备</b>，对话轮次<mark>平均提升120%</mark>，打造AI硬件时代的“华强北式”基础设施。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI数据与技术部-金融技术组 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
