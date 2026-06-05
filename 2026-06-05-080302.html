@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-06-05</div>
+        <div class="top-tags">
+            <span class="tag-item">#物理AI</span>
+            <span class="tag-item">#世界模型</span>
+            <span class="tag-item">#Agent基建危机</span>
+            <span class="tag-item">#Cosmos3</span>
+            <span class="tag-item">#VLA与世界模型融合</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>物理AI进入“基座模型+工程闭环”竞争阶段</strong>
+            <p>小鹏与英伟达同台展示全栈物理AI能力，标志行业已从概念炒作迈入技术可量产、可验证、可跨域迁移的工程化落地新周期。</p>
+        </div>
+        <div class="trend-card">
+            <strong>Agent爆发正倒逼基础设施代际重构</strong>
+            <p>GitHub单周提交量暴增14倍、GitLab启动Git代际重构，证明AI智能体已不是“增强工具”，而是正在重定义软件基础设施的底层负载范式。</p>
+        </div>
+        <div class="trend-card">
+            <strong>算力即主权，AI公司战略重心全面转向长期算力卡位</strong>
+            <p>OpenAI融资1220亿美元锁定2030年算力，英伟达推Cosmos3+Agent Toolkit全栈赋能，算力获取与调度能力已成为AI时代最核心的基础设施竞争力。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247895048&idx=1&sn=ec4a4ad3ed33dbb770e48ffd7b1c1a5c" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">CVPR 2026，英伟达特斯拉Waymo一块听中国公司讲物理AI</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-06-04 16:26</span>
+            </div>
+            <div class="news-summary">摘要：小鹏首次在CVPR完整展示物理世界基座模型技术图谱，将第二代VLA与世界模型协同进化，X-World/X-Foresight/X-Cache三大模块已投入量产验证，实现车端推理时延压至80毫秒。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>技术融合突破：</strong>小鹏提出<mark>VLA与世界模型统一架构</mark>，以<b>第二代VLA</b>和<b>X-World</b>为双基座，终结行业二元路线之争。</li>
+                <li><strong>工程落地实证：</strong>车端推理时延<mark>压至80毫秒</mark>，<b>算力利用率飙升至82.5%</b>，量产车型辅助驾驶里程占比突破50%，验证物理AI规模化可行性。</li>
+                <li><strong>跨域迁移能力：</strong>世界模型技术已<mark>超越自动驾驶范畴</mark>，具备向<b>人形机器人</b>、<b>飞行汽车</b>等具身智能场景天然迁移的通用认知基座能力。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&mid=2247663184&idx=2&sn=fc89efcb2b4f6ac38f289b9cce8414b7" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">英伟达甩出物理 AI 王炸！Cosmos 3 全模态模型开源，Agent Tookit 补齐工具短板</a>
+            </h2>
+            <div class="meta">
+                <span>📰 AI前线</span>
+                <span>🕒 2026-06-04 16:54</span>
+            </div>
+            <div class="news-summary">摘要：英伟达发布全球首款开源全模态物理AI基础模型Cosmos 3，采用混合Transformer架构，支持文本/图像/视频/环境音/动作五大模态，同步推出Agent Toolkit实现智能体开发全链路自动化。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>模型架构革新：</strong>Cosmos 3首创<mark>混合Transformer架构</mark>，融合推理与生成双模块，拿下<b>Physics-IQ</b>、<b>RoboArena</b>等权威榜单世界生成与动作策略双第一。</li>
+                <li><strong>生态开放战略：</strong>牵头成立<mark>NVIDIA Cosmos Coalition</mark>全球联盟，联合<b>Agile Robots</b>、<b>Runway</b>等顶流开发者共建开放物理AI生态，推动技术标准统一。</li>
+                <li><strong>工具链闭环：</strong>Agent Toolkit实现<mark>智能体全链路自动化</mark>，打通<b>Cosmos 3</b>、<b>Omniverse</b>、<b>Isaac</b>、<b>Jetson</b>全栈技术，让AI智能体可直接调用英伟达全部技术资产。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&mid=2651286315&idx=1&sn=d93377aa78bee152659192677541f079" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">OpenAI CFO 首次详解公司战略：B端C端收入五五开、抢 IPO 第一名没意义、神秘硬件今年公布</a>
+            </h2>
+            <div class="meta">
+                <span>📰 InfoQ</span>
+                <span>🕒 2026-06-04 15:09</span>
+            </div>
+            <div class="news-summary">摘要：OpenAI CFO Sarah Friar首次系统披露战略，强调IPO仅为融资工具，核心是提前锁定2030年算力；收入已实现B/C端五五开；与Jony Ive合作的神秘硬件将于年底公布，定位“范式转移级”新消费平台。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>算力主权战略：</strong>OpenAI融资<mark>1220亿美元</mark>锁定长期算力，目标直指<b>2030年</b>算力供给，当前仍面临<b>电力</b>、<b>芯片</b>、<b>人才</b>三重瓶颈。</li>
+                <li><strong>商业模式进化：</strong>收入结构已<mark>实现B/C端五五开</mark>，<b>ChatGPT周活超9亿</b>，<b>Codex用户半年破500万</b>，企业客户增长最快部门为GTM团队而非工程团队。</li>
+                <li><strong>硬件范式突破：</strong>与Jony Ive合作项目<mark>年底公布</mark>，体验被形容为“范式转移前夜”，强调<b>无缝</b>、<b>自然</b>、<b>亲密</b>的人机交互，将终结手机频繁掏出时代。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&mid=2247663184&idx=1&sn=28aad2a5608351a26d8adb0b28003a4c" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Agent正把基础设施逼到极限！GitLab盈利大涨后裁员350人，下一代Git重构已启动</a>
+            </h2>
+            <div class="meta">
+                <span>📰 AI前线</span>
+                <span>🕒 2026-06-04 16:54</span>
+            </div>
+            <div class="news-summary">摘要：GitLab因AI智能体工作负载激增启动战略重组，裁员350人并退出22国，同步启动Git代际重构以支持100倍增长；财报显示营收大涨23%，AI带来“结构性顺风”。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>基础设施代际危机：</strong>智能体工作负载<mark>把基础设施逼到极限</mark>，GitLab启动<b>Git代际重构</b>以支撑<b>100倍增长</b>，与未披露AI实验室共建“智能体优化”API。</li>
+                <li><strong>战略重组逻辑：</strong>裁员非为降本，而是<mark>聚焦AI研发</mark>，将节省成本重投<b>Duo Agent Platform</b>，打造60个端到端负责制小团队，实现AI工作流自动化治理。</li>
+                <li><strong>商业价值验证：</strong>财报显示营收<mark>大涨23%</mark>，毛利率达<b>88%</b>，被归因为AI带来的“结构性顺风”，最大客户正提出<b>安全</b>、<b>治理</b>、<b>机器规模编排</b>新需求。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&mid=2653108152&idx=1&sn=d83b384d1237d865dee9898b0c5370a8" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">GitHub，被 AI 打穿了</a>
+            </h2>
+            <div class="meta">
+                <span>📰 极客公园</span>
+                <span>🕒 2026-06-04 16:58</span>
+            </div>
+            <div class="news-summary">摘要：GitHub因AI Agent负载激增频发宕机，单周提交量达2.75亿次（年化140亿次，同比+14倍），被迫按30倍规模重新设计架构；Copilot全面转向按AI Credit用量计费，订阅制终结。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>负载性质质变：</strong>GitHub被<mark>自己养的AI打穿</mark>，AI Agent贡献<b>4.5%</b>公开提交，<b>Claude Code</b>三个月提交量增长25倍，平台从“人类协作容器”沦为“AI排气管”。</li>
+                <li><strong>架构重构升级：</strong>从“扩容”转向<mark>30倍规模重新设计</mark>，重点解耦服务、引入背压机制、消除单点故障，避免<b>缓存TTL</b>从12小时改2小时引发的级联崩溃。</li>
+                <li><strong>商业模式颠覆：</strong>Copilot全面切换<mark>按用量计费</mark>，启用<b>AI Credits</b>（1分=1美分），<b>按座位收费时代终结</b>，标志AI工作流已从“辅助”升级为“替代”人类完整任务。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI数据与技术部-金融技术组 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
