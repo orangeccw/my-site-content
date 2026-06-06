@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-06-06</div>
+        <div class="top-tags">
+            <span class="tag-item">#Cosmos3</span>
+            <span class="tag-item">#物理AI</span>
+            <span class="tag-item">#具身智能消费化</span>
+            <span class="tag-item">#AgentToolkit</span>
+            <span class="tag-item">#Token价值观</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>物理AI进入规模化落地元年</strong>
+            <p>英伟达以Cosmos 3全模态世界模型+Agent Toolkit双轮驱动，首次实现物理规律精准建模与开发流程自动化，将机器人/智驾等场景训练周期从数月压缩至数天。</p>
+        </div>
+        <div class="trend-card">
+            <strong>具身智能正从B端工厂转向C端家庭决胜</strong>
+            <p>蔚蓝科技以四足机器狗为“启动程序”，2.5万台家庭部署、6548万次真实交互验证了消费级飞轮可行性，证明家庭才是Physical AI最严苛也最有效的训练场。</p>
+        </div>
+        <div class="trend-card">
+            <strong>AI价值衡量范式发生根本迁移</strong>
+            <p>华为云周跃峰提出“Token价值观”，拒绝唯规模论，强调每个Token必须对应真实生产力提升；腾讯姚顺雨指出下半场核心是“诚实地面对自己”，重在问题发现与生态协同。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&mid=2651286445&idx=3&sn=f6adfe460e167cd807dee6e56dd7478a" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">英伟达甩出物理 AI 王炸！Cosmos 3 全模态模型开源，Agent Tookit 补齐工具短板</a>
+            </h2>
+            <div class="meta">
+                <span>📰 InfoQ</span>
+                <span>🕒 2026-06-05 14:30</span>
+            </div>
+            <div class="news-summary">摘要：英伟达发布全球首个开放全模态物理AI基础模型Cosmos 3，采用混合Transformer架构打通视觉推理、世界生成与动作预测；同步开源Agent Toolkit，实现物理AI开发全链路自动化。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>架构突破：</strong>首创<mark>混合Transformer架构</mark>，实现物理逻辑精准解析与符合规律的动作生成，<b>Cosmos3</b>在Physics-IQ等榜单全面登顶。</li>
+                <li><strong>生态构建：</strong>牵头成立<mark>NVIDIA Cosmos Coalition</mark>全球联盟，首批成员含<b>Agile Robots</b>、<b>Runway</b>等顶流AI与机器人企业，共建开放技术生态。</li>
+                <li><strong>工具闭环：</strong>发布开源<mark>Agent Toolkit</mark>，使AI智能体可直接调用<b>Omniverse</b>、<b>Isaac</b>、<b>Jetson</b>等全栈技术资产，开发周期压缩至数天。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247895384&idx=2&sn=82352ccf721fb2f7d2b71a03ced50f9e" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">刚刚，姚顺雨现身！公开回应腾讯AI落后了吗？</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-06-05 11:53</span>
+            </div>
+            <div class="news-summary">摘要：腾讯首席AI科学家姚顺雨在产业大会上深度阐释AI下半场逻辑——从“找方法”转向“找问题”，强调产品与模型协同、真实数据反馈、长期主义文化，混元3已实现Infra重建与评估体系升级。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>下半场定义：</strong>提出AI下半场本质是<mark>寻找好问题</mark>，而非重复刷榜，<b>腾讯</b>凭借丰富产品矩阵与真实用户场景，成为天然的问题富矿。</li>
+                <li><strong>模型产品协同：</strong>强调<mark>codesign</mark>与信任建设，派后训练骨干力量优先保障<b>元宝</b>DAU，验证了“产品成功反哺模型进化”的正向循环。</li>
+                <li><strong>研发新范式：</strong>指出下一代重点是<mark>coding agent体系化</mark>，拒绝堆砌数据，强调<b>混元3</b>需融合聊天、推理、指令遵循等泛化能力，小模型做大事才是中国性价比关键。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA4MTQ4NjQzMw==&mid=2652804386&idx=2&sn=62fb7e106b310ef05f3243c879d6fda5" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">八问华为云CEO周跃峰：华为云MaaS怎么赢？</a>
+            </h2>
+            <div class="meta">
+                <span>📰 智东西</span>
+                <span>🕒 2026-06-05 21:24</span>
+            </div>
+            <div class="news-summary">摘要：华为云CEO周跃峰提出“Token价值观”，强调每个Token必须对应真实生产力提升；发布CloudRobo具身平台与“百模千态”生态计划，坚持公有云+混合云并重与自主算力路线。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>价值重定义：</strong>旗帜鲜明<mark>拒绝Token规模崇拜</mark>，强调每个<b>Token</b>必须带来健康提升、一度电节约或生产力跃迁，定义华为云“AI提升生产力”根本目标。</li>
+                <li><strong>生态开放：</strong>发布全球首个全流程具身智能开发平台<mark>CloudRobo</mark>，联合<b>智谱</b>、<b>DeepSeek</b>等20余家模型厂商启动“百模千态”计划，开源智能体内核<b>openjiuwen</b>。</li>
+                <li><strong>核心能力投入：</strong>以“范弗里特弹药量”打造<mark>码道CodeArts</mark>，定位为“碳基生命与硅基系统翻译器”，目标是让智能体精准理解人类意图，而非追求工具使用量。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2651037190&idx=1&sn=2caac8a67974cf40e6577a707b4b0e3d" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">进家大战已经打响，第一个跑出来的不是人形</a>
+            </h2>
+            <div class="meta">
+                <span>📰 机器之心</span>
+                <span>🕒 2026-06-05 12:07</span>
+            </div>
+            <div class="news-summary">摘要：蔚蓝科技以BabyAlpha A3四足机器狗实现2.5万台家庭部署，累计交互6548万次；文章指出四足是具身智能的“启动程序”，家庭才是物理AI终极考场与飞轮起点。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>消费级验证：</strong>完成<mark>25000台家庭交付</mark>，90%进入真实家庭场景，<b>BabyAlpha A3</b>端侧运行70亿参数大模型，验证消费级具身智能可行性。</li>
+                <li><strong>技术路线重估：</strong>提出四足非妥协而是<mark>最优启动路径</mark>，其积累的感知、交互、安全能力是通用技术栈，可平滑迁移至<b>人形平台</b>，构成“boot-loader”逻辑。</li>
+                <li><strong>长期价值构建：</strong>通过7代产品迭代建立<mark>真实家庭反馈闭环</mark>，累计1500万小时使用时长，将机器人从“工具”升级为“电子家人”，实现情感付费与高粘性。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247895384&idx=1&sn=f120fe3de0cafc7135f409dbd0980e8e" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">100亿砸向人形，不如先让10万台机器狗走进家庭</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-06-05 11:53</span>
+            </div>
+            <div class="news-summary">摘要：文章以蔚蓝科技为案例，论证具身智能必须回归消费市场飞轮逻辑；指出家庭环境比工厂更复杂、更接近真实世界，四足机器人是现阶段唯一能率先跑通的形态。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>飞轮逻辑：</strong>重申<mark>所有通用技术终归消费市场</mark>，PC、智能手机、新能源车均验证“消费规模→技术迭代→成本下降→更大规模”飞轮，<b>蔚蓝</b>已启动该循环。</li>
+                <li><strong>环境价值：</strong>指出家庭是<mark>非结构化环境终极考场</mark>，光照变化、宠物干扰、随机杂物等不可预测性，倒逼出比工厂更通用的<b>Physical AI</b>能力。</li>
+                <li><strong>商业现实：</strong>直面人形机器人<mark>价格价值倒挂</mark>困境，一台数十万元人形在家庭可执行任务有限，而<b>BabyAlpha</b>以消费级价格承载企业级智能，实现“能动”到“能想”跃迁。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI数据与技术部-金融技术组 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
