@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-06-07</div>
+        <div class="top-tags">
+            <span class="tag-item">#Agent时代</span>
+            <span class="tag-item">#Harness架构</span>
+            <span class="tag-item">#机器人流量反超</span>
+            <span class="tag-item">#自进化智能体</span>
+            <span class="tag-item">#OpenSquilla</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>流量主体历史性切换：机器成为互联网默认访客</strong>
+            <p>全球HTML网页请求中机器人流量达<mark>57.5%</mark>，首次超过人类；美国更高达<b>71.5%</b>，标志互联网正式从“人类浏览场”迈入“机器执行场”。</p>
+        </div>
+        <div class="trend-card">
+            <strong>Agent商业化核心瓶颈转向成本与可控性</strong>
+            <p>AI流量同比激增<b>187%</b>，但Agent产品陷入token烧钱困局；<mark>Harness架构</mark>成为新焦点，<b>OpenSquilla</b>等框架正通过智能路由、上下文压缩与MetaSkill编排实现成本压降与能力进化。</p>
+        </div>
+        <div class="trend-card">
+            <strong>垂直领域才是AI应用层真正的护城河</strong>
+            <p>大模型公司主攻通用任务“黄砖路”，而创业公司胜在行业隐性知识、跨模型路由灵活性、<mark>成本分级优化</mark>与垂直合规治理能力，<b>a16z</b>明确指出保险、法律、销售等场景的“工作流智能”不可被通用模型替代。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&mid=2651286503&idx=2&sn=10233266ac356f3f687f0c63f36c04a2" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">互联网变天：机器人流量首次反超人类，Agent 时代拉开大幕</a>
+            </h2>
+            <div class="meta">
+                <span>📰 InfoQ</span>
+                <span>🕒 2026-06-06 10:15</span>
+            </div>
+            <div class="news-summary">摘要：Cloudflare数据显示全球HTML网页请求中机器人流量达57.5%，首次超过人类；这标志着互联网服务对象正从“人”转向“Agent”，网页成为机器操作界面，价值逻辑与入口控制权同步重构。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>历史性拐点</strong>：全球机器人流量占比<mark>57.5%</mark>，美国达<b>71.5%</b>，人类首次沦为网页访问少数派。</li>
+                <li><strong>Agent行为质变</strong>：从传统爬虫“读网页”升级为<mark>替人执行任务</mark>，购物、旅行、研究等场景中Agent正调用多网页完成端到端操作，<b>AI agents</b>流量同比暴涨<b>7851%</b>。</li>
+                <li><strong>价值逻辑重构</strong>：内容被AI入口直接总结交付，原网站沦为“隐形供应商”，<mark>流量≠价值</mark>，催生<b>Pay Per Crawl</b>等新型机器访问定价机制。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA4MTQ4NjQzMw==&mid=2652804420&idx=1&sn=f8b8a3934292dc982ad3f73884f7be7f" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">大厂Agent天团已就位！AI智能体时代年度盛会进展公布，同期自进化智能体研讨会嘉宾揭晓</a>
+            </h2>
+            <div class="meta">
+                <span>📰 智东西</span>
+                <span>🕒 2026-06-06 19:05</span>
+            </div>
+            <div class="news-summary">摘要：2026中国AI智能体大会将于7月2-3日杭州举办，阿里、腾讯、华为等六家大厂10位技术专家确认出席；大会聚焦“范式跃迁”，设7场技术研讨会，其中“自进化智能体”成为核心议题，直面Agent产业落地的可持续进化挑战。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>大厂深度参与</strong>：阿里、腾讯、华为、美团、字节、微软共<b>10位</b>青年专家确认出席，腾讯王琰将发布<mark>无奖励自演进范式</mark>，阿里张振详解<b>OpenKruise Agents</b>运维实践。</li>
+                <li><strong>自进化成焦点</strong>：研讨会聚焦<mark>错误进化风险</mark>与环境协同进化，王琰团队验证<mark>30B模型</mark>通过自学能力超越<b>Gemini-2.5-Pro</b>，标志智能体进入“自我驱动”新阶段。</li>
+                <li><strong>产业级落地导向</strong>：大会设置<b>Coding Agent</b>、<b>Computer-Use Agent</b>、<b>Agent Harness</b>等7场垂直研讨会，强调Agent需在真实复杂系统中稳定运行，而非仅限沙箱演示。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzkyNjU2ODM2NQ==&mid=2247629418&idx=1&sn=e002b9a4a98a0773004cc02cc95755b5" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">热门Harness项目OpenSquilla：拯救烧token烧到绝望的Agent们，估值1亿</a>
+            </h2>
+            <div class="meta">
+                <span>📰 硅星人Pro</span>
+                <span>🕒 2026-06-06 10:09</span>
+            </div>
+            <div class="news-summary">摘要：开源Harness框架OpenSquilla通过智能路由、上下文管理、MetaSkill编排与可进化机制，显著降低Agent token消耗；其背后公司基元律动成立数月即获1亿美元估值，凸显Harness层正成为Agent商业化关键基础设施。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>智能路由降本</strong>：本地集成树模型实现<mark>任务前决策</mark>，路由精度超<b>OpenRouter</b>4.4个百分点，成本低<b>75%</b>，与<b>Anthropic Opus 4.7</b>相比成本相差约9倍。</li>
+                <li><strong>上下文精准裁剪</strong>：按需加载Skill、检索相关记忆、清洗网页HTML，避免模型读取无关内容，带来<b>20%–50%</b>额外成本降低，践行<mark>每个token都该有关</mark>原则。</li>
+                <li><strong>可进化Harness</strong>：通过沉淀用户反馈优化MetaSkill与路由模型，让Agent<mark>越用越懂用户</mark>，创始人团队来自华为大模型部门，<b>OpenSquilla</b>估值已达<b>1亿美元</b>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzkyNjU2ODM2NQ==&mid=2247629418&idx=2&sn=b3013b5f8246fbd7e5303767897a44bc" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">a16z 合伙人：大模型吃掉通用任务，创业公司吃掉垂直行业</a>
+            </h2>
+            <div class="meta">
+                <span>📰 硅星人Pro</span>
+                <span>🕒 2026-06-06 10:09</span>
+            </div>
+            <div class="news-summary">摘要：a16z合伙人指出大模型公司主攻代码/写作等“黄砖路”通用任务，而创业公司机会在垂直领域——依靠行业隐性知识飞轮、跨模型路由灵活性、成本分级优化与垂直合规治理能力，构建不可替代的“工作系统”。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>黄砖路 vs 奥兹国</strong>：大模型公司专注通用任务，创业公司扎根垂直场景，<mark>工作流智能</mark>才是核心，<b>a16z</b>强调“模型可替换，工作系统不可替代”。</li>
+                <li><strong>四道护城河</strong>：行业隐性知识数据飞轮、跨厂商模型路由灵活性、<mark>成本分级优化</mark>（Opus仅用于最难任务）、垂直合规治理（如<b>FRCP</b>、<b>HIPAA</b>），构成创业公司核心壁垒。</li>
+                <li><strong>销售与保险实证</strong>：11x销售代理通过深度工程实现<b>4倍</b>回复率提升；FurtherAI在保险业证明<mark>智能在工作流里</mark>，而非模型中，生产反馈循环才是真正的护城河。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247895494&idx=2&sn=e008b344edd08b0e0ba77e015f491adb" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">港股鞋王千百度，一夜完成AI数据公司转型</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-06-06 11:15</span>
+            </div>
+            <div class="news-summary">摘要：港股鞋履公司千百度（1028.HK）收购AI数据服务商本原智数，形成“鞋履+人工智能数据”双主业；本原智数为国内少数具备大模型/世界模型/具身智能全栈数据服务能力的盈利公司，2025年净利1110万元。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>实业跨界AI基建</strong>：千百度以鞋履主业现金流收购<b>本原智数</b>控股权，形成<mark>双主业</mark>格局，不碰模型、保持数据中立，服务<b>Meta</b>等头部客户。</li>
+                <li><strong>稀缺盈利数据商</strong>：本原智数2025年收入<b>1.562亿元</b>，税后净利<b>1110万元</b>，在AI行业普遍烧钱背景下，成为少数已盈利的上游数据服务商。</li>
+                <li><strong>高质量数据即燃料</strong>：交易逻辑锚定AI瓶颈已从“模型更大”转向<mark>高质量数据</mark>，本原智数在高价值数据品类担任<b>独家供应商</b>，凸显数据作为AI时代“最稀缺基础设施”的战略价值。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI数据与技术部-金融技术组 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
