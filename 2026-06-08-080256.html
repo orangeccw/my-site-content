@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-06-08</div>
+        <div class="top-tags">
+            <span class="tag-item">#AI国有化</span>
+            <span class="tag-item">#递归自我改进</span>
+            <span class="tag-item">#VLM-as-Teacher</span>
+            <span class="tag-item">#JoyAI-Echo</span>
+            <span class="tag-item">#HarnessEngineering</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>AI治理权正从硅谷向华盛顿转移</strong>
+            <p>OpenAI主动提议向美国政府让渡50%股权，背后是80%民众对AI的深度忧虑与桑德斯等政要推动的“全民共享AI财富”共识，标志着AI正从私有技术加速演变为国家战略资产。</p>
+        </div>
+        <div class="trend-card">
+            <strong>递归自我改进（RSI）已从理论进入工程现实</strong>
+            <p>Anthropic证实Claude已自主编写80%代码，两年内将达100%，AI正从“人类辅助工具”跃迁为“自我演化的科学主体”，倒逼全球建立可验证的AI暂停机制。</p>
+        </div>
+        <div class="trend-card">
+            <strong>长视频生成进入“可生产”临界点</strong>
+            <p>京东开源JoyAI-Echo框架，通过跨模态记忆库+实时超分+Director Agent，首次实现5分钟级高一致性、低延迟、可编辑AI视频生成，长视频正式告别Demo阶段。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652705360&idx=2&sn=2885c403bb818ccb521e041480f3bd83" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">奥特曼欲交投名状！白宫计划入股OpenAI</a>
+            </h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-06-07 12:13</span>
+            </div>
+            <div class="news-summary">摘要：OpenAI CEO奥特曼主动提议将公司50%股权移交美国公众，响应桑德斯参议员“AI是公共资源”的主张，本质是巨头以“国有化”换取监管豁免的政治对冲策略。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>政治对冲本质</strong>：奥特曼主动让渡<mark>50%股权</mark>给<b>美国政府</b>，实为换取监管免疫权，避免被拆分或强监管。</li>
+                <li><strong>全民共享共识</strong>：桑德斯提出<mark>AI应全民共有</mark>，获<b>David Sacks</b>等AI沙皇支持，84岁参议员推动“公共财富基金”落地。</li>
+                <li><strong>监管角色崩塌</strong>：政府若持股<mark>一半OpenAI</mark>，将同时是<b>监管者、股东、受益人</b>，形成不可调和的身份冲突。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652705360&idx=1&sn=6c521c18265d9505113d67f62472ec4e" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Anthropic联创亲口承认：AI正自我迭代！</a>
+            </h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-06-07 12:13</span>
+            </div>
+            <div class="news-summary">摘要：Anthropic联合创始人Jack Clark在BBC证实Claude已自主编写80%代码，预测两年内达100%，并呼吁全球共建“AI刹车踏板”，图灵奖得主Bengio公开支持暂停AI研发。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>RSI工程化落地</strong>：Claude代码<mark>80%自主生成</mark>，工程师产能达2024年8倍，<b>Anthropic</b>已进入“人类审稿人”阶段。</li>
+                <li><strong>全球暂停倡议</strong>：Jack Clark提出<mark>造出刹车踏板</mark>，Bengio力挺<b>协调暂停AI</b>，强调需可验证、普遍适用的紧急制动机制。</li>
+                <li><strong>百万科学家图景</strong>：RSI将催生<mark>几百万名AI科学家</mark>，人类可定向分配其至<b>生物学、机器人学</b>等硬核领域加速突破。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247895580&idx=3&sn=58f3cf8717e28f3ebeb75276734df8ca" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">快手可灵提出VLM-as-Teacher：用测试时在线优化，让视频生成模型学会按规则推理</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-06-07 09:00</span>
+            </div>
+            <div class="news-summary">摘要：城大×快手可灵提出新范式VLM-as-Teacher，让视觉语言模型（VLM）在测试时充当“老师”，通过过程监督+目标监督在线优化视频生成模型，推理能力平均提升16.7分。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>范式根本转变</strong>：VLM从<mark>解题人变老师</mark>，生成<b>VLM-as-Teacher</b>框架，用可微VQA reward驱动LoRA模块在线优化。</li>
+                <li><strong>过程+目标双监督</strong>：首创<mark>过程约束监督</mark>机制，确保视频中间帧合法，避免“穿墙”“换蜗牛”等作弊路径，<b>VBVR-Bench</b>提升11.5分。</li>
+                <li><strong>通用监督框架</strong>：不绑定特定模型，<mark>Teacher能力越强</mark>性能越好，<b>InternVL3-8B</b>在RULER-Bench达68.2分，显著超越基线。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247895580&idx=1&sn=5b2a135ab096cac4c5092ce4e0e334fd" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">5分钟AI长视频不翻车！国产开源框架杀到全球第一梯队</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-06-07 09:00</span>
+            </div>
+            <div class="news-summary">摘要：京东开源JoyAI-Echo框架，集成跨模态音视频记忆库、记忆驱动后训练、轻量化实时超分三大技术，实现5分钟级高一致性、低延迟、可编辑AI视频生成，用户偏好达81.7%。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>长视频一致性突破</strong>：跨模态记忆库实现<mark>5分钟不换脸</mark>，绑定视觉+音色特征，<b>JoyAI-Echo</b>在IP一致性偏好达59.4%。</li>
+                <li><strong>实时超分革命</strong>：创新<mark>轻量化实时超分</mark>模块，一步输出1K/2K高清，<b>DMD技术</b>带来7.5倍推理加速。</li>
+                <li><strong>Director Agent导演</strong>：支持<mark>自然语言对话编辑</mark>，局部重生成不推倒重来，<b>京东</b>开源框架杀入全球第一梯队。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&mid=2651286556&idx=1&sn=e20fc46413fcb8fae553d416e38598d6" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Coding Agent 技术全景图：Context Engineering、Subagents 与 Harness，一年范式转移全解析</a>
+            </h2>
+            <div class="meta">
+                <span>📰 InfoQ</span>
+                <span>🕒 2026-06-07 10:15</span>
+            </div>
+            <div class="news-summary">摘要：Thoughtworks专家解析Coding Agent一年范式跃迁：Context Engineering成放大器杠杆，Subagents实现任务解耦，Harness Engineering构建确定性安全网，未来开发将基于Harness模板而非框架。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>Context Engineering升级</strong>：Skills实现<mark>惰性加载</mark>，Claude Code等工具已支持<b>context monitoring</b>，上下文预算成新工程指标。</li>
+                <li><strong>Subagents任务解耦</strong>：主Agent派生<mark>Explore子Agent</mark>研究代码库，<b>code review agent</b>使用独立context window，提升审查质量。</li>
+                <li><strong>Harness工程化落地</strong>：用<mark>结构性测试反向塑造</mark>Agent行为，<b>ArchUnit</b>等工具成为Agent反馈通道，“Harness模板”将替代React/Vue成为新起点。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI数据与技术部-金融技术组 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
