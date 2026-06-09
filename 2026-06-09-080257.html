@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-06-09</div>
+        <div class="top-tags">
+            <span class="tag-item">#AI智能体</span>
+            <span class="tag-item">#LoopEngineering</span>
+            <span class="tag-item">#U2大模型</span>
+            <span class="tag-item">#Codex商业化</span>
+            <span class="tag-item">#材料科学Agent</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>智能体取代聊天成为AI核心形态</strong>
+            <p>OpenAI将ChatGPT全面升级为“超级应用”，云知声U2定位为原生Agent模型，行业共识已从“生成内容”转向“端到端执行任务”，<mark>聊天已死</mark>成为战略转向的标志性判断。</p>
+        </div>
+        <div class="trend-card">
+            <strong>Loop Engineering成为编程新范式</strong>
+            <p>开发者正从手写Prompt升级为设计循环系统（Loops），让Agent自主调度、验证与迭代，<mark>写循环代替写提示词</mark>，Claude Code与Codex已原生支持该能力，标志着AI编程进入自动化工作流阶段。</p>
+        </div>
+        <div class="trend-card">
+            <strong>AI for Science迈入工作流智能时代</strong>
+            <p>材科源图发布有机高分子Agent，不再仅做单点预测，而是打通“设计-预测-优化-决策”全流程，<mark>AI深度嵌入真实研发闭环</mark>，推动材料研发从经验驱动迈向智能协同。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA4MTQ4NjQzMw==&mid=2652804475&idx=2&sn=bec93b6293caf35e2f866eaf6f6ef0a9" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">OpenAI冲刺上市前一搏，ChatGPT被曝迎最大规模改版！</a>
+            </h2>
+            <div class="meta">
+                <span>📰 智东西</span>
+                <span>🕒 2026-06-08 18:15</span>
+            </div>
+            <div class="news-summary">摘要：OpenAI正对ChatGPT进行上线以来最大规模改版，目标是将其从聊天工具升级为集成代码、图像、第三方服务的“超级应用”，聚焦Codex等高毛利业务，为IPO铺路。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>战略转向超级应用</strong>：ChatGPT将<mark>不再局限于对话</mark>，集成图像生成、编程工具及Canva、<b>Booking.com</b>等第三方服务，打造统一AI入口。</li>
+                <li><strong>Codex成盈利核心</strong>：编程工具<b>Codex</b>周活用户达500万，付费转化率高，OpenAI已将其地位大幅提升，<mark>聚焦高毛利业务</mark>以支撑IPO盈利目标。</li>
+                <li><strong>消费级项目收缩</strong>：视频生成产品<b>Sora</b>关停，端内购物结算功能搁置，<mark>算力成本高项目被砍</mark>，组织架构已整合ChatGPT与Codex团队以提升效率。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA4MTQ4NjQzMw==&mid=2652804475&idx=1&sn=f3034a4518847bba20e46b82f8c367fd" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">国产大模型第一梯队迎新势力：云知声发了个原生Agent大模型，再次捅破行业天花板</a>
+            </h2>
+            <div class="meta">
+                <span>📰 智东西</span>
+                <span>🕒 2026-06-08 18:15</span>
+            </div>
+            <div class="news-summary">摘要：云知声发布原生Agent大模型U2，采用快慢思考融合MoE架构，强调“小参数强能力”，在长上下文、知识推理等评测中领先，已实现医疗、交通等场景规模化落地。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>原生Agent设计</strong>：U2是面向任务执行的<b>原生智能体大模型</b>，具备长程工作编排与自主纠错能力，<mark>端到端交付俄罗斯方块游戏</mark>等完整应用。</li>
+                <li><strong>高智能密度突破</strong>：采用MoE稀疏架构，激活参数仅约1/10，<mark>每个Token都用在刀刃上</mark>，在AA-LCR评测中以70分<b>排名第一</b>，知识推理达87.9分。</li>
+                <li><strong>商业化已近盈亏平衡</strong>：2025年大模型收入达<b>6.1亿元</b>，同比暴涨1076%，5月Token调用ARR环比增长<b>600%</b>，<mark>几近盈亏平衡</mark>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&mid=2651286622&idx=1&sn=0aaf0cecf1cfab309da2a33d1f5f69c3" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">云知声U2，重新计算通用大模型的商业价值</a>
+            </h2>
+            <div class="meta">
+                <span>📰 InfoQ</span>
+                <span>🕒 2026-06-08 14:30</span>
+            </div>
+            <div class="news-summary">摘要：U2提出“高智能密度”与“高Token价值”双指标，摒弃参数内卷，聚焦真实业务交付，已在医院诊室等复杂场景实现病历生成、系统对接等端到端任务闭环。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>任务执行优先</strong>：U2定位为<mark>不是更大而是更会干活</mark>的模型，训练数据大幅增加代码、流程图等任务轨迹，<b>医疗场景</b>中可自动写入HIS系统。</li>
+                <li><strong>高Token价值重构</strong>：通过隐式思考压缩推理过程，<mark>减少25%思考Token</mark>，输出直接为可运行代码、结构化病历等交付物，<b>Token调用收入ARR达1500万美元</b>。</li>
+                <li><strong>端云协同壁垒</strong>：拥有自研“蜂鸟”芯片出货超<b>亿颗</b>，实现端侧大模型部署优势，<mark>在450家医院规模化落地</mark>，智慧交通覆盖深圳、广州等多地。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&mid=2247663284&idx=1&sn=b40a7085e26e87bf4484173d3099c8e5" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">大人，AI编程又变天了！Claude Code之父、龙虾创始人同时力捧新范式，杀死提示词工程？</a>
+            </h2>
+            <div class="meta">
+                <span>📰 AI前线</span>
+                <span>🕒 2026-06-08 15:43</span>
+            </div>
+            <div class="news-summary">摘要：Claude Code创建者Boris Cherny与OpenAI“龙虾之父”Peter Steinberger共同倡导Loop Engineering，主张用循环系统替代手动提示，让Agent自主调度、验证与迭代。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>Loop Engineering兴起</strong>：开发者从写Prompt升级为<mark>设计循环机制</mark>，Claude Code已内置<b>/loops</b>命令，支持自然语言创建周期性任务，保留上下文与工具权限。</li>
+                <li><strong>反馈闭环是关键</strong>：有效Loop需含目标、验证与安全停止条件，<mark>必须内置说“不”的机制</mark>，如测试、类型检查，避免错误在循环中被放大，<b>Anthropic</b>采用生成器—评估器—规划器结构。</li>
+                <li><strong>Token成本成现实瓶颈</strong>：480次API调用/8小时，<mark>无限token仅属大厂特权</mark>，社区开发者直呼“20美元套餐根本不可能”，<b>Claude Code</b>设3天自动终止与禁用开关保障可控性。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&mid=2247663284&idx=2&sn=1c7ca27b9e6fd0fb0b0e3fbe2219ffdc" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">AI 开始进入材料实验室：一家中国公司尝试让高分子研发从“经验驱动”走向“智能协同”</a>
+            </h2>
+            <div class="meta">
+                <span>📰 AI前线</span>
+                <span>🕒 2026-06-08 15:43</span>
+            </div>
+            <div class="news-summary">摘要：苏州材科源图发布有机高分子应用智能体，融合知识图谱与机理模型，实现光刻胶等材料的分子设计、配方优化与性能预测全流程支持，完成ArF光刻胶实测验证。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>首个高分子领域Agent</strong>：聚焦光刻胶研发，<mark>打通设计-预测-优化-决策闭环</mark>，在ArF场景完成关键指标验证，<b>材科源图</b>正加速布局EUV等更先进制程。</li>
+                <li><strong>知识+模型+工具协同</strong>：基于自研<b>Materials Agent Framework</b>，融合材料知识图谱与多模态理解，<mark>将专家经验数字化</mark>，显著降低试错成本与研发周期。</li>
+                <li><strong>AI for Science新阶段</strong>：从AlphaFold式单点突破转向科研工作流重构，<mark>AI深度嵌入真实研发闭环</mark>，平台能力将拓展至功能涂料、改性塑料等<b>多类有机高分子</b>领域。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI数据与技术部-金融技术组 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
