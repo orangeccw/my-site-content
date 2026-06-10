@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-06-10</div>
+        <div class="top-tags">
+            <span class="tag-item">#AppleIntelligence</span>
+            <span class="tag-item">#SiriAI</span>
+            <span class="tag-item">#OpenAIIPO</span>
+            <span class="tag-item">#Gemini合作</span>
+            <span class="tag-item">#端云协同架构</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>AI战略从自研转向“租脑”：模型即服务成巨头新范式</strong>
+            <p>苹果放弃自建大模型，转而深度定制谷歌Gemini打造Apple Intelligence，标志着头部科技公司不再盲目追求模型所有权，而是聚焦端云协同架构与隐私可控的交付能力。</p>
+        </div>
+        <div class="trend-card">
+            <strong>IPO竞赛白热化：OpenAI与Anthropic竞相冲刺上市窗口</strong>
+            <p>OpenAI秘密提交S-1草案，估值达<b>8520亿美元</b>，紧随Anthropic之后；双方估值差超<b>1000亿美元</b>，AI基础层公司正加速资本化，商业化路径从“烧钱研发”转向“高毛利产品变现”。</p>
+        </div>
+        <div class="trend-card">
+            <strong>AI入口从工具升级为“超级应用”：智能体深度渗透操作系统</strong>
+            <p>苹果将Siri重构为系统级AI助手，支持跨App任务编排；微信、阿里等加速构建AI生态，AI不再孤立存在，而是成为操作系统、通讯工具、生产力套件的“隐形操作系统”。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA4MTQ4NjQzMw==&mid=2652804568&idx=2&sn=7b2165b37b00d6afe4af90298ea24c4d" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">重磅！OpenAI正式启动IPO，官宣交表</a>
+            </h2>
+            <div class="meta">
+                <span>📰 智东西</span>
+                <span>🕒 2026-06-09 06:25</span>
+            </div>
+            <div class="news-summary">OpenAI正式向SEC秘密提交S-1上市草案，计划2026年第四季度IPO，估值达8520亿美元；同步推进员工股票变现计划，并加速将ChatGPT升级为支持多场景任务的“超级应用”以夯实盈利基础。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>IPO进程启动：</strong>OpenAI已<mark>秘密提交S-1草案</mark>，为<b>2026年Q4上市</b>铺路，估值达<b>8520亿美元</b>。</li>
+                <li><strong>商业化加速：</strong>聚焦<b>Codex</b>与企业服务等<mark>高毛利业务</mark>，推动ChatGPT从聊天工具向<b>超级应用</b>转型。</li>
+                <li><strong>竞对对标：</strong>紧随<b>Anthropic</b>之后提交IPO文件，后者估值<b>9650亿美元</b>，双方正展开<mark>估值与产品双线竞争</mark>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIxODUzNTg2MA==&mid=2247492084&idx=1&sn=e2e34721869afde6efca824e60611f50" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">完整全文｜WWDC苹果开发者大会2026：苹果如何开启AI重塑个人化体验</a>
+            </h2>
+            <div class="meta">
+                <span>📰 web3天空之城</span>
+                <span>🕒 2026-06-09 09:03</span>
+            </div>
+            <div class="news-summary">苹果发布Apple Intelligence全新架构，深度融合端侧模型与Private Cloud Compute；Siri升级为Siri AI，支持屏幕感知、跨App操作与视觉智能；系统级AI能力覆盖Safari、邮件、家庭等全场景，但国行与欧盟版暂不支持。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>架构范式革新：</strong>采用<mark>端云协同架构</mark>，依托<b>PrivateCloudCompute</b>与设备端模型，实现<b>隐私优先</b>的多模态AI能力。</li>
+                <li><strong>Siri全面重构：</strong>升级为<b>SiriAI</b>，支持<mark>屏幕感知与个人语境理解</mark>，可跨App执行任务，如自动规划路线、生成派对菜单等。</li>
+                <li><strong>区域限制明确：</strong>国行版<b>SiriAI</b>暂不开放，将适配国产模型；欧盟版亦受限，苹果称正寻求<mark>隐私与安全平衡路径</mark>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA4MTQ4NjQzMw==&mid=2652804568&idx=1&sn=4509bb56be45474099a2f4aae4221c80" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">库克深情告别！Siri换脑重生，AI撑起苹果WWDC，中国市场：再等等</a>
+            </h2>
+            <div class="meta">
+                <span>📰 智东西</span>
+                <span>🕒 2026-06-09 06:25</span>
+            </div>
+            <div class="news-summary">库克主持其任内最后一场WWDC，正式发布Apple Intelligence；Siri AI由苹果与谷歌联合打造，支持视觉智能与空间重构；iOS 27将适配iPhone 11起老机型，但最强端侧模型需iPhone 17 Pro等新硬件。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>库克时代收官：</strong>本次WWDC是<b>TimCook</b>以CEO身份主持的<mark>最后一场发布会</mark>，标志着苹果AI战略进入新阶段。</li>
+                <li><strong>硬件门槛升级：</strong>最强端侧模型要求<b>12GB统一内存</b>，仅支持<b>iPhone17Pro</b>等新机，<mark>AI能力成换机新驱动力</mark>。</li>
+                <li><strong>视觉能力突破：</strong>推出<mark>空间重构</mark>功能，支持对已拍摄照片实时调整构图，由<b>AppleVisionPro</b>空间模型驱动。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&mid=2653108377&idx=1&sn=60e0281a0fc603fa4857fc1266faf048" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">苹果发布下一代 Siri AI 和 Apple Intelligence，暂不支持中国；微信 AI 官宣内测；传月之暗面寻求 20 亿美元新融资 ｜ 极客早知道</a>
+            </h2>
+            <div class="meta">
+                <span>📰 极客公园</span>
+                <span>🕒 2026-06-09 08:45</span>
+            </div>
+            <div class="news-summary">苹果Siri AI底层采用Gemini模型，但数据处理完全在私有云；微信AI开启内测，提供自动/开发双接入模式；月之暗面寻求20亿美元融资，估值达300亿美元；阿里合并大模型团队成立Token Foundry。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>模型合作本质：</strong>苹果未使用<b>GeminiApp</b>，而是定制<mark>1.2万亿参数模型</mark>，运行于<b>PrivateCloudCompute</b>，确保数据不出苹果生态。</li>
+                <li><strong>微信AI生态启动：</strong>开放<mark>自动与开发双接入模式</mark>，支持小程序被<b>微信AI</b>直接调用，开发者可自主选择是否接入。</li>
+                <li><strong>国产大模型整合：</strong><b>阿里</b>合并通义与未来生活实验室，成立<b>TokenFoundry</b>，由CEO吴泳铭直管，<mark>加速AI产品化落地</mark>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&mid=2651286666&idx=1&sn=3554dc0f722659acae9bd815e8c80674" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">WWDC 2026，硅谷历史上最昂贵的认输：1.2 万亿参数 Siri 来自 Gemini，但你的手机跑不了</a>
+            </h2>
+            <div class="meta">
+                <span>📰 InfoQ</span>
+                <span>🕒 2026-06-09 12:05</span>
+            </div>
+            <div class="news-summary">苹果承认放弃自研前沿大模型，租用谷歌Gemini构建Siri AI；1.2万亿参数模型年成本约10亿美元；端侧最强模型需iPhone 17 Pro等新硬件，AI能力正式成为高端硬件分水岭。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>成本现实倒逼转型：</strong>苹果选择<mark>租用1.2万亿参数模型</mark>，年成本约<b>10亿美元</b>，直面AI训练与推理的巨额经济压力。</li>
+                <li><strong>端侧AI硬件分水岭：</strong>最强端侧模型要求<b>iPhone17Pro</b>或<b>M4iPad</b>，<mark>AI性能成新机核心卖点</mark>，旧设备仅支持基础功能。</li>
+                <li><strong>基础设施自主可控：</strong>模型权重来自谷歌，但算力层完全由<b>ApplePrivateCloudCompute</b>承载，<mark>掌握基础设施主权</mark>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI数据与技术部-金融技术组 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
