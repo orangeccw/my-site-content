@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-06-12</div>
+        <div class="top-tags">
+            <span class="tag-item">#Claude10亿</span>
+            <span class="tag-item">#3DAgent</span>
+            <span class="tag-item">#DiffusionGemma</span>
+            <span class="tag-item">#GeminiLiveTranslate</span>
+            <span class="tag-item">#推理成本优化</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>3D创作正式迈入Agent时代</strong>
+            <p>Meshy发布全球首个3D AI Agent，将生成、编辑、风格统一、打印检查等全链路整合进对话式工作流，标志着3D从“一次性抽卡”迈向“可复用资产生产系统”。</p>
+        </div>
+        <div class="trend-card">
+            <strong>语音翻译进入“边听边译”实时交互新阶段</strong>
+            <p>Gemini 3.5 Live Translate实现70+语言毫秒级语音对语音翻译，保留原语气语速，已集成至Google Meet与Translate App，同传正从专业服务变为人人可用的耳机功能。</p>
+        </div>
+        <div class="trend-card">
+            <strong>推理成本博弈升级为“全栈优化”竞赛</strong>
+            <p>出海AI团队不再只比模型参数，而是综合比拼FP4量化、RTX PRO 6000推理卡选型、边缘卸载（VPU）、多云网络优化与eGress流量成本，单token成本可降六成。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzkyNjU2ODM2NQ==&mid=2247629620&idx=3&sn=4d3f2f63e2191444efb746fb1f917c39" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Claude奔10亿、DeepSeek破5亿、3D生成双雄飙升47%！AI产品榜·网站榜 2026.05</a>
+            </h2>
+            <div class="meta">
+                <span>📰 硅星人Pro</span>
+                <span>🕒 2026-06-11 09:59</span>
+            </div>
+            <div class="news-summary">摘要：AI产品榜5月数据显示Claude月访问达9.72亿（+15.67%），逼近10亿；DeepSeek突破5亿（+11.22%）；Meshy与Tripo3D 3D生成双雄增速均超47%；编程Agent爆发，Jules、Kiro、Qoder、opencode集体上榜；Micro1、Mercor等“卖铲子”数据公司增速亮眼。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>Claude逼近10亿里程碑</strong>：<mark>狂奔逼近10亿</mark>，月访问<mark>9.72亿</mark>，<b>Claude｜Anthropic</b>连续两月高增长，年化收入达<mark>470亿美金</mark>，<b>Code场景心智</b>持续兑现。</li>
+                <li><strong>3D生成爆发式增长</strong>：<mark>双雄飙升47%</mark>，<b>Meshy</b>（+47.43%）与<b>Tripo3D</b>（+47.32%）同月冲榜，标志3D生成从“炫技demo”迈入“生产工具”，<mark>雕刻级Meshy 6</mark>与<mark>VAST北京团队</mark>成新洼地双引擎。</li>
+                <li><strong>编程Agent军备竞赛开启</strong>：<mark>大厂集体下场</mark>，<b>Google Jules</b>（+46.99%）、<b>AWS Kiro</b>（+43.32%）、<b>阿里Qoder</b>（+19.58%）、<b>opencode开源</b>（+29.34%）齐涨，<mark>规格驱动开发</mark>与<mark>终端开源协作</mark>并行演进。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652706402&idx=2&sn=2de8ab072a5375dbdf39a4da11779c8e" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">谷歌干掉了「等你说完才翻译」！70+语言边听边译</a>
+            </h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-06-11 12:30</span>
+            </div>
+            <div class="news-summary">摘要：Google发布Gemini 3.5 Live Translate，实现语音对语音实时翻译，支持70+语言自动识别与语调复刻，延迟仅几秒；已上线Google Translate App、Meet私测，并通过Gemini Live API开放开发者接入。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>实时翻译进入“边听边译”时代</strong>：<mark>话音未落译音先到</mark>，<b>Gemini 3.5 Live Translate</b>基于<mark>128K token音频上下文</mark>，实现<mark>几秒延迟</mark>与<mark>语速语调保留</mark>，KPI定为“聊得顺”而非“翻得对”。</li>
+                <li><strong>全场景落地加速</strong>：<mark>安卓聆听模式</mark>支持手机贴耳即译，<b>Google Meet</b>单场会议支持<mark>2000+语言组合</mark>，<b>Grab</b>已接入月均<mark>1000万通电话</mark>真实场景验证。</li>
+                <li><strong>开发者生态全面开放</strong>：<mark>今天就能上手</mark>，<b>Gemini Live API</b>与<b>Google AI Studio</b>公测，<b>Agora</b>、<b>Fishjam</b>、<b>LiveKit</b>已接入，<mark>媒体流基础设施</mark>由平台兜底，开发者专注体验创新。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247896929&idx=1&sn=af60a68d34fb2d8d3060aa8148bf83e5" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">3D创作迎来ChatGPT时刻：Meshy发布全球首个3D AI Agent</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-06-11 12:00</span>
+            </div>
+            <div class="news-summary">摘要：Meshy推出全球首个3D创作AI Agent，支持多轮对话完成从概念到导出全流程；打通风格统一、批量生成、3D打印检查与多格式输出；已服务超1000万用户，月访问超800万，年经常性收入达4000万美元。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>全球首个3D AI Agent发布</strong>：<mark>想法即生产</mark>，<b>Meshy 3D Agent</b>实现<mark>多轮对话建模</mark>，支持<mark>Stylized&Cartoon</mark>等多风格批量生成，<b>胡渊鸣团队</b>打造垂直突破。</li>
+                <li><strong>全链路资产化能力落地</strong>：<mark>生成→编辑→打印→交付</mark>闭环打通，支持<mark>Bambu Studio</mark>等主流打印软件，导出<mark>FBX/OBJ/GLB/STL</mark>等<mark>7+格式</mark>，<b>裸眼3D厂商Jupiter</b>建模周期压缩至2小时。</li>
+                <li><strong>商业化与市场验证强劲</strong>：<mark>年经常性收入4000万美元</mark>，<b>Meshy</b>欧美市占率超<mark>60%</mark>，<b>A16Z Games</b>评为<mark>最受欢迎3D AI工具</mark>，<mark>月访问800万</mark>，累计生成超1亿模型。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247896929&idx=2&sn=588705bddb905f19a9792a684f13b53a" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Mythos阴影里谷歌悄悄发模型，速度暴涨4倍</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-06-11 12:00</span>
+            </div>
+            <div class="news-summary">摘要：谷歌开源DiffusionGemma，全球首个商用级扩散文本模型，26B MoE架构，单块H100达1000+ tokens/s，比Gemma 4快4倍；支持FP4量化，4090即可本地运行；采用Apache 2.0协议，Hugging Face可下载。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>扩散模型首次攻入文本生成</strong>：<mark>印刷机式生成</mark>，<b>DiffusionGemma</b>一次性铺开<mark>256个token画布</mark>，多轮去噪整段浮现，<b>H100</b>上达<mark>1000+ tokens/s</mark>，比自回归快<mark>4倍</mark>。</li>
+                <li><strong>双向注意力带来结构优势</strong>：<mark>实时自我纠错</mark>，每个token可见全画布，<b>数独任务</b>微调后成功率从<mark>0%飙至80%</mark>，为<mark>代码补全</mark>、<mark>行内编辑</mark>等场景提供新范式。</li>
+                <li><strong>开源生态全面就绪</strong>：<mark>4090即可本地跑</mark>，<b>Apache 2.0协议</b>开源，<b>Hugging Face</b>权重可下载，<b>vLLM/MLX/Unsloth/NeMo</b>全支持，<b>llama.cpp</b>在途，<mark>不是Demo是赛马</mark>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzkyNjU2ODM2NQ==&mid=2247629620&idx=1&sn=05ba13fed03eb1714a345bf0762934a3" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">每百万 Token 成本砍六成，出海 AI 团队开始重算推理这笔账</a>
+            </h2>
+            <div class="meta">
+                <span>📰 硅星人Pro</span>
+                <span>🕒 2026-06-11 09:59</span>
+            </div>
+            <div class="news-summary">摘要：出海AI团队正从模型打磨转向推理成本优化，RTX PRO 6000+FP4量化+边缘卸载+Akamai全球网络可将每百万token成本从4.5美元降至1.8美元，综合降本六成；延迟、eGress流量、多云互通成新关键变量。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>推理卡选型逻辑重构</strong>：<mark>杀鸡不用牛刀</mark>，<b>RTX PRO 6000</b>原生支持<mark>FP4精度</mark>，<b>96GB显存</b>可单卡跑70B模型，<mark>吞吐达H100的1.63倍</mark>，<b>每百万token成本低三成</mark>。</li>
+                <li><strong>全栈成本优化落地</strong>：<mark>综合降本六成</mark>，<b>Akamai</b>出站流量仅<mark>0.005美元/GB</mark>（大厂20倍便宜），<b>DevSisters</b>用<mark>RTX PRO 6000+FP4</mark>跑70B模型，<b>家庭安防客户</b>用<mark>VPU卸载</mark>降本3-5成。</li>
+                <li><strong>Agent时代基础设施准备</strong>：<mark>多云友好架构</mark>成刚需，<b>Akamai</b>全球<mark>32个云区域</mark>与<mark>4400个边缘节点</mark>覆盖130国，<b>跨云互访零带宽费</b>，<mark>延迟缩短15%</mark>，安全合规能力原生集成。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI数据与技术部-金融技术组 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
