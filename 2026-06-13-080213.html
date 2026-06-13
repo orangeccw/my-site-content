@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-06-13</div>
+        <div class="top-tags">
+            <span class="tag-item">#AgentPhone</span>
+            <span class="tag-item">#昇腾950DT</span>
+            <span class="tag-item">#端侧GPT-4</span>
+            <span class="tag-item">#鸿蒙智能体2.0</span>
+            <span class="tag-item">#vibe coding</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>端侧AI进入“可用即主力”阶段</strong>
+            <p>端侧模型能力已提前达到GPT-4水平，叠加麒麟芯片30B入端、MiniCPM-5 1B实测逼近GPT-4o，端侧不再是“辅助”，而是承担人机交互主通道和隐私敏感任务的核心载体。</p>
+        </div>
+        <div class="trend-card">
+            <strong>国产AI芯片与大模型进入“协同设计”新纪元</strong>
+            <p>DeepSeek V4与昇腾950DT从架构设计阶段就联合打磨，MoE通信、CSA稀疏注意力、低精度推理全部原生适配，国产软硬协同首次实现Day 0完整工程交付，不再“适配”，而是“共生”。</p>
+        </div>
+        <div class="trend-card">
+            <strong>折叠屏正式升维为“AI任务工作台”</strong>
+            <p>从“展开一块屏幕”到“展开一个大任务”，vivo X Fold6以原子工作台重构多任务流，让AI工具与App围绕会议、旅行、创作等真实场景同屏协同，折叠形态首次成为AI落地的刚需载体。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA4MTQ4NjQzMw==&mid=2652804902&idx=1&sn=e79e763dd9871ca2920a1fcc68f0ea40" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">刚刚，余承东发誓把盘古大模型做到世界第一</a>
+            </h2>
+            <div class="meta">
+                <span>📰 智东西</span>
+                <span>🕒 2026-06-12 18:50</span>
+            </div>
+            <div class="news-summary">摘要：华为鸿蒙7发布，全面拥抱Agent架构；余承东宣布盘古大模型openPangu 2.0开源升级，端侧30B模型基于麒麟芯片落地，并立下“世界第一”军令状。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>鸿蒙智能体2.0全面落地</strong>：小艺支持<mark>一句话创建桌面卡片</mark>与<b>2100+系统能力</b>，任务成功率超90%，实现伴随式AI与主动服务。</li>
+                <li><strong>盘古大模型战略升级</strong>：发布<mark>openPangu 2.0 Pro</mark>（505B参数）与Flash版（92B），首个开源预训练/后训练代码及训推算子，<b>昇腾原生训练效率提升30%</b>。</li>
+                <li><strong>端侧AI硬核突破</strong>：麒麟芯片首发<mark>原生30B入端模型</mark>，推理速度提升50%，内存占用减少20%，<b>鸿蒙6终端设备达6600万台</b>，创历史最快生态增速。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA4MTQ4NjQzMw==&mid=2652804902&idx=2&sn=19a6525f8aaf1b3e9e738d2a00a1057b" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">对话面壁CEO李大海：端侧AI模型赶上GPT-4，下一程是生态补课</a>
+            </h2>
+            <div class="meta">
+                <span>📰 智东西</span>
+                <span>🕒 2026-06-12 18:50</span>
+            </div>
+            <div class="news-summary">摘要：面壁CEO李大海确认端侧模型已提前达到GPT-4智能水平，MiniCPM-5 1B在Artificial Analysis榜单得分逼近GPT-4o；强调端侧落地核心在芯片协同，开源是降低客户验证成本的高效商业模式。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>端侧能力已达GPT-4级</strong>：MiniCPM-5 1B在<mark>Artificial Analysis榜单获17.6分</mark>，与GPT-4o仅差零点几分，<b>参数量仅1B vs 200B</b>，验证“知识密度定律”。</li>
+                <li><strong>端侧落地进入量产元年</strong>：吉利银河M9已量产上车，用户主动开启率极高；<mark>2025年为端侧模型落地元年</mark>，<b>汽车+手机+无人机+潜水器</b>四维并进，“上天入地、上天下海”。</li>
+                <li><strong>国产算力生态仍需补课</strong>：训练正转向国产卡，但<mark>软件生态仍存缺口</mark>，需芯片公司与模型公司深度协同；<b>面壁与华为合作量化训练效率达95%</b>，精度损失可控。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&mid=2247663506&idx=1&sn=b2561b427de01d7ff4a012800cc85051" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">全网首份指令级拆解：看华为昇腾 950DT 芯片如何撬动 DeepSeek 75%降价与字节锁单</a>
+            </h2>
+            <div class="meta">
+                <span>📰 AI前线</span>
+                <span>🕒 2026-06-12 17:49</span>
+            </div>
+            <div class="news-summary">摘要：SemiAnalysis首次对昇腾950DT运行DeepSeek V4进行Trace级拆解，证实其为“协同设计”芯片；四核心架构+三层通算融合实现计算/通信/调度极致重叠，推动DeepSeek-V4-Pro API永久降价75%。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>国产芯片首次实现Day 0完整交付</strong>：CANN与DeepSeek V4同步发布<mark>Day 0开箱即用</mark>，性能优化达“优化好地跑”，<b>TRT-LLM等竞品需9天修复bug</b>。</li>
+                <li><strong>四核心异构架构释放并行潜力</strong>：AIC矩阵核、AIV向量核、AI CPU控制核、CCU通信引擎<mark>四类单元完全分离并发</mark>，<b>昇腾950DT带宽达4TB/s</b>，专攻Decode瓶颈。</li>
+                <li><strong>通算融合MC²机制颠覆通信范式</strong>：MoeDistributeDispatchV2等<mark>MC²算子将通信折叠进计算</mark>，MoE专家并行开销归零；<b>字节已锁定一半950DT产能</b>，阿里腾讯跟进数十万颗。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&mid=2653108694&idx=1&sn=4215cad88a323945e29f014582e8915e" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">从「展开屏幕」到「展开任务」：折叠屏进入 AI 时代</a>
+            </h2>
+            <div class="meta">
+                <span>📰 极客公园</span>
+                <span>🕒 2026-06-12 18:47</span>
+            </div>
+            <div class="news-summary">摘要：vivo提出折叠屏下半场核心命题——从物理展开转向任务展开；X Fold6搭载原子工作台，支持多App与AI工具同屏协同，将“会议”“旅行”等任务流一键保存复用，打造AI时代移动工作台。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>折叠屏升维为AI任务工作台</strong>：原子工作台支持<mark>会议/旅行/创作工作台一键保存</mark>，<b>vivo X Fold6</b>让多任务流“摊开即用”，解决直板手机注意力碎片化痛点。</li>
+                <li><strong>底层重构支撑AI原生交互</strong>：OriginOS 6 Fold深度适配折叠屏AI需求，<mark>安卓底层多任务机制重做</mark>，芯片提前两年联合定义，<b>原子工作台已迭代多代并高频使用</b>。</li>
+                <li><strong>“任务完成率”成新评价标尺</strong>：vivo定义AI终端核心指标为<mark>任务完成率</mark>，而非参数或算力；<b>“为AI而生，而非把AI放进去”</b>，对标纯电平台对电车的原生设计逻辑。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzkyNjU2ODM2NQ==&mid=2247629641&idx=1&sn=b31e77f2ec9ae04ac8263d97ae24885f" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">折叠屏的第二次“展开”：当硬件卷到头，vivo X Fold 把答案交给了 AI</a>
+            </h2>
+            <div class="meta">
+                <span>📰 硅星人Pro</span>
+                <span>🕒 2026-06-12 10:05</span>
+            </div>
+            <div class="news-summary">摘要：vivo明确X Fold系列深度绑定AI长赛道，从“先旗舰后折叠”升级为“为AI而生”；通过原子工作台+AI CPU调度+任务流预存，让普通人无需极客技能即可调用完整AI工作流，打造AI时代的“洗衣机”。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>AI终端定义转向“任务完成率”</strong>：vivo提出<mark>任务完成率是核心指标</mark>，评价标准从参数表转向结果交付，<b>“展开一个大任务”取代“展开一块大屏幕”</b>成为新使命。</li>
+                <li><strong>普通人也能用上AI工作流</strong>：原子工作台将<mark>高手自建工作流封装为开箱即用</mark>，如“开发票”指令自动完成识别、填写、开票、归档，<b>flypig葡萄牙旅行发票自动归档</b>即为典型场景。</li>
+                <li><strong>AI与折叠形态深度绑定</strong>：vivo将X Fold系列正式定位为<mark>AI长赛道核心载体</mark>，与X数字系列（影像）、iQOO（性能）并列，<b>OriginOS 6 Fold专为AI时代折叠需求深度开发</b>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI数据与技术部-金融技术组 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
