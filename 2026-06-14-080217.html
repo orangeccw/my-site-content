@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-06-14</div>
+        <div class="top-tags">
+            <span class="tag-item">#HarnessEngineering</span>
+            <span class="tag-item">#SpaceMind</span>
+            <span class="tag-item">#Symbiosis</span>
+            <span class="tag-item">#IPO冲刺</span>
+            <span class="tag-item">#世界模型</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>AI公司集体冲刺IPO，万亿估值成新门槛</strong>
+            <p>OpenAI、Anthropic、SpaceX三巨头同步推进秘密IPO，估值均逼近或突破1万亿美元，标志着AI产业正式迈入资本化深水区，融资规模或将达数万亿美元。</p>
+        </div>
+        <div class="trend-card">
+            <strong>Harness Engineering成为下一代软件工程范式</strong>
+            <p>OpenAI工程师实践“零人类编码+零人工审查”，通过可编程的上下文与自动化反馈闭环，让AI Agent自主完成从需求到PR的全流程，工程师角色转向系统设计与SPEC治理。</p>
+        </div>
+        <div class="trend-card">
+            <strong>物理世界智能迎来架构级突破</strong>
+            <p>从SpaceMind纯RGB空间推理到Jiuwen Symbiosis共生架构，AI正系统性突破Moravec悖论，构建“感知-规划-执行-观测-反馈”透明闭环，具身智能进入工程可部署阶段。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&mid=2651286939&idx=2&sn=a72aed1686b7568356047e3caccd3a3e" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">OpenAI 秘密递表！三巨头一起“抢钱”：AI 史上最贵一轮融资要来了</a>
+            </h2>
+            <div class="meta">
+                <span>📰 InfoQ</span>
+                <span>🕒 2026-06-13 13:30</span>
+            </div>
+            <div class="news-summary">摘要：OpenAI已向SEC秘密提交IPO申请，估值超8500亿美元；Anthropic与SpaceX同步推进上市，三者估值总和或超3.5万亿美元，将引爆AI史上最大规模融资潮。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>秘密IPO启动</strong>：<mark>已提交S-1文件</mark>，为最早2026年Q4上市铺路，<b>OpenAI</b>、<b>Anthropic</b>、<b>SpaceX</b>形成“AI三巨头IPO竞速”。</li>
+                <li><strong>估值逼近万亿</strong>：<mark>Anthropic达9650亿</mark>美元，<b>SpaceX</b>目标估值<mark>1.75万亿美元</mark>，三者合计融资规模或达<mark>数万亿美元</mark>。</li>
+                <li><strong>商业化压力凸显</strong>：<mark>收入目标未达成</mark>，正通过<mark>低价订阅+广告</mark>变现，同时启动员工股份<mark>要约收购</mark>缓解流动性，<b>ChatGPT</b>周活用户超9亿但盈利路径仍待验证。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&mid=2651286939&idx=1&sn=4c7b1d2d31e85c97537dbdf4f421bebb" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">严禁手写代码、一天烧不完 10 亿 Token 就是失职：OpenAI 工程师揭秘“零人类编码”的激进实践</a>
+            </h2>
+            <div class="meta">
+                <span>📰 InfoQ</span>
+                <span>🕒 2026-06-13 13:30</span>
+            </div>
+            <div class="news-summary">摘要：OpenAI工程师Ryan Lopopolo团队实践Harness Engineering，全面禁用手写代码与人工审查，人均PR吞吐量从每周3.5个飙升至70个，核心是用可编程上下文与自动化反馈闭环赋能AI Agent。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>零人类编码落地</strong>：<mark>全员禁写代码</mark>，<b>Codex</b>成为唯一入口，<b>GPT-5.5</b>模型迭代使PR吞吐量达<mark>每周70个</mark>，远超传统开发效率。</li>
+                <li><strong>Harness Engineering本质</strong>：<mark>上下文即规范</mark>，将团队最佳实践写入代码库与GitHub Issue，<b>Agent</b>通过自动爬取、学习反馈、生成PR实现<mark>闭环进化</mark>。</li>
+                <li><strong>工程师角色重构</strong>：<mark>专注SPEC与系统设计</mark>，<b>工程师</b>时间分配转向30%最难重构+30%产品构思+30%客户沟通，<mark>编写代码不再是核心技能</mark>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247897320&idx=3&sn=07784c5d298edcd85f0796f1ddcca265" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">华为SpaceMind登顶空间智能权威榜：纯RGB视觉语言模型拿下70.6分，刷新李飞飞榜单记录</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-06-13 15:55</span>
+            </div>
+            <div class="news-summary">摘要：华为联合港中大、港大发布SpaceMind，首次将相机参数定义为“引导模态”，在纯RGB输入下刷新VSI-Bench空间智能榜单至70.6分（人类79%），逼近人类水平。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>相机引导融合</strong>：<mark>相机即指挥棒</mark>，<b>SpaceMind</b>首创<mark>Camera-Guided Modality Fusion</mark>模块，在<mark>InternVL</mark>等主流架构上即插即用。</li>
+                <li><strong>权威榜单突破</strong>：<mark>70.6%综合得分</mark>刷新李飞飞团队<mark>VSI-Bench</mark>纪录，外观顺序任务提升<mark>30.5个百分点</mark>，<b>人类平均</b>为79%。</li>
+                <li><strong>工程规模化落地</strong>：<mark>昇腾384卡集群</mark>支撑大规模预训练，<b>SpaceMind++</b>视频级认知地图能力已开源，将赋能<mark>AIDC勘测设计</mark>等真实场景。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA4MTQ4NjQzMw==&mid=2652804971&idx=1&sn=01c2eee496bb014a008fcffbc83e1d54" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">200+AI专家集结北京，共议世界模型、智能体、具身智能等话题，这届智源大会释放什么信号？</a>
+            </h2>
+            <div class="meta">
+                <span>📰 智东西</span>
+                <span>🕒 2026-06-13 21:09</span>
+            </div>
+            <div class="news-summary">摘要：2026智源大会汇聚200+全球顶尖学者，发布悟界·Physis-v0.1世界基座模型、四款智能体产品及FlagOS 2.1，90后00后成技术主角，中关村正成为AI思想策源地与人才孵化器。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>世界模型加速落地</strong>：<mark>悟界·Physis-v0.1</mark>训练中，具备物理一致性、长程可推演等四大能力；<b>智源</b>连发<mark>神经科学模型Brainμ1.0</mark>与<mark>药物发现模型OpenComplex2.5</mark>。</li>
+                <li><strong>智能体进入系统建设期</strong>：<mark>心脏诊断智能体</mark>达安贞医院顶尖水平，<b>AREX</b>自主研究智能体比肩<mark>万亿参数旗舰模型</mark>，<b>FlagOS 2.1</b>适配32款芯片。</li>
+                <li><strong>代际创新生态成型</strong>：<mark>95后罗福莉</mark>、<mark>22岁陈博远</mark>等青年科学家站C位，<b>中关村</b>配套<mark>90亿元产业资金</mark>与<mark>模型券</mark>政策，构建“基础研究-产业转化-人才安居”闭环。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247897320&idx=2&sn=26ebec72b5313d09d09d072e489af690" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Agent终于长出了身体：Jiuwen Symbiosis背后的思考与实践</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-06-13 15:55</span>
+            </div>
+            <div class="news-summary">摘要：openJiuwen开源Jiuwen Symbiosis共生架构，首创“态势感知环”，实现物理AI Agent的透明化、可调试、可协作，支持端云协同部署于昇腾/鲲鹏生态，推动具身智能工程化。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>共生架构发布</strong>：<mark>态势感知环</mark>打通感知-规划-执行-观测-反馈闭环，<b>Jiuwen Symbiosis</b>开源，<mark>Gitcode</mark>可直接获取，支持<mark>ROS2</mark>与多本体适配。</li>
+                <li><strong>突破Moravec悖论</strong>：<mark>零样本组合泛化</mark>能力解决VLA局限，<b>物理执行</b>模块输出底层Action序列，<mark>安全规划</mark>模块动态校验物理可行性与约束。</li>
+                <li><strong>端云协同部署</strong>：<mark>昇腾NPU</mark>承担视觉感知，<b>鲲鹏CPU</b>负责任务编排与控制逻辑，<mark>Ascend-SACT</mark>等模型可即插即用，<b>华为云AgentArts</b>已集成商用。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI数据与技术部-金融技术组 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
