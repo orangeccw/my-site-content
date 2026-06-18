@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-06-18</div>
+        <div class="top-tags">
+            <span class="tag-item">#AI工业革命</span>
+            <span class="tag-item">#AI工厂</span>
+            <span class="tag-item">#硅光子互连</span>
+            <span class="tag-item">#多模态RL统一框架</span>
+            <span class="tag-item">#汽车系统级AI芯片</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>AI正从“模型竞赛”升级为“五层工业化基建竞赛”</strong>
+            <p>能源、芯片、基础设施、模型、应用构成AI新工业革命的完整链条，美国正以光互连、再工业化、本土晶圆厂为支点，系统性重构全球AI算力地缘格局。</p>
+        </div>
+        <div class="trend-card">
+            <strong>AI交付模式正从“租卡”转向“买智能”</strong>
+            <p>以“DCU算力度量”和“专业Token封装”为标志，企业不再采购GPU硬件，而是按业务任务调用可计量、可结算、可闭环迭代的智能服务，AI真正进入工业化交付阶段。</p>
+        </div>
+        <div class="trend-card">
+            <strong>边缘与车端AI进入“系统能力复利期”</strong>
+            <p>芯片竞争不再比TOPS峰值，而比安全实时性、软件可扩展性、工具链成熟度与跨代复用能力——TI的TDA5、VDK虚拟开发套件、UniRL统一训练框架，均指向“让每一份算力都可验证、可量产、可持续演进”的新标准。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIxODUzNTg2MA==&mid=2247492115&idx=1&sn=dba8e140a9c50024f806856bd66bb469" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">美联社最新访谈黄仁勋：AI 工业革命与美国再工业化</a>
+            </h2>
+            <div class="meta">
+                <span>📰 web3天空之城</span>
+                <span>🕒 2026-06-17 17:47</span>
+            </div>
+            <div class="news-summary">摘要：黄仁勋在德克萨斯州谢尔曼磷化铟晶圆厂奠基仪式上提出AI五层架构，强调能源是基石、光互连是扩展关键，并将AI定义为堪比蒸汽革命的“新工业革命”，推动美国制造业复兴与社会结构再平衡。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>五层架构重构产业逻辑：</strong>能源是<mark>不可逾越的红线</mark>，<b>磷化铟激光器</b>成为AI工厂连接百万芯片的生命线，美国在芯片与模型层领先但能源层严重落后。</li>
+                <li><strong>再工业化承载社会使命：</strong>目标是找回<mark>建设者尊严</mark>，通过AI创造60万制造业岗位，让电工、建筑工人与算法科学家共享高薪与尊严，实现信息工作者与体力劳动者的社会再平衡。</li>
+                <li><strong>地缘策略强调竞合平衡：</strong>主张在<mark>安全与贸易间找平衡</mark>，反对“二选一”思维，强调继续向中国出口上一代产品以维持全球竞争力，同时借<b>TSMC</b>、<b>Foxconn</b>等台企力量加速美国本土制造复兴。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA4MTQ4NjQzMw==&mid=2652805293&idx=3&sn=0e54230898e48c9406eb02303b7b6402" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">5700亿热钱，抢着借给英伟达</a>
+            </h2>
+            <div class="meta">
+                <span>📰 智东西</span>
+                <span>🕒 2026-06-17 12:40</span>
+            </div>
+            <div class="news-summary">摘要：英伟达以250亿美元发行债券，获850亿美元认购（3.4倍超额），创科技债罕见热度；资金用于优化债务结构与确立信贷成本基准，凸显其“现金牛+信用锚”双重地位。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>信用资产成市场新宠：</strong>投资者抢购源于<mark>AA级信用背书</mark>与极低发债频率，<b>穆迪Aa1</b>评级+无路演直发模式，印证英伟达已成为全球AI资本市场的“无风险利率锚”。</li>
+                <li><strong>发债逻辑超越融资刚需：</strong>核心目标是<mark>锁定长期信贷定价</mark>，而非弥补资金缺口，其<b>2000亿美元自由现金流</b>足以覆盖全部资本开支，凸显战略级财务韧性。</li>
+                <li><strong>资本飞轮驱动再工业化：</strong>债券资金将反哺<mark>5000亿美元美国制造投资</mark>，与<b>Coherent</b>、<b>Intel</b>等伙伴共建光互连与芯片产能，形成“技术领先→出口创汇→本土建厂→就业增长”的正向循环。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247898050&idx=1&sn=a66f4f9669c0a4728994d09bdaf85ddb" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">刚刚，北京建了一座AI工厂：目标10万P算力，日产10万亿Token！</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-06-17 18:10</span>
+            </div>
+            <div class="news-summary">摘要：九章云极发布“AI工厂”战略，以训练工厂（10万P）与Token工厂（10万亿/日）双引擎，首创“一度算力（DCU）”与“专业Token”计量体系，推动AI从算力采购迈向智能交付。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>DCU定义算力新标准：</strong>将异构硬件、网络、存储统一折算为<mark>312TFlops×小时</mark>，让企业像买电一样采购算力，<b>九章云极</b>借此打破GPU租赁混乱局面，实现“所见即所得”。</li>
+                <li><strong>Token工厂重构交付逻辑：</strong>将专业模型封装为可调用、可计量、可结算的<mark>专业Token</mark>，聚焦金融风控、政务审批等<b>高ROI场景</b>，推动AI从“能用”走向“敢用、算得清账”。</li>
+                <li><strong>飞轮闭环驱动降本增效：</strong>构建<mark>越用越强越便宜</mark>增强回路，业务数据回流训练工厂持续迭代模型，目标实现<b>1000倍综合降本</b>，直击企业AI落地“成本高、周期长、效果难验证”三大痛点。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA4MTQ4NjQzMw==&mid=2652805293&idx=2&sn=b385425fbd131e6befadf787bf951c38" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">车东西专访德州仪器高管：汽车AI芯片不只是TOPS竞赛</a>
+            </h2>
+            <div class="meta">
+                <span>📰 智东西</span>
+                <span>🕒 2026-06-17 12:40</span>
+            </div>
+            <div class="news-summary">摘要：TI高管指出汽车AI芯片已进入系统竞争时代，强调安全为第一原则，以TDA5可扩展处理器与VDK虚拟开发套件为核心，将AI算力、实时控制、音频处理等能力深度耦合进可量产整车系统。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>安全实时性高于峰值算力：</strong>ADAS芯片必须满足<mark>功能安全认证</mark>与宽温域运行，<b>TDA5</b>系列覆盖10–1200 TOPS并支持引脚兼容，让车企在不同车型间复用软件资产，降低开发成本。</li>
+                <li><strong>系统级架构重塑音频价值：</strong>车载音频正从体验功能升级为<mark>安全协同模块</mark>，通过<b>AVB音频视频桥接协议</b>实现低延迟、高带宽传输，支撑救护车识别等主动安全场景。</li>
+                <li><strong>VDK加速软硬协同开发：</strong>虚拟开发套件支持<mark>云端多实例并行验证</mark>，可导入真实摄像头数据测试算法，让软件开发早于芯片流片，大幅缩短<b>整车数字孪生</b>构建周期。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247898050&idx=4&sn=031ff938f8a26f84c99ccc8316c22eff" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">腾讯混元最新开源：一套RL框架打通多个模态，庞天宇团队新作</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-06-17 18:10</span>
+            </div>
+            <div class="news-summary">摘要：腾讯混元开源UniRL框架，首次统一图像、视频、VLM、LLM等多模态模型的强化学习训练流程，内置Flow-DPPO等自研算法与多模态奖励系统，降低AIGC训练工程门槛。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>打破多模态RL孤岛困境：</strong>以<mark>统一rollout契约</mark>抽象diffusion/LLM/VLM训练闭环，支持<b>SD3</b>、<b>HunyuanVideo</b>、<b>Qwen-VL</b>等主流模型，终结“一个模型一套代码”乱象。</li>
+                <li><strong>自研算法提升训练稳定性：</strong>Flow-DPPO用<mark>逐步KL散度约束</mark>替代PPO硬裁剪，DRPO引入<mark>平滑策略偏移正则</mark>，显著提升图像/视频/LLM模型RL训练收敛性与效率。</li>
+                <li><strong>开箱即用奖励生态：</strong>集成<mark>CLIPScore</mark>、<b>PickScore</b>、<b>VideoAlign</b>等多模态评估组件，支持VLM-as-judge与组合式Prompt-Enhancer架构，让研究者专注算法而非工程。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI数据与技术部-金融技术组 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
