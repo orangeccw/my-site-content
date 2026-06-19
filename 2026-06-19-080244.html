@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-06-19</div>
+        <div class="top-tags">
+            <span class="tag-item">#Evoken</span>
+            <span class="tag-item">#Agent化组织</span>
+            <span class="tag-item">#Mythos</span>
+            <span class="tag-item">#具身智能汽车</span>
+            <span class="tag-item">#字节系创业潮</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>AI应用商业化进入“断层领先”时代</strong>
+            <p>演语科技以近3亿美元ARR和20亿美元估值证明：不靠烧钱、不靠故事，靠真实产品力与生态闭环，中国AI应用公司已跑通健康造血模式。</p>
+        </div>
+        <div class="trend-card">
+            <strong>大厂组织深度Agent化，从工具升级为操作系统</strong>
+            <p>钉钉将MuleRun团队整合进核心，新设“公司信息技术部”专为Agent优化系统底座，标志着企业级AI已从功能插件迈向人机共栖的智能体操作系统。</p>
+        </div>
+        <div class="trend-card">
+            <strong>具身智能进入“全栈定义范式”阶段</strong>
+            <p>理想汽车以自研芯片M100+3D ViT视觉+马赫VLA模型+星环OS构建生命体级架构，证明具身智能不再是单点能力叠加，而是软硬芯云全栈协同的新物种。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652707873&idx=1&sn=8eebb6d551148ccd8e5aa9966a15a34c" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">中国黑马狂赚3亿美金！国内AI应用断层第一，估值20亿美金</a>
+            </h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-06-18 12:06</span>
+            </div>
+            <div class="news-summary">演语科技完成近3亿美元B+轮融资，投后估值超20亿美元，ARR达3亿美元，旗下LiblibAI（3000万用户）、LibTV（上线两月收入增13倍）与星流构成中国最强AI创意内容集团化矩阵。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>商业化里程碑：</strong>实现<mark>健康自我造血</mark>，ARR达<b>3亿美元</b>，为国内AI应用层最高营收规模。</li>
+                <li><strong>产品矩阵爆发：</strong>LibTV上线首月即达<mark>单日百万美金</mark>收入，5月收入为首月的<b>13倍</b>；LiblibAI覆盖<b>3000万</b>设计师用户，渗透率超行业三分之一。</li>
+                <li><strong>生态护城河：</strong>构建<mark>AI创意界B站+淘宝</mark>复合模式，平台沉淀<b>50万+</b>原创模型与过亿专业素材，心智占领难以复制。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA4MTQ4NjQzMw==&mid=2652805400&idx=2&sn=4098e21708acdb7824340198c560ae94" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">刚刚，90后新CEO对钉钉动刀：这五个人“向我汇报”</a>
+            </h2>
+            <div class="meta">
+                <span>📰 智东西</span>
+                <span>🕒 2026-06-18 20:13</span>
+            </div>
+            <div class="news-summary">钉钉新任CEO陈宇森发布首份全员信，宣布整合MuleRun与悟空团队，成立五大核心部门，由原MuleRun高管束骏亮、李昕瑜等直接向其汇报，标志钉钉全面进入Agent原生组织阶段。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>组织深度重构：</strong>完成<mark>Agent业务核心化</mark>，MuleRun团队整体并入悟空事业部，由原<b>MuleRun</b>CTO束骏亮牵头新悟空团队。</li>
+                <li><strong>基础设施革命：</strong>新设<mark>公司信息技术部</mark>，由阿里老兵邓悟负责，目标是让所有系统“<b>易于被Agent使用</b>”，推动从“人操作系统”到“<b>Agent操作系统</b>”跃迁。</li>
+                <li><strong>销售体系升级：</strong>整合直销、电销、服务商等，成立统一<mark>客户发展部</mark>，由“中供铁军”元老杨猛负责，打造<b>统一增长通道</b>，提升商业化效率。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA4MTQ4NjQzMw==&mid=2652805400&idx=1&sn=9ac9ce8aaa9f8b66bc597e0fd0a8609d" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">13位字节大牛，涌入AI淘金潮</a>
+            </h2>
+            <div class="meta">
+                <span>📰 智东西</span>
+                <span>🕒 2026-06-18 20:13</span>
+            </div>
+            <div class="news-summary">2025年以来，字节跳动至少13位核心AI人才离职创业，覆盖AI创作、AI Coding/Agent、具身智能、AI硬件、AI4S五大方向，累计融资数十亿元，形成“字节系AI创业帮”现象。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>人才迁徙规模：</strong>字节系AI创业者已覆盖<mark>五大硬核赛道</mark>，包括<b>西原</b>（AI内容社交）、<b>顾全全</b>（AI制药）、<b>孔涛</b>（具身智能）等13位领军者。</li>
+                <li><strong>资本高度认可：</strong>创业项目获顶级机构密集加注，如<b>言创万物</b>获腾讯与红杉中国A轮<b>数千万美元</b>，<b>动念涌现</b>获IDG与美团战略投资<b>天使轮</b>。</li>
+                <li><strong>方法论外溢：</strong>字节“<mark>App工厂赛马机制</mark>”批量锻造产品能力，创业者将<b>从0到1定义产品</b>、<b>数据驱动增长</b>等底层能力迁移到AI原生场景。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652707873&idx=2&sn=8cc79d27b82906171bf9bfcb50aaf33e" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Dario访谈首曝：Mythos被称为「超级武器」</a>
+            </h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-06-18 12:06</span>
+            </div>
+            <div class="news-summary">Anthropic CEO Dario Amodei首度详解未发布模型Mythos：具备全自动网络攻击链能力，被安全公司称为“超级武器”，并坦言文明崩塌概率达10%-25%，呼吁建立制衡机制而非依赖英雄人物。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>能力断层跃升：</strong>Mythos实现<mark>全自动攻击链</mark>，可自主完成扫描、利用、武器化全流程，远超上一代模型仅能“找漏洞”的能力边界。</li>
+                <li><strong>安全界集体预警：</strong>多家安全公司称其为<mark>超级武器</mark>，<b>Palo Alto Networks</b>实测显示其三周完成相当于<b>一整年</b>渗透测试工作量。</li>
+                <li><strong>文明风险再确认：</strong>Dario重申<mark>25%文明崩塌概率</mark>，类比航空安全——“25%坠机率的飞机没人敢坐”，强调需将风险降至<b>低得多</b>水平。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&mid=2653109083&idx=1&sn=708abe59098d53e5847fe83c1b0af3c9" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">理想的具身智能走到了哪里？一颗芯片、一套大脑、一个新范式</a>
+            </h2>
+            <div class="meta">
+                <span>📰 极客公园</span>
+                <span>🕒 2026-06-18 16:17</span>
+            </div>
+            <div class="news-summary">理想发布全栈具身智能方案：自研数据流芯片马赫M100（2560TOPS）、3D ViT视觉架构、马赫VLA大模型及星环OS，定义“电动车+职业司机+AI计算机+生活助手”新物种，目标年底追平特斯拉FSD V14。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>架构范式革命：</strong>抛弃传统模块化模型，采用<mark>原生多模态MoE大模型</mark>，实现“看见、理解、思考、行动”在<b>同一框架</b>内彻底对齐。</li>
+                <li><strong>芯片性能突破：</strong>马赫M100为全球首款<mark>动态数据流AI芯片</mark>，单芯片算力<b>1280 TOPS</b>，实测跑赢售价<b>4万元</b>的NVIDIA DGX Spark桌面超算。</li>
+                <li><strong>具身智能落地：</strong>通过<mark>Agent多点规划</mark>演示“接四娃一妻”复杂任务，全链路在车端本地运行，响应速度目标达<b>0.2秒</b>，比人类快<b>56%</b>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI数据与技术部-金融技术组 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
