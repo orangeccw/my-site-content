@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-06-21</div>
+        <div class="top-tags">
+            <span class="tag-item">#Conway</span>
+            <span class="tag-item">#AI智能体生态</span>
+            <span class="tag-item">#OneLake集成</span>
+            <span class="tag-item">#工件溯源</span>
+            <span class="tag-item">#AI for Science</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>Agent从“对话框”走向“常驻工作台”</strong>
+            <p>Anthropic推出Conway等永久在线智能体，AI不再依赖用户主动提问，而是以独立工作台、Webhook唤醒、插件生态形式深度嵌入工作流，标志着AI从工具升维为协作者。</p>
+        </div>
+        <div class="trend-card">
+            <strong>知识基础设施正取代模型参数成为新战场</strong>
+            <p>Pinecone Nexus与OneLake集成将企业知识预结构化为可复用组件，降低95%+ token消耗，凸显行业重心已从“更大模型”转向“更稳、更省、更可控的知识层”。</p>
+        </div>
+        <div class="trend-card">
+            <strong>AI for Science进入“人才+架构”双迁移阶段</strong>
+            <p>AlphaFold核心人物John Jumper加盟Anthropic，叠加收购Coefficient Bio，表明顶尖科研人才与垂直领域架构正加速向专注型AI公司聚集，科学计算进入工程化攻坚期。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652708060&idx=3&sn=b8ead4089bc70cd57cff133473fa965e" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Anthropic重磅产品线来了！Conway永久在线，智能体大军来袭</a>
+            </h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-06-20 06:00</span>
+            </div>
+            <div class="news-summary">摘要：Anthropic曝光Conway（永久在线智能体）、Orbit（主动式助手）、Operon（生命科学AI）、BugCrawl（代码捉虫）等六条产品线，全面推动Claude从聊天机器人升级为具备记忆、主动性和垂直能力的超级智能体生态。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>Conway上线</strong>：<mark>永久在线工作台</mark>将取代传统对话框，支持Webhook唤醒与<b>Conway</b>专属<b>.EXT</b>插件生态，每位用户限1个实例。</li>
+                <li><strong>记忆架构升级</strong>：<mark>文件级记忆层</mark>实现跨产品共享，Claude在<b>Web</b>、<b>移动端</b>、<b>Claude Code</b>中统一调用用户历史项目与代码上下文。</li>
+                <li><strong>AI for Science加速</strong>：<mark>Operon数字实验室</mark>专为生命科学设计，支持<b>CRISPR</b>筛选与<b>单细胞RNA分析</b>，<b>AlphaFold</b>核心人物John Jumper已加盟Anthropic。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&mid=2651287414&idx=4&sn=f5ddeb5ac4a79184f636ed4f578e16ae" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Pinecone 推出 OneLake 集成方案，让 AI 智能体直连企业数据</a>
+            </h2>
+            <div class="meta">
+                <span>📰 InfoQ</span>
+                <span>🕒 2026-06-20 10:15</span>
+            </div>
+            <div class="news-summary">摘要：Pinecone Nexus知识引擎与微软OneLake深度集成，通过预构建结构化知识工件替代传统RAG，实现95%+ token节省与30倍提速，重塑企业AI智能体的数据调用范式。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>知识预计算架构</strong>：<mark>结构化知识工件</mark>由<b>Nexus</b>动态生成，内置权限、上下文与引用，智能体通过<b>KnowQL</b>直接查询，告别多次检索与提示组装。</li>
+                <li><strong>成本与性能突破</strong>：<mark>95%+ token节省</mark>与<b>30倍</b>任务提速源于将知识准备与运行时推理分离，<b>OneLake</b>作为统一数据层免迁移、免管道。</li>
+                <li><strong>治理与合规强化</strong>：<mark>数据来源标注</mark>与<b>PII</b>策略自动执行，权限校验基于角色与属性，<b>Microsoft Fabric</b>生态原生支持企业级AI治理。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&mid=2651287414&idx=3&sn=863d7fd7646c838bcfe120be49c3e2a8" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">昆仑万维天工 3.1 来了：上线设计画布与多智能体工作流，强化复杂项目交付能力</a>
+            </h2>
+            <div class="meta">
+                <span>📰 InfoQ</span>
+                <span>🕒 2026-06-20 10:15</span>
+            </div>
+            <div class="news-summary">摘要：天工3.1发布Skywork Design可视化画布与Dynamic Workflows多Agent并行调度能力，支持多页面UI一致性管理与断点续跑，推动AI从单次生成迈向持续交付项目场景。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>设计范式升级</strong>：<mark>可视化画布管理</mark>替代线性对话，支持<b>Skywork Design</b>多页面结构、品牌手册导入与参考图复刻，保障<b>官网</b>、<b>App原型</b>视觉一致性。</li>
+                <li><strong>规模化任务处理</strong>：<mark>多Agent并行调度</mark>实现任务拆解与交叉验证，<b>Dynamic Workflows</b>支持<b>批量文件迁移</b>、<b>全站文案改版</b>等断点续跑场景。</li>
+                <li><strong>商业价值验证</strong>：<mark>三倍收入增长</mark>来自深度用户单项目平均<b>40轮</b>交互，<b>Skywork 3.0</b>上线一月内<b>天工超级智能体</b>收入增长约3倍。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247898544&idx=3&sn=3f3bf5a36f7461cc4356ca081482e769" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">从“一句成片”到“长轨推演”：探究多模态智能体在长视频编辑中的应用</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-06-20 17:01</span>
+            </div>
+            <div class="news-summary">摘要：中科大等团队提出Crayotter框架，从工件（Artifacts）层面重构长视频剪辑管线，通过覆盖率感知检索、环境反射机制与轨迹级RLVR优化，实现可定位、可修复、可验证的可控编辑。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>工件溯源范式</strong>：<mark>可定位工件体系</mark>将剪辑状态外化为<b>时间轴计划</b>、<b>转场计划</b>、<b>渲染输出</b>等显式实体，支持故障片段精准定位与局部修复。</li>
+                <li><strong>纠错机制革新</strong>：<mark>环境驱动反射</mark>使智能体基于故障工件（如时间戳错位）触发局部重调用，<b>ReAct Editor</b>调用20+模块化工具实现非全局重生成。</li>
+                <li><strong>素材准备前置</strong>：<mark>覆盖率感知检索</mark>将用户请求转为多模态覆盖标签，确保<b>场景</b>、<b>人物/动作</b>、<b>风格</b>等语义证据充足，从源头消除断层。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2651040185&idx=1&sn=b6b423222924587bc75c0b837aae2192" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">谷歌：我手握最多诺奖得主，为啥就留不住他们？</a>
+            </h2>
+            <div class="meta">
+                <span>📰 机器之心</span>
+                <span>🕒 2026-06-20 12:15</span>
+            </div>
+            <div class="news-summary">摘要：Transformer作者Noam Shazeer与AlphaFold负责人John Jumper接连离职，暴露谷歌“大公司病”：资源内耗、路线分歧、产品碎片化，而Anthropic以扁平架构、Pre-IPO期权与AI for Science战略强势吸纳顶尖人才。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>人才流失双击</strong>：<mark>三天连失两员大将</mark>，<b>Noam Shazeer</b>加入<b>OpenAI</b>，<b>John Jumper</b>加盟<b>Anthropic</b>，带走了关键训练直觉与AI for Science隐性知识。</li>
+                <li><strong>组织瓶颈凸显</strong>：<mark>大公司病致创新窒息</mark>，<b>Google Brain</b>与<b>DeepMind</b>算力争夺、<b>Gemini</b>多入口（<b>AI Studio</b>、<b>Workspace</b>、<b>Jules</b>等）混乱，削弱执行聚焦力。</li>
+                <li><strong>文化差异决胜</strong>：<mark>80%两年留存率</mark>凸显<b>Anthropic</b>“高信任、低自负”文化优势，<b>Culture Interview</b>与<b>Do the simple thing</b>价值观吸引拒绝内耗的顶尖工程师。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI数据与技术部-金融技术组 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
