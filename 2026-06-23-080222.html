@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-06-23</div>
+        <div class="top-tags">
+            <span class="tag-item">#DeepSeekv4</span>
+            <span class="tag-item">#AIforComputing</span>
+            <span class="tag-item">#物理AI</span>
+            <span class="tag-item">#GLM-5.2</span>
+            <span class="tag-item">#算力经济</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>模型成本驱动架构迁移</strong>
+            <p>企业正从闭源高价模型（如Claude）大规模转向高性价比开源模型（如<b>DeepSeek v4</b>），推理成本节省达数百万美元/年，迁移虽复杂但已成生存刚需。</p>
+        </div>
+        <div class="trend-card">
+            <strong>AI开始优化AI自身</strong>
+            <p>“<b>AI for Computing</b>”成为新基础设施范式，智子芯元等公司用大模型+运筹优化自动完成芯片适配、算子生成与系统调优，把理论算力转化为真实有效算力。</p>
+        </div>
+        <div class="trend-card">
+            <strong>物理AI进入商业化爆发期</strong>
+            <p>以<b>海清智元</b>为代表的多光谱AI企业登陆港股，大模型服务收入占比跃升至53.1%，验证“感算一体+端侧智能”在安防、工业等场景的规模化落地能力。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&mid=2651287490&idx=2&sn=cde599d579c02a1339cc36f183039487" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">这家Agent 公司从 Claude 切到 DeepSeek v4：一年省下数百万美元，迁移工作量却是预期的 100 倍</a>
+            </h2>
+            <div class="meta">
+                <span>📰 InfoQ</span>
+                <span>🕒 2026-06-22 12:55</span>
+            </div>
+            <div class="news-summary">摘要：Lindy公司全面将AI代理流量从Anthropic迁移至<b>DeepSeek v4</b>，年省数百万美元推理成本；迁移工作量超预期100倍，但核心任务性能显著提升，验证开源模型商用成熟度。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>成本驱动切换</strong>：完成<mark>100%模型迁移</mark>后，每年为<b>Lindy</b>节省数百万美元，推理成本已超工资单成为最大支出项。</li>
+                <li><strong>性能验证复杂</strong>：迁移工作量达预期<mark>100倍</mark>，含在线/离线/“氛围”三重评估，并通过分阶段上线验证<b>用户留存率</b>影响。</li>
+                <li><strong>地缘与托管策略</strong>：选择美国服务商<b>Atlas Cloud</b>托管<b>DeepSeek v4</b>，规避数据主权风险，明确排除<mark>自托管</mark>选项以聚焦核心业务。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2651040283&idx=1&sn=93595b00f573595ad5eeb730d79a4868" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">AI for Computing迎来破局者，国产黑马智子芯元两个月融了两轮！</a>
+            </h2>
+            <div class="meta">
+                <span>📰 机器之心</span>
+                <span>🕒 2026-06-22 12:32</span>
+            </div>
+            <div class="news-summary">摘要：智子芯元以<b>AI for Computing</b>为核心，推出KernelCAT平台，用大模型+运筹优化自动完成芯片适配与算子生成，两月内完成近亿元融资，加速国产算力“精装修”。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>技术范式突破</strong>：首创<mark>大模型+运筹优化+算法自动发现</mark>路线，让智能体自主完成从分析、编码到上板调优的全闭环，支撑<b>KernelCAT</b>平台落地。</li>
+                <li><strong>性能实测领先</strong>：在<b>KernelBench</b>取得SOTA成绩，正确率100%、平均加速比211.9%；<b>CANN-Bench</b>53任务中仅1个报错，远超通用大模型表现。</li>
+                <li><strong>产业验证扎实</strong>：完成<b>DeepSeek R1</b>在RDK S100端侧部署（2小时闭环）、<b>TorchFold</b>昇腾部署（内存降70%）、<b>DSDP</b>模型迁移（推理性能提升138倍）。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA4MTQ4NjQzMw==&mid=2652805484&idx=1&sn=c5d98572f5bd3c1a8e728b681cb59c44" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">股价大涨327%！港股“物理AI第一股”上市，细分AI大模型全国第一</a>
+            </h2>
+            <div class="meta">
+                <span>📰 智东西</span>
+                <span>🕒 2026-06-22 11:45</span>
+            </div>
+            <div class="news-summary">摘要：<b>海清智元</b>登陆港交所，成“物理AI第一股”，多光谱AI大模型服务收入占比达53.1%，2025年营收6.69亿元、毛利率22.3%，募资5.37亿港元加码研发与出海。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>业务结构跃迁</strong>：多光谱AI大模型服务收入从0元跃升至<b>3.55亿元</b>，占总营收<mark>53.1%</mark>，成为第一大收入来源，标志从硬件向“软硬一体”转型成功。</li>
+                <li><strong>市场地位领先</strong>：以2025年收入计，<b>海清智元</b>在中国多光谱AI企业中排名第一，大模型服务市场份额达<mark>23%</mark>，服务超<b>2500名</b>客户。</li>
+                <li><strong>产能与成本优化</strong>：生产基地迁至浙江龙游，运营成本降低<mark>20%</mark>；2025年产能利用率稳定在<mark>49%</mark>，长三角新客户数量较2024年增长超<b>50%</b>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA4MTQ4NjQzMw==&mid=2652805484&idx=2&sn=904a4f825717672ba4216d535e39cac0" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">暴涨2076%，中国首个万亿AI公司诞生！</a>
+            </h2>
+            <div class="meta">
+                <span>📰 智东西</span>
+                <span>🕒 2026-06-22 11:45</span>
+            </div>
+            <div class="news-summary">摘要：<b>智谱</b>总市值突破1万亿港元，GLM-5.2在Code Arena编程评测中全球可用模型第一；政企订单密集落地，本地化私有部署收入占总营收73.7%。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>模型能力跃升</strong>：GLM-5.2在<b>Code Arena</b>编程评测中获<mark>1595分</mark>，全球可用模型排名第一，获<b>Hugging Face</b>6小时全球免费算力支持。</li>
+                <li><strong>商业化加速</strong>：2025年收入<b>7.24亿元</b>，同比增长132%；政企本地化私有部署收入达<b>5.34亿元</b>，占总营收<mark>73.7%</mark>。</li>
+                <li><strong>市场信心爆发</strong>：马斯克预测中国模型2027年达Fable级，<b>唐杰</b>回应“<mark>用不了那么久</mark>”；年内股价暴涨<mark>2076%</mark>，发行价116.2港元/股。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzkyNjU2ODM2NQ==&mid=2247629934&idx=1&sn=2e73d8a11be7dd305d66c1934fb32e0e" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">两个月融资两轮，智子芯元盯上芯片里没释放的算力</a>
+            </h2>
+            <div class="meta">
+                <span>📰 硅星人Pro</span>
+                <span>🕒 2026-06-22 10:51</span>
+            </div>
+            <div class="news-summary">摘要：智子芯元提出“<b>AI for Computing</b>”新范式，用智能体替代工程师完成芯片适配与调优；KernelCAT已实现模型迁移从“月级”压缩至“小时级”，多项成果并入<b>昇腾</b>官方库。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>效率革命性提升</strong>：DeepSeek OCR 2模型昇腾迁移，<b>KernelCAT</b>5分钟定位问题、38分钟跑通、4小时完成高性能适配，较人工<mark>提速数十倍</mark>。</li>
+                <li><strong>算法自主发现</strong>：在GELU算子开发中，自动识别精度缺陷并切换至<mark>多项式逼近</mark>方案，无需人工提示，体现数学级自主探索能力。</li>
+                <li><strong>生态深度协同</strong>：多项优化成果已合并入<b>昇腾</b>官方CANN算子库，<b>reshape_and_cache_kernel_flash</b>算子性能从14us优化至<mark>2.58us</mark>（提升5.4倍）。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI数据与技术部-金融技术组 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
