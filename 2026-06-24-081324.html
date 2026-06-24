@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b> { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-06-24</div>
+        <div class="top-tags">
+            <span class="tag-item">#生产级AI</span>
+            <span class="tag-item">#BPL协议语言</span>
+            <span class="tag-item">#微信小微</span>
+            <span class="tag-item">#Seed2.1Pro</span>
+            <span class="tag-item">#PhysicalAI</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>AI竞争进入「生产力深水区」</strong>
+            <p>行业不再比参数和榜单，而是比谁能让每个Token在真实产线中创造更高业务价值，模型必须通过芯片设计、视频生成等严苛场景验证才算“生产级可用”。</p>
+        </div>
+        <div class="trend-card">
+            <strong>超级App正成为国民级Agent主战场</strong>
+            <p>微信“小微”不另起入口，而是以AI中间层深度嵌入十亿级生态，依托WeLM-V4模型+长上下文+低延迟架构，让AI成为调用服务的自然调度系统。</p>
+        </div>
+        <div class="trend-card">
+            <strong>生物学迎来EDA时刻：BPL定义物理AI基建</strong>
+            <p>恩和科技发布BPL（生物协议语言）及BPL-COGEN编译验证管线，首次实现自然语言实验方案→形式化可验证协议→机器人/人工双路径执行的闭环，填补生命科学工程化底层语言空白。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&mid=2653109334&idx=2&sn=2c1d328edcfc7beb30d70d2877366494" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">豆包 2.1 Pro 之后，AI 竞争进入「生产力深水区」</a>
+            </h2>
+            <div class="meta">
+                <span>📰 极客公园</span>
+                <span>🕒 2026-06-23 19:45</span>
+            </div>
+            <div class="news-summary">摘要：火山引擎发布豆包2.1 Pro与Seedance 2.5，日均Token调用量达180万亿，强调模型需跨越“生产级门槛”，以真实产业落地链路（如芯片RTL设计、制造业视频生成）为分水岭，定价转向单位价值而非单价。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>生产级验证标准</strong>：模型需通过<mark>芯片设计RTL</mark>等严苛场景连续18小时9轮迭代，证明<b>豆包2.1Pro</b>具备真实产线可用能力。</li>
+                <li><strong>价值导向定价</strong>：输入<mark>6元/百万Token</mark>、输出<mark>30元/百万Token</mark>，综合成本较海外模型低<mark>80%</mark>，凸显<b>火山引擎</b>单位价值竞争逻辑。</li>
+                <li><strong>全栈AI原生架构</strong>：底层<mark>方舟推理平台</mark>适配多类国产芯片，中间层构建<mark>零代码/低代码/高代码</mark>工具矩阵，行业落地由<mark>FDE团队</mark>深度共创，拒绝纯模型路线。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&mid=2653109334&idx=1&sn=902c9bb2c101f830f6c2a6222f260eca" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">实测「微信小微」：当腾讯开始兑现国民 App 的 AI 潜能</a>
+            </h2>
+            <div class="meta">
+                <span>📰 极客公园</span>
+                <span>🕒 2026-06-23 19:45</span>
+            </div>
+            <div class="news-summary">摘要：微信灰度测试原生AI助手“小微”，不另起App，而是作为AI中间层嵌入聊天、公众号、朋友圈等全场景；背后是自研<mark>WeLM-V4</mark>模型，专为十亿级生态优化，主打低延迟、长上下文、成本可控，探索超级App的Agent演进路径。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>生态原生AI中间层</strong>：小微入口分散于<mark>首页左上角/聊天+菜单/视频号</mark>等位置，能力随场景动态加载，不替代原有交互，而是增强微信<b>十亿级</b>关系与内容理解能力。</li>
+                <li><strong>WeLM-V4技术突破</strong>：采用<mark>MoE稀疏架构</mark>与<mark>Hidden Decoding</mark>技术，实现秒级响应与<mark>128K上下文</mark>，专为微信生态定制，非通用大模型路线，<b>WeLM</b>成国内潜在最高调用量模型。</li>
+                <li><strong>小工具生成能力</strong>：支持<mark>自然语言生成小程序</mark>，如“碎片笔记”，虽暂限个人使用，但标志微信供给模式从<mark>开发者中心</mark>转向<mark>用户+AI共创</mark>，为<b>GUI→LUI</b>演进奠基。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247899001&idx=1&sn=667de11c1f709be1981e2a3ffd0837d1" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">刚刚，豆包2.1发布！Agent自己跑18个小时搞定芯片设计代码</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-06-23 17:52</span>
+            </div>
+            <div class="news-summary">摘要：豆包2.1 Pro实测在芯片RTL设计、3D房屋WebGL开发、PPT生成、数据分析、截图转PRD等多任务中表现优异，编程能力比肩Claude Opus 4.7，API已全量上线火山方舟，支撑豆包办公、TRAE、扣子等多入口，定位“第一生产力助手”。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>生产级任务实测</strong>：在<mark>芯片RTL设计</mark>中连续运行18小时完成6模块1303行代码，<b>Seed2.1Pro</b>在Terminal Bench 2.1等评测中<mark>比肩Opus4.7</mark>，编程能力达可用水平。</li>
+                <li><strong>多模态办公助手</strong>：支持<mark>截图生成PRD</mark>、<mark>Excel+Word+SVG多格式输出</mark>，在豆包办公模式中自动调用技能处理发票汇总、选址分析等真实办公流，<b>豆包APP</b>与<mark>TRAE</mark>双入口协同。</li>
+                <li><strong>模型即服务生态</strong>：同一<mark>Seed2.1Pro</mark>底座覆盖<mark>API开发者</mark>（火山方舟）、<mark>AI Coding</mark>（TRAE）、<mark>办公Agent</mark>（豆包）三大路径，形成<mark>一个基座、多端协同</mark>的<b>字节系AI</b>生产力网络。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIyMzA5NjEyMA==&mid=2647683758&idx=1&sn=2839cf8818c4651de1f1b95338353066" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">一文总结2026火山引擎FORCE大会 - 向Coding和Agent全面进军。</a>
+            </h2>
+            <div class="meta">
+                <span>📰 数字生命卡兹克</span>
+                <span>🕒 2026-06-23 12:15</span>
+            </div>
+            <div class="news-summary">摘要：火山引擎FORCE大会全面升级模型矩阵，Seed2.1 Pro补齐Coding与Agent短板，豆包办公模式实测可自动汇总发票、生成选址报告；Seedance 2.5支持30秒原生4K视频；新模型Seedream 5.0 Pro与音频生成模型同步亮相，火山方舟CLI发布。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>Coding能力补强</strong>：<mark>Seed2.1Pro</mark>在Coding与Agent能力上大幅进化，虽与<mark>Claude</mark>仍有差距，但已进入可用级别，成为<mark>水桶级模型</mark>，多模态+Coding双优支撑<b>字节系</b>全场景。</li>
+                <li><strong>办公Agent落地</strong>：豆包办公模式实测<mark>自动汇总210张发票</mark>至飞书多维表格，<mark>生成3地选址对比报告</mark>并直出PPT，验证<mark>Agent能力</mark>在真实企业流程中已具备生产力价值。</li>
+                <li><strong>视频与多模态升级</strong>：<mark>Seedance2.5</mark>支持<mark>30秒原生直出</mark>，运动与分镜能力提升；<mark>Seedream5.0Pro</mark>7月上线，支持<mark>点选圈选精准编辑</mark>，<b>音频生成模型</b>可单次生成2分钟全要素音频。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2651040687&idx=1&sn=2c73f012b6de7e93f6cae1ec97cbda76" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">生物学的EDA时刻来了！</a>
+            </h2>
+            <div class="meta">
+                <span>📰 机器之心</span>
+                <span>🕒 2026-06-23 15:20</span>
+            </div>
+            <div class="news-summary">摘要：恩和科技发布BPL（生物协议语言）及BPL-COGEN编译验证管线，将模糊自然语言实验方案转化为可形式化验证、可双路径执行（人工/机器人）的标准化协议，实现生物学实验的“设计-构建-测试-学习”闭环，标志生命科学进入工程化纪元。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>BPL六层架构</strong>：从<mark>声明层</mark>到<mark>控制流</mark>共六层，强制单位一致性（如<mark>50mg→50uL</mark>）、容器状态追踪、三级信任体系，<b>BPL</b>编译器拦截98.6%协议错误，解决生物学可重复性危机。</li>
+                <li><strong>生成-验证-修复闭环</strong>：BPL-COGEN管线由<mark>BPL-Nano-30B</mark>模型与确定性编译器协同，首次生成通过率82.3%，<b>编译器</b>精确定位错误至行号列号，实现<mark>诊断驱动修复</mark>，保障物理执行可靠性。</li>
+                <li><strong>Physical AI平台SAION</strong>：BPL之上构建<mark>认知-控制-执行</mark>三层SAION AI平台，整合千万级闭环实验数据，已驱动<mark>ZeaVida®</mark>获FDA GRAS认证，迈向<mark>2.5级AI科学家</mark>自主闭环。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI数据与技术部-金融技术组 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
