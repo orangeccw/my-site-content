@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-06-25</div>
+        <div class="top-tags">
+            <span class="tag-item">#AgenticAI</span>
+            <span class="tag-item">#ClaudeTag</span>
+            <span class="tag-item">#微信小微</span>
+            <span class="tag-item">#Hyper3D</span>
+            <span class="tag-item">#模型商品化</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>模型商品化加速，基础设施与工程能力成新护城河</strong>
+            <p>大模型性能趋同、开源模型快速追赶，企业关注点正从“谁的模型更强”转向“如何让Agent在真实业务中稳定交付”，AWS等云厂商凭借数据治理、规模化管理、全球合规能力，成为Agentic AI落地的关键底座。</p>
+        </div>
+        <div class="trend-card">
+            <strong>Agent从个人工具升级为组织级协作者，群聊即Prompt成新交互范式</strong>
+            <p>Claude Tag将AI嵌入Slack群聊，实现上下文自动感知、任务主动发现与跨工具协同，标志着Agent从“终端级执行者”跃迁为“团队级数字同事”，企业需重新定义人机协作边界与数字治理规则。</p>
+        </div>
+        <div class="trend-card">
+            <strong>原生3D生成突破工业可用性拐点，空间智能成下一代AI基础设施</strong>
+            <p>影眸科技Hyper3D Rodin Gen-2.5以“先思考、再生成”架构实现千万面级可控3D建模，打通电商、游戏、具身智能等场景，标志着中国AI在空间理解与物理仿真领域实现全球领先，正从内容生成迈向世界建模。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&mid=2653109382&idx=1&sn=bc6e376f3a43391f445fd4ff3edd9168" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">AWS 的老身份和新角色：做 Agentic AI 时代的基础设施</a>
+            </h2>
+            <div class="meta">
+                <span>📰 极客公园</span>
+                <span>🕒 2026-06-24 21:41</span>
+            </div>
+            <div class="news-summary">摘要：2026 AWS上海峰会聚焦Agentic AI规模化落地，提出“模型商品化”趋势下，数据治理、Agent规模化管理（AgentCore平台）与行业know-how沉淀才是企业核心竞争力，AWS正将二十年数据基建能力转化为AI时代护城河。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>模型商品化共识形成</strong>：前沿闭源模型与开源模型（<b>DeepSeek R1</b>、<b>Llama</b>）差距收窄，<mark>模型已成公共品</mark>，企业胜负手转向私有数据与工程能力。</li>
+                <li><strong>AgentCore平台发布</strong>：AWS推出<mark>规模化管理Agent</mark>新平台，支持沙箱隔离、自然语言定义安全策略、全链路观测，<b>猎豹移动</b>上线后Agent上线周期从1个月缩短至2周，运营成本降<b>25%</b>。</li>
+                <li><strong>全球合规即服务</strong>：AWS以<b>39个区域</b>覆盖全球市场，提供数据本地驻留与合规资质，<mark>出海企业无需自建底座</mark>，<b>安克创新</b>依托此能力支撑产品在<b>180+</b>国家合规部署AI安防能力。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&mid=2247663896&idx=1&sn=3cf781b153268e27b07ef4e8459464d0" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Claude 刚刚上线 “群聊Agent”：Karpathy盛赞的交互新范式，还是打工人的“数字监工”?</a>
+            </h2>
+            <div class="meta">
+                <span>📰 AI前线</span>
+                <span>🕒 2026-06-24 12:18</span>
+            </div>
+            <div class="news-summary">摘要：Anthropic正式发布Claude Tag，将Claude深度集成进Slack群聊，实现上下文自动感知、任务主动发现与跨工具协同；前OpenAI大神Karpathy称其代表“LLM交互第三阶段”，但企业面临权限隔离、Token成本与数字监工伦理等新挑战。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>群聊即Prompt范式</strong>：Claude Tag在<b>Slack</b>中实现<mark>自动理解讨论上下文</mark>，无需人工搬运背景，<b>Opus 4.8</b>模型支持“@Claude”即触发任务，开启<Ambient>模式后可主动追问进度。</li>
+                <li><strong>组织级Agent架构</strong>：支持按频道/部门配置隔离的<b>Claude</b>实例，权限与记忆严格分隔，<mark>销售部门Claude不泄露客户数据</mark>，管理员可限制<b>Token</b>支出并审计全部操作。</li>
+                <li><strong>利空套壳产品，利好开源模型</strong>：顶级模型厂商直连企业入口，<mark>第三方Agent创业公司生存空间被压缩</mark>，但企业优化成本动力增强，<b>DeepSeek v4</b>因<mark>Token成本低90%</mark>正被大量迁移采用。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzkyNjU2ODM2NQ==&mid=2247630035&idx=3&sn=0585c8f2761b1e6b1dbc61d536c64d86" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">微信6年来最大改版——关于微信AI助手小微的15条思考</a>
+            </h2>
+            <div class="meta">
+                <span>📰 硅星人Pro</span>
+                <span>🕒 2026-06-24 09:57</span>
+            </div>
+            <div class="news-summary">摘要：微信灰度测试AI助手“小微”，以语音优先、多入口融合、小程序深度打通、小工具自然语言创建为特色，依托自研<b>WeLM</b>模型与谨慎的“只读不动”权限策略，目标成为14亿用户AI第一入口，挑战操作系统级AI助手。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>微信Native级融合</strong>：小微入口遍布聊天、公众号、视频号等场景，<mark>真正融入微信功能体系</mark>，支持调用<b>微信支付</b>、朋友圈、小程序等原生能力，<b>WeLM</b>主模型+<b>DeepSeek</b>辅助实现效果与成本平衡。</li>
+                <li><strong>小工具零门槛创作</strong>：用户用自然语言即可创建专属小工具（如体重记录），<mark>复用小程序架构</mark>，虽暂不支持分享，但为未来分发预留接口，<b>14亿用户池</b>天然解决双边市场冷启动难题。</li>
+                <li><strong>谨慎的权限哲学</strong>：通讯录操作严格限制“单次单工具”，<mark>禁止批量/定时/多类型消息</mark>，聊天记录仅开放最近2天上下文，<b>小微</b>记忆仅限用户主动授权地址等信息，体现微信对平台信任的极致珍视。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIyMzA5NjEyMA==&mid=2647683790&idx=1&sn=43c90d4ebe98a2ff2cd241a95a94a38d" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">体验完微信Agent以后，我觉得这就是微信有史以来最大的更新。</a>
+            </h2>
+            <div class="meta">
+                <span>📰 数字生命卡兹克</span>
+                <span>🕒 2026-06-24 10:02</span>
+            </div>
+            <div class="news-summary">摘要：内测用户深度体验微信小微，确认其已打通朋友圈、公众号、视频号、小程序及支付等核心能力，虽受限于“只读不动”策略，但上下文感知（如群聊2天记录）、小工具创建与多入口设计已远超预期，标志着微信正式迈入Agent时代。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>上下文能力超预期</strong>：在群聊/私聊界面唤出的小微可读取<b>最近2天聊天记录</b>，<mark>突破微信命根子级权限限制</mark>，结合记忆功能（如公司/家庭地址），实现“打车去公司”等自然交互。</li>
+                <li><strong>小程序操作深度适配</strong>：支持外卖、电影、打车等数十类小程序，<mark>自动执行到关键节点</mark>（如猫眼选影院），再交由用户完成最后一步，<b>小微</b>与<b>小程序生态</b>形成“人机接力”协作模式。</li>
+                <li><strong>长程任务潜力初显</strong>：虽当前为单会话设计，但已支持创建日程提醒+同步发消息等复合任务，<mark>为未来长程Agent打下基础</mark>，<b>14亿用户</b>基数与微信分发能力，使其有望成全球第二大AI助手（仅次于<b>ChatGPT</b>）。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652708950&idx=1&sn=2f16c1f2ff8f70142534d690a98e7ce2" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">国产「3D版Anthropic」再获数亿融资！60人初创，卡住全球3D脖子</a>
+            </h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-06-24 12:41</span>
+            </div>
+            <div class="news-summary">摘要：影眸科技完成数亿元融资，发布Hyper3D Rodin Gen-2.5——全球首个“先思考、再生成”的原生3D大模型，支持五档思考深度、12K贴图、自然语言局部编辑与全DCC插件生态，已服务Lowe's、Unity、英伟达等巨头，B端营收超同赛道总和。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>原生3D技术断代优势</strong>：放弃2D升维路线，自研<b>CLAY</b>框架实现原生3D建模，<mark>结构精度碾压2D升维</mark>，获SIGGRAPH最佳论文提名，<b>影眸</b>团队2/3为研发，科研转化率达<b>70%</b>。</li>
+                <li><strong>五档思考深度架构</strong>：类大模型推理逻辑，按对象复杂度自适应分配算力，<mark>Extreme-High档达千万面级</mark>，支持皮肤微结构建模，<b>Rodin Gen-2.5</b>生成速度比上代快<b>2倍</b>，质量持平。</li>
+                <li><strong>工业级可控性闭环</strong>：通过自然语言局部编辑、递归分件、3D ControlNet与DCC插件四大技术，<mark>告别AI抽卡式生成</mark>，<b>Lowe's</b>单模型成本从<b>$300</b>压至<b>$1</b>，月生成超<b>1亿</b>AI资产。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI数据与技术部-金融技术组 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
