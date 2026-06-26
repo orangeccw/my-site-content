@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-06-26</div>
+        <div class="top-tags">
+            <span class="tag-item">#AgenticAI</span>
+            <span class="tag-item">#Jalapeño</span>
+            <span class="tag-item">#计算连续体</span>
+            <span class="tag-item">#蒸馏攻击</span>
+            <span class="tag-item">#AgenticOS</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>智能体驱动算力范式重构</strong>
+            <p>AI正从大模型训练转向分布式推理，Token消耗呈指数级增长，高通、OpenAI等巨头正以“计算连续体”和专用推理芯片（如Jalapeño）重构数据中心与端边云协同架构。</p>
+        </div>
+        <div class="trend-card">
+            <strong>AI基础设施进入“数据底座”升级战</strong>
+            <p>传统大数据平台难以支撑多模态数据、Agent实时反馈与语义检索需求，企业正从“存算分离”转向以LAS/Lance为底座、Token为新型算力、算子为交付单元的AI原生数据工程体系。</p>
+        </div>
+        <div class="trend-card">
+            <strong>终端演进为智能体舞台，OS级重构开启</strong>
+            <p>手机不再是App容器，而是Agentic OS调度的“大脑中枢”；感知、规划、行动三重跃迁推动终端分布化（眼镜/手表/机器人），统一操作系统成为连接上下文与多设备的核心壁垒。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA4MTQ4NjQzMw==&mid=2652805774&idx=1&sn=fecaab4d7aaf3674cd3000d4f8832307" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">目标1.7万亿美元市场！高通多元化战略官宣，攥紧Agent时代算力“钥匙”</a>
+            </h2>
+            <div class="meta">
+                <span>📰 智东西</span>
+                <span>🕒 2026-06-25 18:04</span>
+            </div>
+            <div class="news-summary">摘要：高通在2026投资者日宣布非手机业务目标400亿美元，推出数据中心新芯片“飞龙”，全面布局汽车、IoT、机器人与AI基础设施，锚定1.7万亿美元Agentic AI市场。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>战略重心转移</strong>：高通正式<mark>告别手机依赖</mark>，将2029财年非手机业务收入目标定为<b>400亿美元</b>，占QCT总收入约三分之二。</li>
+                <li><strong>数据中心破局</strong>：发布专为智能体推理设计的<b>高通飞龙</b>芯片，瞄准分布式计算瓶颈，目标2029财年数据中心收入达<b>150亿美元</b>。</li>
+                <li><strong>技术护城河</strong>：依托超<b>20万件专利</b>与累计<b>1100亿美元研发投入</b>，构建统一架构技术栈，实现从2毫瓦可穿戴到千瓦级数据中心的全场景覆盖。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzkyNjU2ODM2NQ==&mid=2247630089&idx=3&sn=67b0895285fe4f08e627424bd954ea67" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">OpenAI 发布首款芯片，只花了九个月</a>
+            </h2>
+            <div class="meta">
+                <span>📰 硅星人Pro</span>
+                <span>🕒 2026-06-25 11:19</span>
+            </div>
+            <div class="news-summary">摘要：OpenAI联合博通推出首款自研AI推理芯片Jalapeño，从设计到流片仅用9个月，采用AI辅助设计，目标直指GPT-5.3等模型的高吞吐、低延迟推理，开启全栈基建新阶段。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>全栈战略落地</strong>：OpenAI完成<mark>从模型到芯片</mark>的垂直整合，首款<b>Jalapeño</b>芯片为大模型推理定制，由<b>博通</b>实现量产，<b>Celestica</b>负责系统集成。</li>
+                <li><strong>AI加速研发</strong>：史上最快高性能ASIC开发周期——仅<b>9个月</b>流片，核心依靠<b>OpenAI自研模型</b>参与芯片架构优化与kernel设计。</li>
+                <li><strong>性能目标激进</strong>：早期测试显示每瓦性能<mark>大幅优于业界最强</mark>，目标2026年底部署，支撑吉瓦级数据中心，推动<b>算力经济</b>规模化落地。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&mid=2247663914&idx=1&sn=c9bedf8d629d06441c5c580b31d814ab" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Fable 5还未解禁，Anthropic一纸诉状砸向Qwen，自家CEO却被白宫嫌“怪”踢出局！</a>
+            </h2>
+            <div class="meta">
+                <span>📰 AI前线</span>
+                <span>🕒 2026-06-25 16:42</span>
+            </div>
+            <div class="news-summary">摘要：Anthropic指控阿里通过2.5万个虚假账户对Claude进行工业化蒸馏，交互近2900万次；同时其CEO因谈判风格被白宫“嫌弃”，Fable 5模型遭出口管制，陷入双线危机。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>蒸馏战升级</strong>：Anthropic首次点名中国科技巨头，指控阿里实施<mark>迄今最大规模蒸馏</mark>，涉及<b>2.5万个账户</b>与近<b>2900万次交互</b>，聚焦软件工程与智能体推理能力。</li>
+                <li><strong>地缘博弈加剧</strong>：事件发生于白宫将蒸馏列为国家安全问题后，Anthropic呼吁特朗普政府强化出口管制与反蒸馏立法，但自身<b>Fable 5</b>模型已被列入<b>美国出口管制清单</b>。</li>
+                <li><strong>高层信任危机</strong>：CEO <b>Dario Amodei</b>因谈判风格被白宫视为<mark>难以沟通</mark>，其退出后谈判进展加快，凸显AI公司与监管机构在技术主权与商业化间的深层张力。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&mid=2247663914&idx=2&sn=81cece0e660c5472c51d7aa43e86152a" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">告别传统存算分离，AI时代数据底座迎来全新底层逻辑</a>
+            </h2>
+            <div class="meta">
+                <span>📰 AI前线</span>
+                <span>🕒 2026-06-25 16:42</span>
+            </div>
+            <div class="news-summary">摘要：火山引擎提出Agent DataLake方案，指出AI落地卡点在数据底座——需支持多模态统一存储、Token算力驱动的算子能力及面向Agent的数据服务，推动数据平台从“为人服务”转向“为Agent服务”。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>数据形态革命</strong>：AI时代数据以图片、音视频等<b>多模态非结构化数据</b>为主，传统架构面临<mark>看不见、管不了、算不动</mark>三大困境，需重构存储与管理范式。</li>
+                <li><strong>算子即生产力</strong>：封装PDF解析、视频剪辑等能力为标准化<b>AI算子</b>，实现能力复用与稳定性保障，计费单位正从<b>Token</b>转向业务单位（如页、时长）。</li>
+                <li><strong>闭环飞轮设计</strong>：数据底座需支撑“存—算—再沉淀”闭环，通过Agent执行记录、对话session等构建<mark>持续反馈机制</mark>，驱动模型与业务协同进化。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&mid=2653109436&idx=1&sn=8b170802e7becdad9738752b9cdc5626" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">从「为模型造硬件」到「为人重做终端」：AI 硬件的下一个十年</a>
+            </h2>
+            <div class="meta">
+                <span>📰 极客公园</span>
+                <span>🕒 2026-06-25 18:30</span>
+            </div>
+            <div class="news-summary">摘要：荣耀提出Agentic OS概念，主张终端应成为智能体舞台而非App容器，通过意图驱动、自然交互、主动智能与天生跨端四大特征，统一调度手机、PC、眼镜、机器人等多形态设备。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>终端角色重定义</strong>：移动终端从应用容器升级为<mark>智能体舞台</mark>，核心价值转向承载用户连续上下文，荣耀自研<b>Agentic OS</b>框架将于7月发布。</li>
+                <li><strong>AI Agent三次跃迁</strong>：感知（理解场景）、规划（跨设备调度）、行动（物理世界执行）共同依赖终端对上下文的持续理解，<b>Robot Phone</b>与马拉松机器人是具身智能落地代表。</li>
+                <li><strong>生态统一关键</strong>：设备越多越需统一调度大脑，荣耀以<b>“以一脑调度万端”</b>为理念，推动从To C分发转向<mark>To Agent分发</mark>，构建全场景AI终端生态。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI数据与技术部-金融技术组 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
