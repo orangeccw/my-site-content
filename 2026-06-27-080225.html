@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-06-27</div>
+        <div class="top-tags">
+            <span class="tag-item">#AgenticCloud</span>
+            <span class="tag-item">#AgenticStreaming</span>
+            <span class="tag-item">#物理AI</span>
+            <span class="tag-item">#人类学习</span>
+            <span class="tag-item">#AI人才战</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>云平台正从“人/程序调用”升级为“Agent原生调用”</strong>
+            <p>阿里云发布云Skills门户，以Agentic Skills为核心重构300+云产品与20000+API，让Agent能理解场景、识别风险、自主规划并安全执行，首次系统性定义Agent时代的云开放范式。</p>
+        </div>
+        <div class="trend-card">
+            <strong>AI基础设施竞争已从“大脑”转向“神经系统”</strong>
+            <p>Flink全面进入Agentic Streaming时代，以全模态实时数据流为Agent提供持续感知能力，通过Streaming Agent-OS与Agentic Lake构建事件驱动型Agent的稳定底座，数据质量与流转效率成为Agent落地核心瓶颈。</p>
+        </div>
+        <div class="trend-card">
+            <strong>物理AI赛道进入“路线定义权”争夺战</strong>
+            <p>深度机智“人类学习”路线（Human-Centric Data + Action-Centric Modeling + Robot for AI）已全栈落地并领先美国同类项目近一年，英伟达、Physical Intelligence等巨头正沿此方向跟进，中国原创技术路径开始影响全球标准演进。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&mid=2651287750&idx=1&sn=c3a68d79efafa0eaaea40f001bee6fff" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">当 Agent 成为新的核心云用户：阿里云重新定义“用云范式”</a>
+            </h2>
+            <div class="meta">
+                <span>📰 InfoQ</span>
+                <span>🕒 2026-06-26 14:06</span>
+            </div>
+            <div class="news-summary">摘要：阿里云发布云Skills门户，通过Skills化、MCP化、CLI化三条路径将300+云产品、20000+API升级为Agent-Ready能力，构建Gateway+3A+Skills三层可信调用体系，首次系统性回答“Agent该如何调云”这一根本命题。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>Agent原生接口重构</strong>：阿里云将传统API升级为<mark>Agentic Skills</mark>，覆盖<b>300+</b>云产品与<b>20000+</b>API，让Agent能理解场景、风险与失败处置逻辑。</li>
+                <li><strong>三层可信调用体系</strong>：通过<mark>Agent Gateway</mark>管控行为意图、<b>Agent 3A</b>（可认证/可授权/可审计）管理身份、<b>Agentic Skills</b>封装能力，实现Agent调云的可管、可信、可用。</li>
+                <li><strong>规格驱动开发（SDD）</strong>：引入<mark>Spec-Driven Development</mark>机制，强制Agent从自然语言→<b>可确认Spec</b>→<b>Terraform IaC</b>→验证→执行，确保云变更可规划、可校验、可追溯。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&mid=2653109488&idx=1&sn=b261d683c8bbde87896371eadfa3143a" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">当使用企业数据的从「人」变成「AI」，阿里云重做了一套基础设施</a>
+            </h2>
+            <div class="meta">
+                <span>📰 极客公园</span>
+                <span>🕒 2026-06-26 17:00</span>
+            </div>
+            <div class="news-summary">摘要：阿里云宣布Flink进入Agentic Streaming时代，以全模态实时数据流支撑事件驱动型Agent，通过Streaming Agent-OS、Agentic Lake（Paimon+Fluss）构建“感知-计算-存储”闭环，让Agent真正具备7×24小时自主运行能力。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>事件驱动型Agent落地</strong>：Flink支撑<mark>7×24小时自主运行</mark>的Agent，已在阿里云内部实现<b>Flink Agent运维Flink</b>，数千任务扩缩容与异常修复全程无需人工介入。</li>
+                <li><strong>全模态实时数据底座</strong>：通过<mark>Agentic Lake</mark>（<b>Paimon</b>流式数据湖 + <b>Fluss</b>流存储）实现数据沉淀与实时供给双向互通，为Agent提供永远新鲜、完整的上下文。</li>
+                <li><strong>流计算原生能力复用</strong>：Flink的<mark>分布式状态管理</mark>直接作为Agent短期记忆载体，<b>水位线与窗口机制</b>精准对齐多路异速数据流，避免AI接收“拼图碎片”式上下文。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&mid=2247663965&idx=1&sn=2cd5ab747954623670ccdf111673a1b1" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">OpenAI 和 Anthropic “杀”红了眼，谷歌成为最大受害者</a>
+            </h2>
+            <div class="meta">
+                <span>📰 AI前线</span>
+                <span>🕒 2026-06-26 16:14</span>
+            </div>
+            <div class="news-summary">摘要：谷歌7天内流失Noam Shazeer（Transformer作者、Gemini负责人）、John Jumper（AlphaFold核心、诺奖得主）等4位AI元老，OpenAI与Anthropic借Pre-IPO股权与聚焦路线抢占人才，DeepMind CEO哈萨比斯回应称AGI需“宽度”而非单点突破。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>顶级人才结构性迁移</strong>：Noam Shazeer加入<mark>OpenAI</mark>，John Jumper等三人加入<b>Anthropic</b>，四人覆盖<b>Transformer</b>、<b>AlphaFold</b>、AI coding与模型训练系统等核心方向。</li>
+                <li><strong>人才竞争新逻辑</strong>：OpenAI与Anthropic凭借<mark>Pre-IPO股权</mark>与组织聚焦性，对顶级人才吸引力超越谷歌，算力分配与项目优先级成为隐性流动动因。</li>
+                <li><strong>AGI路线宽度之争</strong>：哈萨比斯强调DeepMind拥有<mark>最大最广研究团队</mark>，押注多模态、科学发现与世界模型等多条路线，认为<b>AGI</b>需跨学科整合能力而非仅文本模型领先。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652709225&idx=1&sn=ea05e262dd47d9d1e4e1214e1d1228c5" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">英伟达All in的物理AI路线，居然是中国黑马提前一年就定义好了</a>
+            </h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-06-26 09:31</span>
+            </div>
+            <div class="news-summary">摘要：深度机智提出“人类学习”原创路线（Human-Centric Data + Action-Centric Modeling + Robot for AI），已全栈落地PhysBrain 1.0基座模型、Prime拟人体机器人及DeepAct数据体系，领先英伟达GR00T等海外方案近一年。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>全栈协同技术闭环</strong>：深度机智跑通<mark>人类数据→模型→真机</mark>闭环，<b>PhysBrain 1.0</b>在七大评测全面领先，<b>Prime</b>机器人实现纯人类数据驱动、零真机微调。</li>
+                <li><strong>数据基建全球领先</strong>：自研分体式第一视角采集方案比<b>Scale AI</b>同类方案早一年落地，<mark>ICDC情境数采范式</mark>构建<b>DeepAct</b>数十万小时级多模态数据体系。</li>
+                <li><strong>路线定义权争夺</strong>：英伟达<b>GR00T</b>、Physical Intelligence<b>π系列</b>等正沿“人类学习”方向跟进，深度机智已获国寿长三角科创基金等<b>数亿元</b>融资，进入标准制定关键窗口期。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&mid=2247663965&idx=2&sn=32f26c94815efa3a76685e2573237edf" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">物理 AI 如何定义下一代平台革新？</a>
+            </h2>
+            <div class="meta">
+                <span>📰 AI前线</span>
+                <span>🕒 2026-06-26 16:14</span>
+            </div>
+            <div class="news-summary">摘要：Arm提出物理AI需在严苛功耗、确定性时延、功能安全等约束下运行，其异构计算平台（Cortex-R/X/M + Neoverse AE）已支撑Rivian与Tensor自动驾驶系统，实现感知-规划-控制全栈协同。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>物理AI平台级革新</strong>：Arm架构实现<mark>感知-规划-控制协同</mark>，<b>Rivian Autonomy Processor</b>与<b>Tensor L4级平台</b>均采用Arm异构核心，400+计算核心协同运作。</li>
+                <li><strong>混合关键任务支撑</strong>：Cortex-R系列保障<mark>实时安全关键控制</mark>，Neoverse AE处理高吞吐AI推理，<b>Armv9</b>架构实现AI与安全中间件并行运行，无需牺牲一致性。</li>
+                <li><strong>全链路架构统一</strong>：Arm覆盖云端服务器→边缘设备→嵌入式控制器，<mark>软件可移植性</mark>与<b>OTA持续升级</b>能力支撑机器人十年生命周期内模型策略高频迭代。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI数据与技术部-金融技术组 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
