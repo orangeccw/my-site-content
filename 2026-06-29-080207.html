@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-06-29</div>
+        <div class="top-tags">
+            <span class="tag-item">#RSI</span>
+            <span class="tag-item">#All-in-One-Model</span>
+            <span class="tag-item">#Autonomous-Database</span>
+            <span class="tag-item">#Agentic-UI</span>
+            <span class="tag-item">#Kimi-Globalization</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>RSI进入倒计时：2028不是科幻，是工程日程表</strong>
+            <p>Anthropic、DeepMind、OpenAI三大巨头同步确认递归自我改进（RSI）已成活跃研发项目，Jack Clark给出2028年底落地概率达60%，Claude Opus 4.7已实现19天无间断独立编程，AI正从“辅助者”蜕变为“自我迭代主体”。</p>
+        </div>
+        <div class="trend-card">
+            <strong>模型竞争升维：All-in-One架构成B端破局关键</strong>
+            <p>月之暗面Kimi放弃低价内卷，以视觉+编码+Agent能力原生融合的All-in-One模型切入企业核心流程，通过Visual-to-Code、Visual Debug等混合能力构建技术护城河，直面海外“御三家”。</p>
+        </div>
+        <div class="trend-card">
+            <strong>智能体落地卡点暴露：数据库成自主系统“最后一公里”瓶颈</strong>
+            <p>AI智能体在UI、Agent编排等层快速演进，但数据库调优与编码仍面临幻觉风险、语义验证缺失、多智能体协同冲突等严峻挑战，卡内基梅隆大学提出“自驱动DBMS”框架攻坚。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&mid=2651287792&idx=1&sn=384e97f0986ff40d16072a05bfcd4743" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">不靠低价抢客户，月之暗面Kimi出海，凭什么硬刚海外AI“御三家”？</a>
+            </h2>
+            <div class="meta">
+                <span>📰 InfoQ</span>
+                <span>🕒 2026-06-28 10:15</span>
+            </div>
+            <div class="news-summary">摘要：月之暗面Kimi加速B端与全球化布局，以All-in-One模型（原生融合视觉、编码与Agent能力）为核心差异化优势，联合亚马逊云科技通过Marketplace与Bedrock双路径出海，坚持生产力导向，拒绝娱乐化。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>差异化技术路径：</strong>坚持<mark>All-in-One模型</mark>路线，<b>视觉与文本预训练融合</b>，实现Visual-to-Code等全球稀缺能力，拒绝“VL外挂”式方案。</li>
+                <li><strong>全球化落地策略：</strong>与<mark>亚马逊云科技深度协同</mark>，通过<b>Marketplace标准化采购</b>与<b>Amazon Bedrock基础设施级托管</b>双路径触达全球企业客户。</li>
+                <li><strong>生产力优先定位：</strong>明确<mark>不做娱乐场景</mark>，聚焦<b>Coding、Agent、长链路推理</b>等真实业务流程，构建从模型API到Kimi Work企业产品的分层服务体系。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652709592&idx=2&sn=4f903b685036831973c8c5b0b37fe276" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">2028，RSI降临！</a>
+            </h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-06-28 12:10</span>
+            </div>
+            <div class="news-summary">摘要：Anthropic联合创始人Jack Clark预测2028年底前RSI将成真，DeepMind哈萨比斯确认全行业已“集体上车”，Claude Opus 4.7完成19天无干预编程，OpenAI Altman暗示RSI或致IPO推迟，递归自我改进正从理论进入工程倒计时。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>行业共识形成：</strong>三大巨头同步确认<mark>RSI已成活跃项目</mark>，<b>Anthropic、DeepMind、OpenAI</b>均在全力推进，哈萨比斯直言“所有领先实验室都在高度聚焦”。</li>
+                <li><strong>工程证据确凿：</strong>Claude Opus 4.7在<mark>MirrorCode基准测试</mark>中实现<b>19天连续编程</b>，Anthropic内部代码超<mark>80%由AI编写</mark>，模型自优化加速达<mark>52倍</mark>。</li>
+                <li><strong>战略级影响显现：</strong>OpenAI将RSI列为<mark>未来十年最具影响力安全议题</mark>，Sam Altman表示愿为RSI<mark>推迟IPO</mark>，技术演进正倒逼公司治理与资本市场逻辑重构。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652709592&idx=3&sn=76c3cac7caee82adcfd303c08cc02f41" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">新智元ALL in ASI英雄帖</a>
+            </h2>
+            <div class="meta">
+                <span>📰 新智元</span>
+                <span>🕒 2026-06-28 12:10</span>
+            </div>
+            <div class="news-summary">摘要：新智元启动ASI战略升级，高薪招募ASI架构师与ASI主笔，聚焦前沿模型工程落地与深度内容生产，提供顶配AI工具与真实产业战场，打造ASI时代中文第一信息枢纽。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>人才战略升级：</strong>启动<mark>All in ASI英雄帖</mark>，开放<mark>年薪50-70万</mark>岗位，招募<b>ASI架构师</b>与<b>ASI主笔</b>，强调对ASI的信仰与技术使命感。</li>
+                <li><strong>工程能力聚焦：</strong>要求ASI架构师具备<mark>Agent工程落地</mark>能力，熟练使用<b>Claude Code、Codex</b>等工具，能将前沿模型封装为团队可用的Skills与工具链。</li>
+                <li><strong>内容价值重构：</strong>ASI主笔需承担<mark>议程设置</mark>职能，定义技术爆发里程碑，要求具备<mark>10万+爆款</mark>经验与<mark>全球AI产业系统性认知</mark>，不止追热点，更要懂趋势。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&mid=2247664017&idx=2&sn=7df2d3f4c38957bbd52b8320df706c0e" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">自主智能体遇阻：数据库成最大挑战</a>
+            </h2>
+            <div class="meta">
+                <span>📰 AI前线</span>
+                <span>🕒 2026-06-28 13:30</span>
+            </div>
+            <div class="news-summary">摘要：卡内基梅隆大学Andy Pavlo指出数据库是智能体落地最难攻克的瓶颈，调优与编码智能体面临幻觉风险、语义验证缺失、多智能体协同冲突等挑战，自驱动数据库成为构建真正自主系统的关键前提。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>核心瓶颈定位：</strong>数据库被定义为<mark>智能体最难攻克挑战</mark>，因<mark>准确性与性能要求严苛</mark>，AI幻觉可能导致<b>生产系统瘫痪</b>，远超UI偏差风险。</li>
+                <li><strong>双智能体困境：</strong>调优智能体与编码智能体<mark>各自为政</mark>，易陷局部最优；查询优化器因<mark>深度耦合与无规整开源实现</mark>，成为AI生成代码最难验证的模块。</li>
+                <li><strong>前沿攻坚方向：</strong>卡内基梅隆大学提出<mark>自驱动DBMS</mark>框架，通过<mark>多轮与顺序调优</mark>解决“维度灾难”，目标将数据库优化耗时从<mark>12小时缩短至15分钟</mark>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&mid=2651287792&idx=3&sn=f833d536c3460d19338751a61f848116" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">ArrowJS 发布 1.0 版，转型为“代理时代”的首个 UI 框架</a>
+            </h2>
+            <div class="meta">
+                <span>📰 InfoQ</span>
+                <span>🕒 2026-06-28 10:15</span>
+            </div>
+            <div class="news-summary">摘要：ArrowJS 1.0正式发布，定位为“代理时代首个UI框架”，以<5KB体积、零构建、纯原生Web平台组件为特色，新增WASM沙箱支持AI生成不可信UI代码安全执行，强调对智能体的极致友好性。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>代理时代新范式：</strong>重新定义为<mark>首个代理时代UI框架</mark>，核心文档仅占<mark>20万Token上下文5%</mark>，被<mark>LogRocket认证为智能体友好</mark>。</li>
+                <li><strong>安全执行突破：</strong>引入<mark>WASM沙箱</mark>机制，通过<mark>@arrow-js/sandbox</mark>在QuickJS中运行不可信代码，<b>无需iframe或eval</b>即可保障AI生成UI的安全性。</li>
+                <li><strong>极简主义架构：</strong>仅依赖<mark>三个函数</mark>（reactive/html/component），体积<mark>不足5KB</mark>，性能媲美<mark>Vue 3</mark>，但牺牲生态换得与Web平台的原生深度绑定。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI数据与技术部-金融技术组 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
