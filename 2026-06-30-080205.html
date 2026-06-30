@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯每日速递</title>
+    <style>
+        :root { 
+            --primary: #005cb8; 
+            --primary-light: #e6f0ff;
+            --bg: #f8fafc; 
+            --text-main: #1e293b; 
+            --text-sub: #64748b;
+            --highlight-bg: #fef3c7; 
+            --highlight-text: #92400e;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { background-color: var(--bg); font-family: -apple-system, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-main); line-height: 1.6; padding: 20px 12px; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { background: var(--header-gradient); color: white; border-radius: 18px; padding: 22px 18px; margin-bottom: 22px; text-align: center; box-shadow: 0 12px 25px rgba(30, 64, 175, 0.1); position: relative; overflow: hidden; }
+        .header h1 { font-size: 1.4rem; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 800; }
+        .header .date-row { font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .top-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .tag-item { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; backdrop-filter: blur(8px); }
+
+        .section-title { font-size: 1.1rem; color: var(--text-main); margin: 25px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; padding-left: 4px; }
+
+        .trend-card { background: #ffffff; border-radius: 15px; padding: 18px 22px; margin-bottom: 10px; box-shadow: var(--card-shadow); border: 1px solid rgba(0, 92, 184, 0.05); transition: transform 0.3s ease; }
+        .trend-card:hover { transform: translateX(5px); }
+        .trend-card strong { color: var(--primary); font-size: 1rem; display: flex; align-items: center; margin-bottom: 6px; }
+        .trend-card strong::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--primary); border-radius: 10px; margin-right: 8px; }
+        .trend-card p { font-size: 0.9rem; color: #475569; }
+
+        .card { background: white; border-radius: 20px; margin-bottom: 22px; box-shadow: var(--card-shadow); overflow: hidden; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(30, 64, 175, 0.1); }
+        
+        .card-header { padding: 25px 25px 10px; }
+        .news-title { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.4; font-weight: 800; }
+        .news-title a { color: var(--text-main); text-decoration: none; transition: all 0.2s ease; }
+        .news-title a:hover { color: var(--primary); text-decoration: underline; }
+
+        .meta { font-size: 0.75rem; color: var(--text-sub); display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        
+        .news-summary { background: #f1f5f9; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #475569; margin-bottom: 10px; line-height: 1.5; border: 1px dashed #cbd5e1; }
+        
+        .key-points { padding: 10px 25px 25px; }
+        .key-points ul { list-style: none; }
+        .key-points li { margin-bottom: 10px; padding-left: 24px; position: relative; font-size: 0.95rem; color: #334155; }
+        .key-points li::before { content: "✦"; color: var(--primary); position: absolute; left: 0; font-weight: bold; font-size: 0.8rem; top: 1px; }
+
+        mark { background: var(--highlight-bg); color: var(--highlight-text); padding: 1px 5px; border-radius: 5px; font-weight: 600; }
+        b { color: var(--primary); font-weight: 700; padding: 0 1px; }
+
+        .footer-area { margin-top: 35px; padding: 22px 15px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .signature { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .disclaimer { font-size: 0.75rem; color: var(--text-sub); line-height: 1.4; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .header { padding: 25px 15px; }
+            .header h1 { font-size: 1.3rem; }
+            .card-header, .key-points { padding: 18px; }
+            .news-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌍 AI 资讯每日速递</h1>
+        <div class="date-row">📅 2026-06-30</div>
+        <div class="top-tags">
+            <span class="tag-item">#具身大脑</span>
+            <span class="tag-item">#物理AI</span>
+            <span class="tag-item">#Agent原生基建</span>
+            <span class="tag-item">#AI-Native组织</span>
+            <span class="tag-item">#世界模型WUM</span>
+        </div>
+    </div>
+
+    <div class="trend-section">
+        <h2 class="section-title">🔥 核心趋势解读</h2>
+        <div class="trend-card">
+            <strong>本土AI基建进入“产能抢跑”阶段</strong>
+            <p>三星与SK集团合计砸下21万亿韩元押注半导体、AI数据中心与物理AI，本质是将AI算力竞争从芯片性能升级为“土地+电力+人才+产能”的全要素协同战。</p>
+        </div>
+        <div class="trend-card">
+            <strong>具身智能从“本体竞赛”转向“大脑主权”争夺</strong>
+            <p>自变量200亿元估值背后，是30+机构对“世界统一模型WUM”和事件级预测能力的集体押注，标志着资本正从机器人硬件转向通用具身大模型这一底层操作系统。</p>
+        </div>
+        <div class="trend-card">
+            <strong>AI Agent正获得独立数字身份与经济行为能力</strong>
+            <p>腾讯Agently Mail发放@agent.qq.com邮箱、Google AP2协议支持USDC稳定币支付，AI已具备通信权、签约权与财产权三重“数字人权”基础设施。</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">🎯 重点资讯详情</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzA4MTQ4NjQzMw==&mid=2652805990&idx=2&sn=ed204194d487d0cfccc684876829be28" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">21万亿！两大科技巨头，要投1.5个韩国GDP</a>
+            </h2>
+            <div class="meta">
+                <span>📰 智东西</span>
+                <span>🕒 2026-06-29 19:17</span>
+            </div>
+            <div class="news-summary">摘要：三星与SK集团宣布合计投资4755万亿韩元（约20.95万亿元人民币），聚焦半导体、AI数据中心与物理AI三大方向，目标5年内翻倍首都圈产能并提前12年建成晶圆厂。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>本土产能抢跑</strong>：韩国政府与企业<mark>提前12年建厂</mark>，三星向平泽/龙仁投入<b>2030万亿韩元</b>，SK海力士龙仁DRAM扩产投入<b>600万亿韩元</b>。</li>
+                <li><strong>AI基建全栈布局</strong>：SK集团规划<b>15GW AI数据中心</b>，首期5GW已启动；三星SDS主导建设AI数据中心，配套<b>核电制氢</b>与绿色氢能验证基地。</li>
+                <li><strong>物理AI战略锚点</strong>：三星投资<b>425万亿韩元</b>打造数字孪生创新枢纽，建设面向智能家电的数字孪生中心；SK将AI数据中心定位为驱动<mark>机器人与物理AI的心脏</mark>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247900312&idx=1&sn=1d1651844fad436ec97d8ef62ef6267e" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">大湾区首个200亿具身大脑来了！自变量两个月连融四轮，全部完成交割</a>
+            </h2>
+            <div class="meta">
+                <span>📰 量子位</span>
+                <span>🕒 2026-06-29 13:03</span>
+            </div>
+            <div class="news-summary">摘要：自变量完成B/B+/B++/C四轮融资，投后估值突破200亿元，成为大湾区首家具身大脑公司；其WALL-B模型采用世界统一模型架构，实现视觉/语言/动作/物理预测联合训练。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>世界模型WUM落地</strong>：自变量发布全球首个基于<mark>世界统一模型WUM</mark>的具身大模型WALL-B，实现<b>视觉/语言/动作/物理预测</b>四模态联合训练。</li>
+                <li><strong>资本结构罕见</strong>：获四大互联网巨头“满贯”领投（美团A轮、阿里A+、字节A++、小米B轮），<b>30+机构</b>参与，含<b>中国移动</b>连续两轮加注与<b>国开科创</b>等国家队持续跟投。</li>
+                <li><strong>闭环能力验证</strong>：自建数据工厂与XR Zero G0数采设备，具身训练数据采集成本<mark>降低95%</mark>；量子一号/二号机器人提供<b>真实家庭</b>与<b>德国豪华汽车产线</b>双场景验证平台。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&mid=2651287872&idx=2&sn=605a745178ffbe69b073d4d5a586f993" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">2026 AICon 上海站收官：模型热“退烧”，场景战“开打”，AI 公司得学会自己“挣钱养家”</a>
+            </h2>
+            <div class="meta">
+                <span>📰 InfoQ</span>
+                <span>🕒 2026-06-29 14:00</span>
+            </div>
+            <div class="news-summary">摘要：AICon上海站聚焦大模型落地真问题，70+嘉宾指出行业已从技术叙事转向商业验证，强调AI公司需构建可计费、可复制的生产力闭环，而非依赖融资故事。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>智能体工程范式升级</strong>：蚂蚁集团提出<mark>全链路协同设计</mark>，推出7:1混合线性注意力方案，使<b>256K长上下文</b>成为标准配置，千亿参数模型智能体表现超越<b>300B+竞品</b>。</li>
+                <li><strong>Token服务分层革命</strong>：上海交大推出AI Ping平台，聚合<b>600+大模型</b>与<b>30+服务商</b>，通过评测+路由实现综合成本<mark>降低37%</mark>，吞吐提升<b>90%以上</b>。</li>
+                <li><strong>AI-Native组织演进</strong>：极客邦指出企业正向<mark>液态团队</mark>转型，<b>技术+业务复合型人才</b>占比提升10个百分点，工作流资产成为企业<mark>核心数字资产</mark>。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&mid=2653109581&idx=1&sn=67af43eaf7d9a970e16cd87b7f12931a" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Agent 刚拿到自己的邮箱和钱包，人类的收件箱已经挤爆了</a>
+            </h2>
+            <div class="meta">
+                <span>📰 极客公园</span>
+                <span>🕒 2026-06-29 18:00</span>
+            </div>
+            <div class="news-summary">摘要：腾讯Agently Mail为AI发放@agent.qq.com独立邮箱，Google AP2协议支持Agent间USDC稳定币支付，AI正获得通信权、签约权与财产权三重数字身份。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>AI数字身份落地</strong>：腾讯上线<mark>Agently Mail</mark>，每个用户可注册两个<b>@agent.qq.com</b>邮箱，日限发<b>50封</b>，采用两阶段确认机制保障安全。</li>
+                <li><strong>机器对机器支付</strong>：Google AP2协议联合<b>Coinbase</b>推出A2A x402稳定币通道，Agent间USDC结算成本<mark>低于1美分</mark>，已用于<b>Lowe's家装零售</b>全流程验证。</li>
+                <li><strong>人机通信悖论加剧</strong>：全球<b>51%垃圾邮件</b>由AI生成，而人类用户正用AI代读代回邮件，导致收件箱被<mark>伪回复机器人</mark>堵塞，形成“AI解放人类却制造新过载”的闭环。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="news-title">
+                <a href="https://mp.weixin.qq.com/s?__biz=MzU1NDA4NjU2MA==&mid=2247664043&idx=2&sn=554858809019b62b951ca417d6501c28" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">物理 AI 演进之路：从受控环境走向现实世界</a>
+            </h2>
+            <div class="meta">
+                <span>📰 AI前线</span>
+                <span>🕒 2026-06-29 13:00</span>
+            </div>
+            <div class="news-summary">摘要：Arm生态推动物理AI从工厂走向真实世界，人形/四足/工业/自动驾驶机器人均依赖感知-决策-行动毫秒级闭环，其核心是端侧AI推理与异构计算架构的能效突破。</div>
+        </div>
+        <div class="key-points">
+            <ul>
+                <li><strong>端侧实时推理刚需</strong>：物理AI系统需在<mark>毫秒级</mark>内完成感知-推理-控制闭环，Arm平台支持<b>激光雷达+摄像头</b>多传感器融合，使机器人在<b>崎岖地形</b>保持稳定。</li>
+                <li><strong>人形机器人突破</strong>：智元机器人在Arm剑桥总部展示灵巧操控能力，其系统需在严苛功耗下并行处理<b>视觉处理/AI推理/运动规划</b>，验证<mark>现实环境自主导航</mark>能力。</li>
+                <li><strong>异构计算架构普及</strong>：普渡PUDU D5与波士顿动力Spot均采用<mark>感知/规划/控制</mark>三模块异构架构，搭配<b>Arm+AI加速器</b>组合，在边缘侧实现低延迟响应与高可靠性。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-area">
+        <div class="signature">@金IU业务线 @AI数据与技术部-金融技术组 @金融AI研究院&行业研究院</div>
+        <div class="disclaimer">【免责声明】本资讯内容基于公开信息整理，仅供内部参考。</div>
+    </div>
+</div>
+</body>
+</html>
